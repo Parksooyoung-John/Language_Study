@@ -14,7 +14,10 @@ Schedule each new speaking item for review after:
 
 | Due date | Source | Item | Review method | Status |
 | --- | --- | --- | --- | --- |
-| TBD | Diagnosis | Initial weak points | short oral drill | pending |
+| 2026-05-29 | Lesson 01 | 3 repeat sentences | repeat without looking, compare omissions | pending |
+| 2026-05-31 | Lesson 01 | picture description structure | scene -> action -> detail -> opinion | pending |
+| 2026-06-04 | Lesson 01 | question-answer structure | answer -> reason -> example -> closing | pending |
+| 2026-06-11 | Lesson 01 | initial weak points | short oral drill based on diagnosis notes | pending |
 
 ## Review Methods
 
