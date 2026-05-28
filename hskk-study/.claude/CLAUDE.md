@@ -9,6 +9,18 @@ This project combines the `56-language-tutor` and `57-exam-prep` harnesses for a
 - Output style: Markdown files in `_workspace/`
 - Scope: speaking practice, mock exams, self-scored recordings, and feedback based on answer transcripts or notes
 - Out of scope: automatic speech recognition, automatic audio scoring, registration/payment, and live class scheduling
+- Difficulty: beginner to lower-intermediate speaking practice for HSKK Intermediate preparation
+
+## Mandarin Content Format
+
+Every Chinese learning item must include:
+
+- Hanzi: Chinese sentence or phrase
+- Pinyin: tone-mark pinyin
+- Meaning: Korean meaning
+- Focus: short speaking point such as tone, word order, rhythm, or answer structure
+
+Use short, reusable sentences before long connected speech. If a prompt is too hard for a beginner/lower-intermediate learner, split it into smaller chunks.
 
 ## HSKK Intermediate Exam Shape
 
@@ -58,6 +70,8 @@ All durable outputs go under `_workspace/`:
 - `_workspace/06_error_analysis.md`: answer and recording-note analysis
 - `_workspace/07_review_plan.md`: spaced repetition schedule
 - `_workspace/08_progress_report.md`: weekly progress and next adjustments
+- `mobile/index.html`: mobile-first study page for today's lesson
+- `scripts/send_kakao_daily_lesson.py`: KakaoTalk "send to myself" reminder script
 
 Do not write generated study outputs outside `_workspace/`.
 
@@ -100,3 +114,4 @@ For every issue, give one concrete next action. Keep feedback practical enough t
 - `/language-tutor`: run daily speaking lessons, oral checks, and review loops.
 - If the user says "오늘 공부", create or continue the next 30-minute lesson.
 - If the user provides mock exam answers or recording notes, route first to `error-analyst`, then update `07_review_plan.md`.
+- If a lesson is intended for mobile use, update `mobile/index.html` with the current lesson summary and pinyin-supported prompts.
