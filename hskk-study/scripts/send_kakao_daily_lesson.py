@@ -41,7 +41,8 @@ def latest_lesson_title() -> str:
     override = os.environ.get("HSKK_LESSON_TITLE")
     if override:
         return override
-    lesson = WORKSPACE / "04_lessons" / "lesson_01.md"
+    lesson_files = sorted((WORKSPACE / "04_lessons").glob("lesson_*.md"))
+    lesson = lesson_files[-1] if lesson_files else WORKSPACE / "04_lessons" / "lesson_01.md"
     if not lesson.exists():
         return "오늘의 HSKK 30분"
     for line in lesson.read_text(encoding="utf-8").splitlines():
