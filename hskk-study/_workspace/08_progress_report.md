@@ -24,3 +24,7 @@ Status: started
 1. Complete lesson 01 speaking tasks.
 2. Paste answer transcripts or recording notes into `02_diagnosis_report.md`.
 3. Analyze the first weak points and create lesson 02.
+
+## Automation Log
+
+- 2026-05-29: Lesson 02 generated automatically and mobile page rebuilt.

@@ -3,220 +3,111 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>오늘의 HSKK 30분</title>
+  <title>Lesson 02: 교통과 이동</title>
   <style>
-    :root {
-      color-scheme: light;
-      --ink: #172026;
-      --muted: #60707a;
-      --line: #d7e0e5;
-      --paper: #fbfcfd;
-      --accent: #0f766e;
-      --accent-soft: #dff3ef;
-      --warn: #a45112;
-      --warn-soft: #fff1df;
-    }
+    :root { color-scheme: light; --ink:#172026; --muted:#60707a; --line:#d7e0e5; --paper:#fbfcfd; --accent:#0f766e; --accent-soft:#dff3ef; --warn-soft:#fff1df; }
     * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: var(--ink);
-      background: var(--paper);
-      line-height: 1.55;
-    }
-    header {
-      padding: 22px 18px 14px;
-      background: #ffffff;
-      border-bottom: 1px solid var(--line);
-      position: sticky;
-      top: 0;
-      z-index: 1;
-    }
-    h1 {
-      margin: 0;
-      font-size: 1.45rem;
-      line-height: 1.2;
-      letter-spacing: 0;
-    }
-    .sub {
-      margin: 8px 0 0;
-      color: var(--muted);
-      font-size: .95rem;
-    }
-    main {
-      width: min(760px, 100%);
-      margin: 0 auto;
-      padding: 16px;
-    }
-    section {
-      padding: 18px 0;
-      border-bottom: 1px solid var(--line);
-    }
-    h2 {
-      margin: 0 0 12px;
-      font-size: 1.1rem;
-      letter-spacing: 0;
-    }
-    .flow {
-      display: grid;
-      gap: 8px;
-    }
-    .flow div,
-    .item,
-    .scene,
-    .score {
-      background: #ffffff;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 12px;
-    }
-    .time {
-      color: var(--accent);
-      font-weight: 700;
-      margin-right: 6px;
-    }
-    .item {
-      display: grid;
-      gap: 8px;
-      margin: 10px 0;
-    }
-    .hanzi {
-      font-size: 1.35rem;
-      font-weight: 700;
-      word-break: keep-all;
-    }
-    .pinyin {
-      color: var(--accent);
-      font-weight: 650;
-    }
-    .meaning,
-    .focus {
-      color: var(--muted);
-    }
-    .tag {
-      display: inline-block;
-      padding: 2px 8px;
-      border-radius: 999px;
-      background: var(--accent-soft);
-      color: var(--accent);
-      font-size: .78rem;
-      font-weight: 700;
-      margin-right: 6px;
-    }
-    .scene {
-      background: var(--warn-soft);
-      border-color: #f3c88b;
-      color: #44260b;
-    }
-    label {
-      display: block;
-      margin: 10px 0 4px;
-      font-weight: 650;
-    }
-    input,
-    textarea {
-      width: 100%;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 10px;
-      font: inherit;
-      background: #ffffff;
-    }
-    textarea {
-      min-height: 132px;
-      resize: vertical;
-    }
-    button {
-      width: 100%;
-      border: 0;
-      border-radius: 8px;
-      padding: 12px;
-      margin-top: 12px;
-      background: var(--accent);
-      color: white;
-      font-weight: 800;
-      font-size: 1rem;
-    }
-    .small {
-      font-size: .88rem;
-      color: var(--muted);
-    }
+    body { margin:0; font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; color:var(--ink); background:var(--paper); line-height:1.55; }
+    header { padding:22px 18px 14px; background:#fff; border-bottom:1px solid var(--line); position:sticky; top:0; z-index:1; }
+    h1 { margin:0; font-size:1.35rem; line-height:1.25; letter-spacing:0; }
+    .sub { margin:8px 0 0; color:var(--muted); font-size:.95rem; }
+    main { width:min(760px,100%); margin:0 auto; padding:16px; }
+    section { padding:18px 0; border-bottom:1px solid var(--line); }
+    h2 { margin:0 0 12px; font-size:1.1rem; letter-spacing:0; }
+    .flow { display:grid; gap:8px; }
+    .flow div,.item,.scene,.score { background:#fff; border:1px solid var(--line); border-radius:8px; padding:12px; }
+    .time { color:var(--accent); font-weight:700; margin-right:6px; }
+    .item { display:grid; gap:8px; margin:10px 0; }
+    .hanzi { font-size:1.35rem; font-weight:700; word-break:keep-all; }
+    .pinyin { color:var(--accent); font-weight:650; }
+    .meaning,.focus { color:var(--muted); }
+    .tag { display:inline-block; padding:2px 8px; border-radius:999px; background:var(--accent-soft); color:var(--accent); font-size:.78rem; font-weight:700; margin-right:6px; }
+    .scene { background:var(--warn-soft); border-color:#f3c88b; color:#44260b; }
+    label { display:block; margin:10px 0 4px; font-weight:650; }
+    input,textarea { width:100%; border:1px solid var(--line); border-radius:8px; padding:10px; font:inherit; background:#fff; }
+    textarea { min-height:132px; resize:vertical; }
+    button { width:100%; border:0; border-radius:8px; padding:12px; margin-top:12px; background:var(--accent); color:#fff; font-weight:800; font-size:1rem; }
+    .small { font-size:.88rem; color:var(--muted); }
   </style>
 </head>
 <body>
   <header>
-    <h1>오늘의 HSKK 30분</h1>
-    <p class="sub">Lesson 01 · 초/중급 · 한자 + 병음 + 한국어 뜻</p>
+    <h1>Lesson 02: 교통과 이동</h1>
+    <p class="sub">초/중급 · 한자 + 병음 + 한국어 뜻 · 홈화면 바로가기용</p>
   </header>
   <main>
     <section>
       <h2>학습 흐름</h2>
       <div class="flow">
-        <div><span class="time">5분</span>HSKK 구조 확인</div>
+        <div><span class="time">5분</span>지난 복습 항목 확인</div>
         <div><span class="time">10분</span>듣고 반복 3문장</div>
         <div><span class="time">10분</span>그림 묘사형 말하기</div>
         <div><span class="time">5분</span>질문 답변 + 자기채점</div>
       </div>
     </section>
+    <section><h2>Part 1 · 듣고 반복</h2>
+      <article class="item">
+        <div><span class="tag">1</span><span class="hanzi">我坐地铁去公司。</span></div>
+        <div class="pinyin">Wǒ zuò dìtiě qù gōngsī.</div>
+        <div class="meaning">저는 지하철을 타고 회사에 갑니다.</div>
+        <div class="focus">교통수단</div>
+      </article>
 
-    <section>
-      <h2>Part 1 · 듣고 반복</h2>
       <article class="item">
-        <div><span class="tag">1</span><span class="hanzi">我每天早上七点起床。</span></div>
-        <div class="pinyin">Wǒ měitiān zǎoshang qī diǎn qǐchuáng.</div>
-        <div class="meaning">나는 매일 아침 7시에 일어납니다.</div>
-        <div class="focus">포인트: 시간 표현, 3성+2성 리듬</div>
+        <div><span class="tag">2</span><span class="hanzi">从我家到公司要三十分钟。</span></div>
+        <div class="pinyin">Cóng wǒ jiā dào gōngsī yào sānshí fēnzhōng.</div>
+        <div class="meaning">집에서 회사까지 30분 걸립니다.</div>
+        <div class="focus">출발지와 목적지</div>
       </article>
-      <article class="item">
-        <div><span class="tag">2</span><span class="hanzi">然后我坐地铁去公司。</span></div>
-        <div class="pinyin">Ránhòu wǒ zuò dìtiě qù gōngsī.</div>
-        <div class="meaning">그 다음 지하철을 타고 회사에 갑니다.</div>
-        <div class="focus">포인트: 순서 연결어, qù 발음</div>
-      </article>
-      <article class="item">
-        <div><span class="tag">3</span><span class="hanzi">周末天气好的话，我想去公园散步。</span></div>
-        <div class="pinyin">Zhōumò tiānqì hǎo dehuà, wǒ xiǎng qù gōngyuán sànbù.</div>
-        <div class="meaning">주말에 날씨가 좋으면 공원에 산책하러 가고 싶습니다.</div>
-        <div class="focus">포인트: 조건 표현, 긴 문장 끊어 말하기</div>
-      </article>
-    </section>
 
-    <section>
-      <h2>Part 2 · 그림 묘사</h2>
-      <p class="scene">장면: 한 여자가 도서관 책상에 앉아 노트북으로 공부하고 있습니다. 옆에는 중국어 교재와 물병이 있고, 창밖에는 비가 오고 있습니다.</p>
       <article class="item">
-        <div class="hanzi">这是在图书馆。</div>
-        <div class="pinyin">Zhè shì zài túshūguǎn.</div>
-        <div class="meaning">여기는 도서관입니다.</div>
-      </article>
+        <div><span class="tag">3</span><span class="hanzi">今天路上人很多。</span></div>
+        <div class="pinyin">Jīntiān lùshang rén hěn duō.</div>
+        <div class="meaning">오늘 길에 사람이 많습니다.</div>
+        <div class="focus">상황 묘사</div>
+      </article></section>
+    <section><h2>Part 2 · 그림 묘사</h2>
       <article class="item">
-        <div class="hanzi">一个女生正在学习。</div>
-        <div class="pinyin">Yí ge nǚshēng zhèngzài xuéxí.</div>
-        <div class="meaning">한 여학생이 공부하고 있습니다.</div>
+        <div><span class="tag">장소</span><span class="hanzi">这是在车站。</span></div>
+        <div class="pinyin">Zhè shì zài chēzhàn.</div>
+        <div class="meaning">여기는 정류장입니다.</div>
+        <div class="focus">장소</div>
       </article>
-      <article class="item">
-        <div class="hanzi">桌子上有一本书和一瓶水。</div>
-        <div class="pinyin">Zhuōzi shàng yǒu yì běn shū hé yì píng shuǐ.</div>
-        <div class="meaning">책상 위에 책 한 권과 물 한 병이 있습니다.</div>
-      </article>
-    </section>
 
-    <section>
-      <h2>Part 3 · 질문 답변</h2>
       <article class="item">
-        <div class="hanzi">你为什么学习汉语？</div>
-        <div class="pinyin">Nǐ wèishénme xuéxí Hànyǔ?</div>
-        <div class="meaning">왜 중국어를 공부하나요?</div>
-        <div class="focus">시작: 我学习汉语是因为...</div>
+        <div><span class="tag">인물/행동</span><span class="hanzi">很多人在等车。</span></div>
+        <div class="pinyin">Hěn duō rén zài děng chē.</div>
+        <div class="meaning">많은 사람들이 차를 기다리고 있습니다.</div>
+        <div class="focus">동작</div>
       </article>
-      <article class="item">
-        <div class="hanzi">你觉得每天学习三十分钟外语有用吗？为什么？</div>
-        <div class="pinyin">Nǐ juéde měitiān xuéxí sānshí fēnzhōng wàiyǔ yǒu yòng ma? Wèishénme?</div>
-        <div class="meaning">매일 30분 외국어 공부가 유용하다고 생각하나요? 왜인가요?</div>
-        <div class="focus">시작: 我觉得有用，因为...</div>
-      </article>
-    </section>
 
+      <article class="item">
+        <div><span class="tag">세부사항</span><span class="hanzi">一个男人正在看手机。</span></div>
+        <div class="pinyin">Yí ge nánrén zhèngzài kàn shǒujī.</div>
+        <div class="meaning">한 남자가 휴대폰을 보고 있습니다.</div>
+        <div class="focus">진행</div>
+      </article>
+
+      <article class="item">
+        <div><span class="tag">의견/추측</span><span class="hanzi">他可能在看时间。</span></div>
+        <div class="pinyin">Tā kěnéng zài kàn shíjiān.</div>
+        <div class="meaning">그는 아마 시간을 보고 있는 것 같습니다.</div>
+        <div class="focus">추측</div>
+      </article></section>
+    <section><h2>Part 3 · 질문 답변</h2>
+      <article class="item">
+        <div><span class="tag">1</span><span class="hanzi">你常常坐什么车？</span></div>
+        <div class="pinyin">Nǐ chángcháng zuò shénme chē?</div>
+        <div class="meaning">주로 어떤 교통수단을 타나요?</div>
+        <div class="focus">我常常坐...</div>
+      </article>
+
+      <article class="item">
+        <div><span class="tag">2</span><span class="hanzi">你喜欢坐地铁还是坐公共汽车？</span></div>
+        <div class="pinyin">Nǐ xǐhuan zuò dìtiě háishi zuò gōnggòng qìchē?</div>
+        <div class="meaning">지하철과 버스 중 무엇을 좋아하나요?</div>
+        <div class="focus">我喜欢...，因为...</div>
+      </article></section>
     <section>
       <h2>자기채점 메모</h2>
       <div class="score">
@@ -225,13 +116,13 @@
         <label for="notes">답변 transcript / 막힌 부분</label>
         <textarea id="notes" placeholder="여기에 말한 답변이나 녹음 메모를 적고 복사해서 Codex에 보내세요."></textarea>
         <button type="button" onclick="copyNotes()">메모 복사</button>
-        <p class="small" id="copy-status">복사한 메모를 Codex에 보내면 오답 분석과 Lesson 02를 만들 수 있습니다.</p>
+        <p class="small" id="copy-status">복사한 메모를 Codex에 보내면 오답 분석과 다음 레슨에 반영할 수 있습니다.</p>
       </div>
     </section>
   </main>
   <script>
     function copyNotes() {
-      const text = `HSKK Lesson 01 메모\n점수: ${document.getElementById('score').value}\n메모:\n${document.getElementById('notes').value}`;
+      const text = `HSKK 학습 메모\n레슨: Lesson 02: 교통과 이동\n점수: ${document.getElementById('score').value}\n메모:\n${document.getElementById('notes').value}`;
       navigator.clipboard.writeText(text).then(() => {
         document.getElementById('copy-status').textContent = '복사했습니다. Codex 대화창에 붙여 넣어 주세요.';
       }).catch(() => {
