@@ -3,6 +3,8 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+$env:PYTHONIOENCODING = "utf-8"
 
 $projectRoot = Resolve-Path (Join-Path $PSScriptRoot "..")
 $scriptPath = Join-Path $PSScriptRoot "send_kakao_daily_lesson.py"

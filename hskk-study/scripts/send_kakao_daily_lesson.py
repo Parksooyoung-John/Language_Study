@@ -17,6 +17,7 @@ import json
 import os
 from pathlib import Path
 from urllib import parse, request
+from urllib.error import HTTPError, URLError
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -149,8 +150,14 @@ def main() -> int:
     if not rest_api_key or not refresh_token:
         raise SystemExit("Missing KAKAO_REST_API_KEY or KAKAO_REFRESH_TOKEN. Put them in hskk-study/.env or environment variables.")
 
-    access_token = refresh_access_token(rest_api_key, refresh_token)
-    result = send_memo(access_token, lesson_title, mobile_url, summary)
+    try:
+        access_token = refresh_access_token(rest_api_key, refresh_token)
+        result = send_memo(access_token, lesson_title, mobile_url, summary)
+    except HTTPError as exc:
+        detail = exc.read().decode("utf-8", errors="replace")
+        raise SystemExit(f"Kakao send failed: HTTP {exc.code}. {detail}") from exc
+    except URLError as exc:
+        raise SystemExit(f"Kakao send failed: network access blocked or Kakao endpoint unreachable. {exc.reason}") from exc
     log(json.dumps({"lesson_title": lesson_title, "mobile_url": mobile_url, "result": result}, ensure_ascii=False))
     print(json.dumps(result, ensure_ascii=False))
     return 0

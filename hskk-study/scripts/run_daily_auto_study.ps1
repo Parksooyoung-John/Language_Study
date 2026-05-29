@@ -4,9 +4,12 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+$env:PYTHONIOENCODING = "utf-8"
 
 $repoRoot = Resolve-Path (Join-Path $PSScriptRoot "..\..")
 $safeDir = $repoRoot.Path.Replace("\", "/")
+$gitBaseArgs = @("-c", "core.excludesfile=", "-c", "safe.directory=$safeDir")
 $logDir = Join-Path $repoRoot "hskk-study\logs"
 New-Item -ItemType Directory -Force -Path $logDir | Out-Null
 $logPath = Join-Path $logDir "daily_auto_study.log"
@@ -24,26 +27,33 @@ try {
     if ($DryRun) {
         $generateArgs += "-DryRun"
     }
-    powershell @generateArgs
+    $generationOutput = powershell @generateArgs
+    $generationOutput | ForEach-Object { Write-Host $_ }
     if ($LASTEXITCODE -ne 0) {
         throw "lesson generation failed"
     }
+    $generation = ($generationOutput -join "`n") | ConvertFrom-Json
 
     if ($DryRun) {
         Write-Log "dry-run complete; skipping commit, push, and Kakao send"
         exit 0
     }
 
-    $status = git -c safe.directory="$safeDir" status --porcelain
-    if ($status) {
+    $trackedStudyPaths = @("hskk-study/mobile/index.html")
+    if ($generation.action -eq "create") {
+        $trackedStudyPaths += "hskk-study/_workspace"
+    }
+    $statusLines = git @gitBaseArgs status --porcelain -- $trackedStudyPaths 2>$null
+    $changes = @($statusLines | Where-Object { $_ -match '^( M|M |A | A|D | D|R |C |U |\?\?)' })
+    if ($changes.Count -gt 0) {
         $lessonTitle = Select-String -Path .\hskk-study\mobile\index.html -Pattern "<h1>" | Select-Object -First 1
         $commitMessage = "Auto-generate HSKK daily lesson $(Get-Date -Format yyyy-MM-dd)"
-        git -c safe.directory="$safeDir" add hskk-study/_workspace hskk-study/mobile/index.html
-        git -c safe.directory="$safeDir" commit -m $commitMessage
+        git @gitBaseArgs add hskk-study/_workspace hskk-study/mobile/index.html
+        git @gitBaseArgs commit -m $commitMessage
         if ($LASTEXITCODE -ne 0) {
             throw "git commit failed"
         }
-        git -c safe.directory="$safeDir" push origin main
+        git @gitBaseArgs push origin main
         if ($LASTEXITCODE -ne 0) {
             throw "git push failed"
         }

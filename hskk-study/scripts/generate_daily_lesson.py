@@ -424,15 +424,16 @@ def generate(dry_run: bool = False, today: date | None = None) -> dict:
     MOBILE_INDEX.parent.mkdir(parents=True, exist_ok=True)
     MOBILE_INDEX.write_text(mobile_html, encoding="utf-8")
 
-    state.update(
-        {
-            "last_generated_date": today_text,
-            "last_lesson_number": number,
-            "last_lesson_path": str(lesson_path.relative_to(ROOT)),
-            "last_action": action,
-        }
-    )
-    write_state(state)
+    if action == "create":
+        state.update(
+            {
+                "last_generated_date": today_text,
+                "last_lesson_number": number,
+                "last_lesson_path": str(lesson_path.relative_to(ROOT)),
+                "last_action": action,
+            }
+        )
+        write_state(state)
 
     return {
         "action": action,
