@@ -2,3 +2,4 @@ hskk-study/.env
 hskk-study/logs/
 __pycache__/
 *.pyc
+outputs/
