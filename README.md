@@ -76,8 +76,11 @@ https://parksooyoung-john.github.io/Language_Study/hskk-study/mobile/
 ```env
 KAKAO_REST_API_KEY=your_kakao_rest_api_key
 KAKAO_REFRESH_TOKEN=your_kakao_refresh_token
+KAKAO_CLIENT_SECRET=your_optional_kakao_client_secret
 HSKK_MOBILE_URL=https://parksooyoung-john.github.io/Language_Study/hskk-study/mobile/
 ```
+
+`KAKAO_CLIENT_SECRET`은 Kakao Developers 앱에서 Client Secret 기능을 켠 경우에만 필요합니다.
 
 완전 자동 dry run:
 

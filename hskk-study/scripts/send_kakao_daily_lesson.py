@@ -6,6 +6,7 @@ Required environment variables, or matching keys in hskk-study/.env:
 - KAKAO_REFRESH_TOKEN
 
 Optional:
+- KAKAO_CLIENT_SECRET
 - HSKK_MOBILE_URL
 - HSKK_LESSON_TITLE
 """
@@ -67,14 +68,15 @@ def review_summary() -> str:
     return " / ".join(rows) if rows else "오늘 복습 항목을 확인하세요."
 
 
-def refresh_access_token(rest_api_key: str, refresh_token: str) -> str:
-    data = parse.urlencode(
-        {
-            "grant_type": "refresh_token",
-            "client_id": rest_api_key,
-            "refresh_token": refresh_token,
-        }
-    ).encode("utf-8")
+def refresh_access_token(rest_api_key: str, refresh_token: str, client_secret: str | None = None) -> str:
+    params = {
+        "grant_type": "refresh_token",
+        "client_id": rest_api_key,
+        "refresh_token": refresh_token,
+    }
+    if client_secret:
+        params["client_secret"] = client_secret
+    data = parse.urlencode(params).encode("utf-8")
     req = request.Request(
         "https://kauth.kakao.com/oauth/token",
         data=data,
@@ -147,11 +149,12 @@ def main() -> int:
 
     rest_api_key = os.environ.get("KAKAO_REST_API_KEY")
     refresh_token = os.environ.get("KAKAO_REFRESH_TOKEN")
+    client_secret = os.environ.get("KAKAO_CLIENT_SECRET")
     if not rest_api_key or not refresh_token:
         raise SystemExit("Missing KAKAO_REST_API_KEY or KAKAO_REFRESH_TOKEN. Put them in hskk-study/.env or environment variables.")
 
     try:
-        access_token = refresh_access_token(rest_api_key, refresh_token)
+        access_token = refresh_access_token(rest_api_key, refresh_token, client_secret)
         result = send_memo(access_token, lesson_title, mobile_url, summary)
     except HTTPError as exc:
         detail = exc.read().decode("utf-8", errors="replace")

@@ -14,6 +14,7 @@ Create a Kakao Developers app and prepare:
 
 - REST API key
 - Refresh token with Talk Message permission
+- Client Secret when the Kakao app has Client Secret enabled
 - Allowed redirect URI for the one-time OAuth token flow
 
 Store local secrets in `hskk-study/.env`. Do not commit `.env`.
