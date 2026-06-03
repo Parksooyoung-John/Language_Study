@@ -3,131 +3,298 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Lesson 02: 교통과 이동</title>
+  <title>오늘의 HSKK 30분</title>
   <style>
-    :root { color-scheme: light; --ink:#172026; --muted:#60707a; --line:#d7e0e5; --paper:#fbfcfd; --accent:#0f766e; --accent-soft:#dff3ef; --warn-soft:#fff1df; }
-    * { box-sizing: border-box; }
-    body { margin:0; font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; color:var(--ink); background:var(--paper); line-height:1.55; }
-    header { padding:22px 18px 14px; background:#fff; border-bottom:1px solid var(--line); position:sticky; top:0; z-index:1; }
-    h1 { margin:0; font-size:1.35rem; line-height:1.25; letter-spacing:0; }
-    .sub { margin:8px 0 0; color:var(--muted); font-size:.95rem; }
-    main { width:min(760px,100%); margin:0 auto; padding:16px; }
-    section { padding:18px 0; border-bottom:1px solid var(--line); }
-    h2 { margin:0 0 12px; font-size:1.1rem; letter-spacing:0; }
-    .flow { display:grid; gap:8px; }
-    .flow div,.item,.scene,.score { background:#fff; border:1px solid var(--line); border-radius:8px; padding:12px; }
-    .time { color:var(--accent); font-weight:700; margin-right:6px; }
-    .item { display:grid; gap:8px; margin:10px 0; }
-    .hanzi { font-size:1.35rem; font-weight:700; word-break:keep-all; }
-    .pinyin { color:var(--accent); font-weight:650; }
-    .meaning,.focus { color:var(--muted); }
-    .tag { display:inline-block; padding:2px 8px; border-radius:999px; background:var(--accent-soft); color:var(--accent); font-size:.78rem; font-weight:700; margin-right:6px; }
-    .scene { background:var(--warn-soft); border-color:#f3c88b; color:#44260b; }
-    label { display:block; margin:10px 0 4px; font-weight:650; }
-    input,textarea { width:100%; border:1px solid var(--line); border-radius:8px; padding:10px; font:inherit; background:#fff; }
-    textarea { min-height:132px; resize:vertical; }
-    button { width:100%; border:0; border-radius:8px; padding:12px; margin-top:12px; background:var(--accent); color:#fff; font-weight:800; font-size:1rem; }
-    .small { font-size:.88rem; color:var(--muted); }
+
+    :root {
+      --ink:#172026;
+      --muted:#60707a;
+      --line:#d7e0e5;
+      --paper:#f5f7f8;
+      --card:#ffffff;
+      --accent:#0f766e;
+      --accent-soft:#dff3ef;
+      --warn-soft:#fff1df;
+      --warn-line:#f3c88b;
+      --shadow:0 14px 35px rgba(23, 32, 38, .08);
+    }
+    * { box-sizing:border-box; }
+    body {
+      margin:0;
+      font-family:"Noto Sans KR","Apple SD Gothic Neo","Segoe UI",sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(circle at top right, rgba(15,118,110,.10), transparent 26%),
+        linear-gradient(180deg, #fbfcfd 0%, var(--paper) 100%);
+      line-height:1.55;
+    }
+    a { color:inherit; }
+    header {
+      padding:24px 18px 16px;
+      background:rgba(255,255,255,.92);
+      backdrop-filter:blur(14px);
+      border-bottom:1px solid var(--line);
+      position:sticky;
+      top:0;
+      z-index:5;
+    }
+    .eyebrow {
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      padding:6px 10px;
+      border-radius:999px;
+      background:var(--accent-soft);
+      color:var(--accent);
+      font-size:.78rem;
+      font-weight:800;
+      letter-spacing:.02em;
+      text-transform:uppercase;
+    }
+    h1 {
+      margin:12px 0 0;
+      font-size:1.45rem;
+      line-height:1.25;
+      word-break:keep-all;
+    }
+    .sub {
+      margin:10px 0 0;
+      color:var(--muted);
+      font-size:.96rem;
+    }
+    main {
+      width:min(840px, 100%);
+      margin:0 auto;
+      padding:18px 16px 42px;
+    }
+    section {
+      margin-top:16px;
+      padding:18px;
+      border:1px solid var(--line);
+      border-radius:18px;
+      background:rgba(255,255,255,.92);
+      box-shadow:var(--shadow);
+    }
+    h2 {
+      margin:0 0 12px;
+      font-size:1.1rem;
+    }
+    .flow {
+      display:grid;
+      gap:10px;
+    }
+    .flow-step, .item, .score, .visual-card, .helper-card {
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:13px;
+    }
+    .flow-step {
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+    }
+    .time {
+      min-width:62px;
+      color:var(--accent);
+      font-weight:800;
+    }
+    .item {
+      display:grid;
+      gap:7px;
+      margin-top:10px;
+    }
+    .item-top {
+      display:flex;
+      gap:8px;
+      align-items:flex-start;
+      flex-wrap:wrap;
+    }
+    .tag {
+      display:inline-block;
+      padding:2px 8px;
+      border-radius:999px;
+      background:var(--accent-soft);
+      color:var(--accent);
+      font-size:.78rem;
+      font-weight:800;
+    }
+    .hanzi {
+      font-size:1.35rem;
+      font-weight:800;
+      word-break:keep-all;
+    }
+    .pinyin {
+      color:var(--accent);
+      font-weight:700;
+    }
+    .meaning, .focus, .small {
+      color:var(--muted);
+    }
+    .scene-text {
+      margin:0;
+      background:var(--warn-soft);
+      border:1px solid var(--warn-line);
+      border-radius:14px;
+      padding:13px;
+      color:#5d3b0d;
+    }
+    .visual-card {
+      overflow:hidden;
+      padding:0;
+    }
+    .visual-card img {
+      display:block;
+      width:100%;
+      height:auto;
+      background:linear-gradient(180deg, #eff9f7 0%, #ffffff 100%);
+    }
+    .visual-caption {
+      padding:12px 14px 14px;
+      border-top:1px solid var(--line);
+    }
+    .helper-card ol {
+      margin:0;
+      padding-left:18px;
+    }
+    .helper-card li + li {
+      margin-top:6px;
+    }
+    .score-grid {
+      display:grid;
+      gap:10px;
+      margin-top:8px;
+    }
+    label {
+      display:block;
+      margin:10px 0 4px;
+      font-weight:700;
+    }
+    input, textarea {
+      width:100%;
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:10px 12px;
+      font:inherit;
+      background:#fff;
+    }
+    textarea {
+      min-height:132px;
+      resize:vertical;
+    }
+    button, .button-link {
+      width:100%;
+      border:0;
+      border-radius:14px;
+      padding:13px 14px;
+      margin-top:12px;
+      background:var(--accent);
+      color:#fff;
+      font-weight:800;
+      font-size:1rem;
+      text-decoration:none;
+      text-align:center;
+      display:inline-block;
+    }
+    .button-secondary {
+      background:#dfe7eb;
+      color:#243239;
+    }
+    .status-box {
+      margin-top:12px;
+      min-height:24px;
+      color:var(--muted);
+      font-size:.92rem;
+    }
+    .nav-row {
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+      margin-top:16px;
+    }
+    .summary-grid {
+      display:grid;
+      gap:10px;
+    }
+    .summary-card {
+      padding:14px;
+      border:1px solid var(--line);
+      border-radius:14px;
+      background:var(--card);
+    }
+    .summary-card strong {
+      display:block;
+      font-size:1.05rem;
+      margin-bottom:4px;
+    }
+    @media (max-width: 640px) {
+      h1 { font-size:1.28rem; }
+      .nav-row { grid-template-columns:1fr; }
+    }
+    
   </style>
 </head>
 <body>
   <header>
-    <h1>Lesson 02: 교통과 이동</h1>
-    <p class="sub">초/중급 · 한자 + 병음 + 한국어 뜻 · 홈화면 바로가기용</p>
+    <span class="eyebrow">HSKK Daily</span>
+    <h1>오늘의 HSKK 30분</h1>
+    <p class="sub">완료한 레슨은 자동으로 건너뛰고, 다음 미완료 레슨으로 이동합니다.</p>
   </header>
   <main>
     <section>
-      <h2>학습 흐름</h2>
-      <div class="flow">
-        <div><span class="time">5분</span>지난 복습 항목 확인</div>
-        <div><span class="time">10분</span>듣고 반복 3문장</div>
-        <div><span class="time">10분</span>그림 묘사형 말하기</div>
-        <div><span class="time">5분</span>질문 답변 + 자기채점</div>
+      <h2>진행 방식</h2>
+      <div class="summary-grid">
+        <div class="summary-card">
+          <strong>1. 입장</strong>
+          페이지가 완료 상태를 확인해서 바로 학습할 레슨으로 이동합니다.
+        </div>
+        <div class="summary-card">
+          <strong>2. 완료 버튼</strong>
+          레슨을 끝내면 완료를 저장하고, 이미 준비된 다음 레슨으로 바로 넘어갑니다.
+        </div>
+        <div class="summary-card">
+          <strong>3. 마지막 레슨</strong>
+          아직 다음 레슨이 없으면 완료만 저장하고 다음 자동화 실행을 기다립니다.
+        </div>
       </div>
-    </section>
-    <section><h2>Part 1 · 듣고 반복</h2>
-      <article class="item">
-        <div><span class="tag">1</span><span class="hanzi">我坐地铁去公司。</span></div>
-        <div class="pinyin">Wǒ zuò dìtiě qù gōngsī.</div>
-        <div class="meaning">저는 지하철을 타고 회사에 갑니다.</div>
-        <div class="focus">교통수단</div>
-      </article>
-
-      <article class="item">
-        <div><span class="tag">2</span><span class="hanzi">从我家到公司要三十分钟。</span></div>
-        <div class="pinyin">Cóng wǒ jiā dào gōngsī yào sānshí fēnzhōng.</div>
-        <div class="meaning">집에서 회사까지 30분 걸립니다.</div>
-        <div class="focus">출발지와 목적지</div>
-      </article>
-
-      <article class="item">
-        <div><span class="tag">3</span><span class="hanzi">今天路上人很多。</span></div>
-        <div class="pinyin">Jīntiān lùshang rén hěn duō.</div>
-        <div class="meaning">오늘 길에 사람이 많습니다.</div>
-        <div class="focus">상황 묘사</div>
-      </article></section>
-    <section><h2>Part 2 · 그림 묘사</h2>
-      <article class="item">
-        <div><span class="tag">장소</span><span class="hanzi">这是在车站。</span></div>
-        <div class="pinyin">Zhè shì zài chēzhàn.</div>
-        <div class="meaning">여기는 정류장입니다.</div>
-        <div class="focus">장소</div>
-      </article>
-
-      <article class="item">
-        <div><span class="tag">인물/행동</span><span class="hanzi">很多人在等车。</span></div>
-        <div class="pinyin">Hěn duō rén zài děng chē.</div>
-        <div class="meaning">많은 사람들이 차를 기다리고 있습니다.</div>
-        <div class="focus">동작</div>
-      </article>
-
-      <article class="item">
-        <div><span class="tag">세부사항</span><span class="hanzi">一个男人正在看手机。</span></div>
-        <div class="pinyin">Yí ge nánrén zhèngzài kàn shǒujī.</div>
-        <div class="meaning">한 남자가 휴대폰을 보고 있습니다.</div>
-        <div class="focus">진행</div>
-      </article>
-
-      <article class="item">
-        <div><span class="tag">의견/추측</span><span class="hanzi">他可能在看时间。</span></div>
-        <div class="pinyin">Tā kěnéng zài kàn shíjiān.</div>
-        <div class="meaning">그는 아마 시간을 보고 있는 것 같습니다.</div>
-        <div class="focus">추측</div>
-      </article></section>
-    <section><h2>Part 3 · 질문 답변</h2>
-      <article class="item">
-        <div><span class="tag">1</span><span class="hanzi">你常常坐什么车？</span></div>
-        <div class="pinyin">Nǐ chángcháng zuò shénme chē?</div>
-        <div class="meaning">주로 어떤 교통수단을 타나요?</div>
-        <div class="focus">我常常坐...</div>
-      </article>
-
-      <article class="item">
-        <div><span class="tag">2</span><span class="hanzi">你喜欢坐地铁还是坐公共汽车？</span></div>
-        <div class="pinyin">Nǐ xǐhuan zuò dìtiě háishi zuò gōnggòng qìchē?</div>
-        <div class="meaning">지하철과 버스 중 무엇을 좋아하나요?</div>
-        <div class="focus">我喜欢...，因为...</div>
-      </article></section>
-    <section>
-      <h2>자기채점 메모</h2>
-      <div class="score">
-        <label for="score">점수 메모</label>
-        <input id="score" placeholder="예: 발음 3, 반복 4, 유창성 2">
-        <label for="notes">답변 transcript / 막힌 부분</label>
-        <textarea id="notes" placeholder="여기에 말한 답변이나 녹음 메모를 적고 복사해서 Codex에 보내세요."></textarea>
-        <button type="button" onclick="copyNotes()">메모 복사</button>
-        <p class="small" id="copy-status">복사한 메모를 Codex에 보내면 오답 분석과 다음 레슨에 반영할 수 있습니다.</p>
-      </div>
+      <div class="status-box" id="entry-status">레슨 위치를 확인하는 중입니다.</div>
     </section>
   </main>
   <script>
-    function copyNotes() {
-      const text = `HSKK 학습 메모\n레슨: Lesson 02: 교통과 이동\n점수: ${document.getElementById('score').value}\n메모:\n${document.getElementById('notes').value}`;
-      navigator.clipboard.writeText(text).then(() => {
-        document.getElementById('copy-status').textContent = '복사했습니다. Codex 대화창에 붙여 넣어 주세요.';
-      }).catch(() => {
-        document.getElementById('copy-status').textContent = '복사가 막혔습니다. 내용을 직접 선택해서 복사해 주세요.';
-      });
+    const manifest = [{"number": 1, "slug": "lesson_01", "title": "Lesson 01: HSKK Intermediate Baseline Diagnosis With Pinyin", "date": "", "path": "./lesson_01.html", "prev_path": null, "next_path": "./lesson_02.html", "visual_path": "./assets/lesson_01_part2.svg"}, {"number": 2, "slug": "lesson_02", "title": "Lesson 02: 교통과 이동", "date": "2026-05-29", "path": "./lesson_02.html", "prev_path": "./lesson_01.html", "next_path": "./lesson_03.html", "visual_path": "./assets/lesson_02_part2.svg"}, {"number": 3, "slug": "lesson_03", "title": "Lesson 03: 음식과 식당", "date": "2026-05-31", "path": "./lesson_03.html", "prev_path": "./lesson_02.html", "next_path": "./lesson_04.html", "visual_path": "./assets/lesson_03_part2.svg"}, {"number": 4, "slug": "lesson_04", "title": "Lesson 04: 날씨와 계획", "date": "2026-06-01", "path": "./lesson_04.html", "prev_path": "./lesson_03.html", "next_path": "./lesson_05.html", "visual_path": "./assets/lesson_04_part2.svg"}, {"number": 5, "slug": "lesson_05", "title": "Lesson 05: 공부 습관", "date": "2026-06-02", "path": "./lesson_05.html", "prev_path": "./lesson_04.html", "next_path": "./lesson_06.html", "visual_path": "./assets/lesson_05_part2.svg"}, {"number": 6, "slug": "lesson_06", "title": "Lesson 06: 자기소개와 하루 습관", "date": "2026-06-03", "path": "./lesson_06.html", "prev_path": "./lesson_05.html", "next_path": null, "visual_path": "./assets/lesson_06_part2.svg"}];
+    const COMPLETED_KEY = "hskk_completed_lessons";
+    const LAST_VIEWED_KEY = "hskk_last_viewed_lesson";
+
+    function readCompleted() {
+      try {
+        const parsed = JSON.parse(localStorage.getItem(COMPLETED_KEY) || "[]");
+        return Array.isArray(parsed) ? parsed : [];
+      } catch (error) {
+        return [];
+      }
+    }
+
+    function chooseLesson() {
+      if (!manifest.length) return null;
+      const completed = new Set(readCompleted());
+      const lastViewed = Number(localStorage.getItem(LAST_VIEWED_KEY) || "");
+      const firstIncomplete = manifest.find((item) => !completed.has(item.number));
+      if (Number.isFinite(lastViewed)) {
+        const lastViewedItem = manifest.find((item) => item.number === lastViewed);
+        if (lastViewedItem && !completed.has(lastViewed)) {
+          return lastViewedItem;
+        }
+      }
+      return firstIncomplete || manifest[manifest.length - 1];
+    }
+
+    const target = chooseLesson();
+    const status = document.getElementById("entry-status");
+    if (!target) {
+      status.textContent = "아직 생성된 레슨이 없습니다.";
+    } else {
+      status.textContent = `${target.title} 페이지로 이동합니다.`;
+      window.location.replace(`./lessons/${target.slug}.html`);
     }
   </script>
 </body>

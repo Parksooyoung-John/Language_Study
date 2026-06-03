@@ -1,0 +1,62 @@
+[
+  {
+    "number": 1,
+    "slug": "lesson_01",
+    "title": "Lesson 01: HSKK Intermediate Baseline Diagnosis With Pinyin",
+    "date": "",
+    "path": "./lesson_01.html",
+    "prev_path": null,
+    "next_path": "./lesson_02.html",
+    "visual_path": "./assets/lesson_01_part2.svg"
+  },
+  {
+    "number": 2,
+    "slug": "lesson_02",
+    "title": "Lesson 02: 교통과 이동",
+    "date": "2026-05-29",
+    "path": "./lesson_02.html",
+    "prev_path": "./lesson_01.html",
+    "next_path": "./lesson_03.html",
+    "visual_path": "./assets/lesson_02_part2.svg"
+  },
+  {
+    "number": 3,
+    "slug": "lesson_03",
+    "title": "Lesson 03: 음식과 식당",
+    "date": "2026-05-31",
+    "path": "./lesson_03.html",
+    "prev_path": "./lesson_02.html",
+    "next_path": "./lesson_04.html",
+    "visual_path": "./assets/lesson_03_part2.svg"
+  },
+  {
+    "number": 4,
+    "slug": "lesson_04",
+    "title": "Lesson 04: 날씨와 계획",
+    "date": "2026-06-01",
+    "path": "./lesson_04.html",
+    "prev_path": "./lesson_03.html",
+    "next_path": "./lesson_05.html",
+    "visual_path": "./assets/lesson_04_part2.svg"
+  },
+  {
+    "number": 5,
+    "slug": "lesson_05",
+    "title": "Lesson 05: 공부 습관",
+    "date": "2026-06-02",
+    "path": "./lesson_05.html",
+    "prev_path": "./lesson_04.html",
+    "next_path": "./lesson_06.html",
+    "visual_path": "./assets/lesson_05_part2.svg"
+  },
+  {
+    "number": 6,
+    "slug": "lesson_06",
+    "title": "Lesson 06: 자기소개와 하루 습관",
+    "date": "2026-06-03",
+    "path": "./lesson_06.html",
+    "prev_path": "./lesson_05.html",
+    "next_path": null,
+    "visual_path": "./assets/lesson_06_part2.svg"
+  }
+]
