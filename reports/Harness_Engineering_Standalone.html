@@ -1,0 +1,696 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Harness Engineering</title>
+  <style>
+    :root {
+      --bg: #071018;
+      --panel: rgba(15, 24, 36, 0.86);
+      --panel-strong: #101a28;
+      --line: rgba(133, 152, 180, 0.24);
+      --text: #edf3ff;
+      --muted: #93a5be;
+      --purple: #8758ff;
+      --blue: #49b7ff;
+      --mint: #42e0b8;
+      --orange: #ff8a1f;
+      --red: #ff5d74;
+      --yellow: #ffd34d;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(135, 88, 255, 0.16), transparent 28%),
+        radial-gradient(circle at 82% 18%, rgba(73, 183, 255, 0.18), transparent 24%),
+        linear-gradient(180deg, #071018 0%, #09131d 100%);
+      color: var(--text);
+      font-family: "Malgun Gothic", "Aptos", sans-serif;
+    }
+
+    body {
+      padding: 24px 0 40px;
+    }
+
+    .deck {
+      width: 1280px;
+      margin: 0 auto;
+    }
+
+    .slide {
+      position: relative;
+      width: 1280px;
+      height: 720px;
+      padding: 46px 54px;
+      overflow: hidden;
+      page-break-after: always;
+      break-after: page;
+      background:
+        radial-gradient(circle at 72% 8%, rgba(73, 183, 255, 0.08), transparent 25%),
+        radial-gradient(circle at 12% 0%, rgba(135, 88, 255, 0.12), transparent 24%),
+        linear-gradient(180deg, rgba(7, 16, 24, 0.96), rgba(7, 16, 24, 0.98));
+      border: 1px solid rgba(125, 150, 175, 0.12);
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.28);
+    }
+
+    .slide + .slide {
+      margin-top: 26px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 54px;
+      height: 4px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--purple), var(--blue));
+      box-shadow: 0 0 18px rgba(135, 88, 255, 0.45);
+    }
+
+    h1, h2 {
+      margin: 14px 0 0;
+      line-height: 1.06;
+      font-family: "Aptos Display", "Malgun Gothic", sans-serif;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+    }
+
+    h1 {
+      font-size: 74px;
+      max-width: 900px;
+    }
+
+    h2 {
+      font-size: 58px;
+      max-width: 980px;
+    }
+
+    .gradient {
+      background: linear-gradient(90deg, var(--purple), var(--blue));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .sub {
+      margin-top: 18px;
+      max-width: 880px;
+      color: #c8d4e7;
+      font-size: 26px;
+      line-height: 1.5;
+      letter-spacing: -0.02em;
+    }
+
+    .page {
+      position: absolute;
+      right: 54px;
+      top: 52px;
+      color: rgba(198, 210, 228, 0.52);
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .row {
+      display: grid;
+      gap: 18px;
+    }
+
+    .row-4 {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .row-3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .row-2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .axis {
+      margin-top: 74px;
+      position: relative;
+      padding-top: 38px;
+    }
+
+    .axis-line {
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 8px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--purple) 0 25%, var(--blue) 25% 50%, var(--mint) 50% 75%, var(--orange) 75% 100%);
+      box-shadow: 0 0 24px rgba(73, 183, 255, 0.22);
+    }
+
+    .axis-card {
+      padding: 22px 18px 18px;
+      background: transparent;
+      text-align: center;
+    }
+
+    .axis-num {
+      width: 52px;
+      height: 52px;
+      margin: -64px auto 14px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: white;
+      font-size: 20px;
+      font-weight: 800;
+      box-shadow: 0 0 18px rgba(73, 183, 255, 0.22);
+    }
+
+    .n1 { background: linear-gradient(135deg, #7d41ff, #9f6cff); }
+    .n2 { background: linear-gradient(135deg, #3ca7ff, #65d0ff); }
+    .n3 { background: linear-gradient(135deg, #36d59f, #63f0ca); }
+    .n4 { background: linear-gradient(135deg, #ff7f21, #ffa65a); }
+
+    .axis-title {
+      font-size: 29px;
+      font-weight: 800;
+      line-height: 1.18;
+      letter-spacing: -0.03em;
+    }
+
+    .axis-copy {
+      margin-top: 10px;
+      font-size: 20px;
+      line-height: 1.45;
+      color: var(--muted);
+    }
+
+    .frame {
+      margin-top: 34px;
+      border: 1px solid var(--line);
+      background: rgba(12, 20, 31, 0.62);
+      border-radius: 28px;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+    }
+
+    .stage-grid {
+      margin-top: 44px;
+      display: grid;
+      grid-template-columns: 1fr 84px 1fr 84px 1fr;
+      align-items: stretch;
+      gap: 0;
+    }
+
+    .stage {
+      padding: 34px 28px 28px;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: rgba(12, 20, 31, 0.72);
+      min-height: 328px;
+    }
+
+    .stage-no {
+      color: var(--muted);
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+    }
+
+    .stage-title {
+      margin-top: 22px;
+      font-size: 40px;
+      font-weight: 800;
+      line-height: 1.14;
+      letter-spacing: -0.03em;
+    }
+
+    .stage-copy {
+      margin-top: 14px;
+      color: #c2cfdf;
+      font-size: 22px;
+      line-height: 1.45;
+    }
+
+    .arrow {
+      display: grid;
+      place-items: center;
+      color: rgba(137, 188, 255, 0.72);
+      font-size: 52px;
+      font-weight: 300;
+    }
+
+    .pill {
+      display: inline-block;
+      margin-top: 18px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(73, 183, 255, 0.12);
+      border: 1px solid rgba(73, 183, 255, 0.28);
+      color: #cde9ff;
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .compare {
+      margin-top: 38px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .compare-card {
+      padding: 28px 30px;
+      border-radius: 30px;
+      border: 1px solid var(--line);
+      background: rgba(13, 21, 32, 0.78);
+      min-height: 380px;
+    }
+
+    .compare-card.bad {
+      box-shadow: inset 0 0 0 1px rgba(255, 93, 116, 0.08);
+    }
+
+    .compare-card.good {
+      box-shadow: inset 0 0 0 1px rgba(66, 224, 184, 0.08);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .bad .dot { background: var(--red); box-shadow: 0 0 20px rgba(255, 93, 116, 0.35); }
+    .good .dot { background: var(--mint); box-shadow: 0 0 20px rgba(66, 224, 184, 0.35); }
+
+    .compare-title {
+      margin-top: 18px;
+      font-size: 42px;
+      line-height: 1.14;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .compare-copy {
+      margin-top: 14px;
+      color: #c6d1e0;
+      font-size: 22px;
+      line-height: 1.46;
+    }
+
+    .list {
+      margin: 20px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 21px;
+      line-height: 1.44;
+    }
+
+    .list li::before {
+      content: "•";
+      color: #d4dded;
+      display: inline-block;
+      width: 18px;
+      margin-left: -18px;
+    }
+
+    .horse {
+      margin-top: 40px;
+    }
+
+    .horse .compare-card {
+      min-height: 300px;
+    }
+
+    .meta-grid {
+      margin-top: 34px;
+      display: grid;
+      grid-template-columns: 260px 1fr 1fr 1fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .meta-head, .meta-cell {
+      padding: 22px 20px;
+      border-radius: 24px;
+      border: 1px solid var(--line);
+      background: rgba(13, 21, 32, 0.75);
+    }
+
+    .meta-head {
+      display: grid;
+      gap: 18px;
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 20px;
+    }
+
+    .meta-col-title {
+      font-size: 30px;
+      font-weight: 800;
+      line-height: 1.2;
+      letter-spacing: -0.03em;
+    }
+
+    .meta-sub {
+      margin-top: 10px;
+      color: #c5cfdf;
+      font-size: 20px;
+      line-height: 1.4;
+    }
+
+    .stack {
+      display: grid;
+      gap: 16px;
+    }
+
+    .stack-card {
+      padding: 20px 22px;
+      border-radius: 24px;
+      border: 1px solid var(--line);
+      background: rgba(14, 22, 34, 0.76);
+    }
+
+    .stack-no {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--purple), var(--blue));
+      font-weight: 800;
+      margin-bottom: 14px;
+    }
+
+    .stack-title {
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .stack-copy {
+      margin-top: 10px;
+      font-size: 20px;
+      color: #c6d2e1;
+      line-height: 1.45;
+    }
+
+    .takeaway {
+      margin-top: 50px;
+      padding: 44px 48px;
+      border-radius: 34px;
+      border: 1px solid rgba(110, 137, 176, 0.22);
+      background:
+        radial-gradient(circle at 50% 0%, rgba(135, 88, 255, 0.18), transparent 28%),
+        rgba(18, 23, 38, 0.82);
+      text-align: center;
+    }
+
+    .takeaway-no {
+      width: 94px;
+      height: 94px;
+      margin: 0 auto 24px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--purple), var(--blue));
+      font-size: 52px;
+      font-weight: 800;
+      box-shadow: 0 0 32px rgba(135, 88, 255, 0.35);
+    }
+
+    .takeaway-quote {
+      font-size: 44px;
+      line-height: 1.32;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+    }
+
+    .takeaway-copy {
+      margin-top: 28px;
+      color: #d0daea;
+      font-size: 28px;
+      line-height: 1.55;
+      letter-spacing: -0.02em;
+    }
+
+    .accent-red { color: #ff7f92; }
+    .accent-mint { color: #74f0cb; }
+    .accent-yellow { color: var(--yellow); }
+
+    @page {
+      size: 13.333in 7.5in;
+      margin: 0;
+    }
+
+    @media print {
+      body {
+        padding: 0;
+        background: #071018;
+      }
+
+      .deck {
+        width: 1280px;
+      }
+
+      .slide {
+        margin: 0;
+        box-shadow: none;
+        border: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="deck">
+    <section class="slide">
+      <div class="eyebrow">AI Engineering Overview</div>
+      <div class="page">01</div>
+      <h1><span class="gradient">AI 엔지니어링의 4가지 축</span></h1>
+      <div class="sub">
+        Prompt와 Context만으로는 강한 에이전트를 안전하게 운용할 수 없습니다.
+        Harness는 그 사이의 빈칸을 메우는 통제 시스템입니다.
+      </div>
+
+      <div class="axis">
+        <div class="axis-line"></div>
+        <div class="row row-4">
+          <div class="axis-card">
+            <div class="axis-num n1">01</div>
+            <div class="axis-title">Prompt<br>Engineering</div>
+            <div class="axis-copy">무엇을 원하나를 정확히 말하는 기술</div>
+          </div>
+          <div class="axis-card">
+            <div class="axis-num n2">02</div>
+            <div class="axis-title">Context<br>Engineering</div>
+            <div class="axis-copy">작업에 필요한 정보를 제대로 공급하는 기술</div>
+          </div>
+          <div class="axis-card">
+            <div class="axis-num n3">03</div>
+            <div class="axis-title">Harness<br>Engineering</div>
+            <div class="axis-copy">규칙, 게이트, 경계, 실행 루프를 설계하는 기술</div>
+          </div>
+          <div class="axis-card">
+            <div class="axis-num n4">04</div>
+            <div class="axis-title">Agentic<br>Engineering</div>
+            <div class="axis-copy">역할을 나누고 작업을 오케스트레이션하는 기술</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="eyebrow">Problem Framing</div>
+      <div class="page">02</div>
+      <h2><span class="gradient">Prompt → Context 다음에 필요한 건 통제입니다</span></h2>
+      <div class="sub">
+        정보가 많아질수록 더 잘 이해할 수는 있어도, 더 안전하게 행동하는 건 아닙니다.
+      </div>
+
+      <div class="stage-grid">
+        <div class="stage">
+          <div class="stage-no">STAGE 01</div>
+          <div class="stage-title">Prompt<br>Engineering</div>
+          <div class="stage-copy">“무엇을 만들어줘?”를 정확히 말한다.</div>
+          <div class="pill">예: 결제 API 연동해줘</div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="stage">
+          <div class="stage-no">STAGE 02</div>
+          <div class="stage-title">Context<br>Engineering</div>
+          <div class="stage-copy">기술 스택, 코드 구조, 정책 문서를 제공한다.</div>
+          <div class="pill">이해를 늘린다</div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="stage">
+          <div class="stage-no">STAGE 03</div>
+          <div class="stage-title">Harness<br>Engineering</div>
+          <div class="stage-copy">DB 직접 호출, 민감정보 출력, 규칙 우회를 시스템 차원에서 막는다.</div>
+          <div class="pill">행동을 제한한다</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="eyebrow">Information vs Control</div>
+      <div class="page">03</div>
+      <h2><span class="gradient">문제는 정보 부족이 아니라 통제 부족입니다</span></h2>
+      <div class="sub">
+        AI가 맥락을 다 알아도 잘못된 방향으로 갈 수 있습니다. 그래서 하네스는 “알게 하는 것”보다 “못 하게 막는 것”에 집중합니다.
+      </div>
+
+      <div class="compare">
+        <div class="compare-card bad">
+          <div class="badge"><span class="dot"></span> 정보만 제공</div>
+          <div class="compare-title accent-yellow">모든 걸 알고 있어도 위험할 수 있다</div>
+          <div class="compare-copy">지식은 판단 재료일 뿐입니다. 경계가 없으면 잘못된 행동은 그대로 실행됩니다.</div>
+          <ul class="list">
+            <li>스키마를 임의로 바꾼다</li>
+            <li>민감한 데이터를 로그에 남긴다</li>
+            <li>프로덕션 리소스에 바로 접근한다</li>
+          </ul>
+        </div>
+        <div class="compare-card good">
+          <div class="badge"><span class="dot"></span> 하네스로 통제</div>
+          <div class="compare-title accent-mint">정보와 통제를 분리해 설계한다</div>
+          <div class="compare-copy">무엇을 아는가와 무엇을 할 수 있는가는 다른 문제입니다. 하네스는 실행 권한과 범위를 구조적으로 제한합니다.</div>
+          <ul class="list">
+            <li>테스트 게이트를 통과해야만 다음 단계로 이동</li>
+            <li>파일, API, DB 접근 범위를 명시적으로 제한</li>
+            <li>실패는 보고로 끝나지 않고 다음 실행에서 차단</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="eyebrow">Mental Model</div>
+      <div class="page">04</div>
+      <h2><span class="gradient">AI 에이전트는 강한 말이고, 하네스는 그 힘을 다루는 마구입니다</span></h2>
+
+      <div class="compare horse">
+        <div class="compare-card">
+          <div class="compare-title accent-mint">에이전트는 엄청난 힘을 가진다</div>
+          <div class="compare-copy">코드를 쓰고, 도구를 호출하고, 파일을 읽고, 작업을 연쇄적으로 확장할 수 있습니다.</div>
+          <ul class="list">
+            <li>복잡한 작업을 빠르게 밀어붙인다</li>
+            <li>지시가 넓으면 예상보다 멀리 나간다</li>
+            <li>반복을 자동화할수록 영향 범위가 커진다</li>
+          </ul>
+        </div>
+        <div class="compare-card">
+          <div class="compare-title accent-red">통제 없이는 힘이 곧 위험이 된다</div>
+          <div class="compare-copy">강할수록 더 세밀한 제어가 필요합니다. 방향, 속도, 한계가 없으면 같은 실수가 더 빠르게 반복됩니다.</div>
+          <ul class="list">
+            <li>가드레일은 방향을 정한다</li>
+            <li>테스트 게이트는 속도를 조절한다</li>
+            <li>도구 경계는 넘어가면 안 되는 선을 만든다</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="eyebrow">System Design</div>
+      <div class="page">05</div>
+      <h2><span class="gradient">하네스의 4가지 기둥</span></h2>
+
+      <div class="row row-2" style="margin-top: 34px;">
+        <div class="stack-card">
+          <div class="stack-no">1</div>
+          <div class="stack-title">기계가 읽는 규칙 파일</div>
+          <div class="stack-copy">AGENTS.md, CLAUDE.md, 정책 문서처럼 런타임에 주입되는 명시적 규칙이 있어야 합니다.</div>
+        </div>
+        <div class="stack-card">
+          <div class="stack-no">2</div>
+          <div class="stack-title">결정론적 게이트</div>
+          <div class="stack-copy">린트, 구조 테스트, pre-commit, CI 같은 품질 관문이 AI 출력 앞에 서 있어야 합니다.</div>
+        </div>
+        <div class="stack-card">
+          <div class="stack-no">3</div>
+          <div class="stack-title">명시적 도구 경계</div>
+          <div class="stack-copy">파일, API, DB, 배포 권한을 분리해서 접근 가능한 범위를 의도적으로 좁혀야 합니다.</div>
+        </div>
+        <div class="stack-card">
+          <div class="stack-no">4</div>
+          <div class="stack-title">지속적 피드백 루프</div>
+          <div class="stack-copy">실패를 분석하고 규칙에 반영해, 같은 오류가 다음 실행에서는 다시 못 나오게 만들어야 합니다.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="eyebrow">Execution Loop</div>
+      <div class="page">06</div>
+      <h2><span class="gradient">하네스 시스템은 네 단계로 작동합니다</span></h2>
+
+      <div class="stack" style="margin-top: 34px;">
+        <div class="stack-card">
+          <div class="stack-no">1</div>
+          <div class="stack-title">분류기</div>
+          <div class="stack-copy">요청이 단순 질문인지, 실제 실행이 필요한 작업인지 먼저 구분합니다.</div>
+        </div>
+        <div class="stack-card">
+          <div class="stack-no">2</div>
+          <div class="stack-title">컨텍스트 관리자</div>
+          <div class="stack-copy">필요한 파일과 규칙만 선별해서 주입하고, 과도한 정보는 오히려 제거합니다.</div>
+        </div>
+        <div class="stack-card">
+          <div class="stack-no">3</div>
+          <div class="stack-title">실행 루프</div>
+          <div class="stack-copy">테스트를 통과할 때까지 자동 반복하되, 실패 원인은 시스템 규칙으로 환원합니다.</div>
+        </div>
+        <div class="stack-card">
+          <div class="stack-no">4</div>
+          <div class="stack-title">워커 격리</div>
+          <div class="stack-copy">작성자와 검토자 역할을 나눠, 한 에이전트의 실수를 다른 루프가 제어하게 만듭니다.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="eyebrow">Takeaway</div>
+      <div class="page">07</div>
+      <h2><span class="gradient">오늘 하나만 기억하면 됩니다</span></h2>
+
+      <div class="takeaway">
+        <div class="takeaway-no">1</div>
+        <div class="takeaway-quote">
+          AI 에이전트가 실수했을 때,<br>
+          <span class="accent-red">프롬프트를 먼저 고치지 마세요.</span><br>
+          <span class="accent-mint">마구를 고치세요.</span>
+        </div>
+        <div class="takeaway-copy">
+          그 실패가 구조적으로 반복 불가능하도록<br>
+          규칙, 게이트, 경계, 실행 루프를 바꾸는 것.<br>
+          그것이 Harness Engineering입니다.
+        </div>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
