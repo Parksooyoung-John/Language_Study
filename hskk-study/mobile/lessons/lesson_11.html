@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Lesson 06: 자기소개와 하루 습관</title>
+  <title>Lesson 11: 자기소개와 하루 습관</title>
   <style>
 
     :root {
@@ -236,8 +236,8 @@
 </head>
 <body>
   <header>
-    <span class="eyebrow">Lesson 06</span>
-    <h1>Lesson 06: 자기소개와 하루 습관</h1>
+    <span class="eyebrow">Lesson 11</span>
+    <h1>Lesson 11: 자기소개와 하루 습관</h1>
     <p class="sub">오늘은 `자기소개와 하루 습관` 주제로 HSKK 중급 말하기를 짧은 문장으로 연습합니다. 한자, 병음, 한국어 뜻을 함께 확인하면서 바로 말해 보세요.</p>
   </header>
   <main>
@@ -277,7 +277,7 @@
     <section>
       <h2>Part 2 · 그림 묘사</h2>
       <div class="visual-card" id="visual-card">
-        <img src="./assets/lesson_06_part2.svg" alt="Lesson 06 그림 묘사 장면" onerror="hideVisualCard()">
+        <img src="./assets/lesson_11_part2.svg" alt="Lesson 11 그림 묘사 장면" onerror="hideVisualCard()">
         <div class="visual-caption">
           <p class="small">장면을 먼저 보고, 아래 문장 구조로 말해 보세요.</p>
         </div>
@@ -358,13 +358,13 @@
         <div class="status-box" id="lesson-status">음성 transcript나 녹음 메모를 여기에 붙여 넣으면 다음 자동 생성 때 약점 반영 자료로 사용할 수 있습니다.</div>
       </div>
       <div class="nav-row">
-        <a class="button-link button-secondary" href="./lesson_05.html">이전 레슨 보기</a><a class="button-link button-secondary" href="../index.html">입구로 돌아가기</a>
+        <a class="button-link button-secondary" href="./lesson_10.html">이전 레슨 보기</a><a class="button-link button-secondary" href="../index.html">입구로 돌아가기</a>
       </div>
     </section>
   </main>
   <script>
-    const CURRENT_LESSON = 6;
-    const NEXT_PATH = "./lesson_07.html";
+    const CURRENT_LESSON = 11;
+    const NEXT_PATH = "./lesson_12.html";
     const COMPLETED_KEY = "hskk_completed_lessons";
     const LAST_VIEWED_KEY = "hskk_last_viewed_lesson";
 
@@ -387,7 +387,7 @@
       const scoreSummary = Array.from(document.querySelectorAll('[id^="score-"]'))
         .map((input) => `${input.previousElementSibling.textContent}: ${input.value}`)
         .join("\n");
-      const text = `HSKK 학습 메모\n레슨: Lesson 06: 자기소개와 하루 습관\n${scoreSummary}\n메모:\n${document.getElementById('notes').value}`;
+      const text = `HSKK 학습 메모\n레슨: Lesson 11: 자기소개와 하루 습관\n${scoreSummary}\n메모:\n${document.getElementById('notes').value}`;
       navigator.clipboard.writeText(text).then(() => {
         document.getElementById('lesson-status').textContent = '메모를 복사했습니다. 필요하면 Codex에 붙여 넣어 피드백을 받을 수 있습니다.';
       }).catch(() => {

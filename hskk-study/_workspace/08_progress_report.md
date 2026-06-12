@@ -36,3 +36,21 @@ Status: started
 - 2026-06-02: Lesson 05 generated automatically and mobile page rebuilt.
 
 - 2026-06-03: Lesson 06 generated automatically and mobile page rebuilt.
+
+- 2026-06-04: Lesson 07 generated automatically and mobile page rebuilt.
+
+- 2026-06-05: Lesson 08 generated automatically and mobile page rebuilt.
+
+- 2026-06-06: Lesson 09 generated automatically and mobile page rebuilt.
+
+- 2026-06-07: Lesson 10 generated automatically and mobile page rebuilt.
+
+- 2026-06-08: Lesson 11 generated automatically and mobile page rebuilt.
+
+- 2026-06-10: Lesson 12 generated automatically and mobile page rebuilt.
+
+- 2026-06-11: Lesson 13 generated automatically and mobile page rebuilt.
+
+- 2026-06-12: Lesson 14 generated automatically and mobile page rebuilt.
+
+- 2026-06-13: Lesson 15 generated automatically and mobile page rebuilt.

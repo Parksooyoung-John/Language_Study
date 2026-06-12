@@ -14,6 +14,42 @@ Schedule each new speaking item for review after:
 
 | Due date | Source | Item | Review method | Status |
 | --- | --- | --- | --- | --- |
+| 2026-06-14 | Lesson 15 | repeat sentences | repeat without looking, compare omissions | pending |
+| 2026-06-16 | Lesson 15 | picture structure | scene -> action -> detail -> opinion | pending |
+| 2026-06-20 | Lesson 15 | question-answer frames | answer -> reason -> example -> closing | pending |
+| 2026-06-27 | Lesson 15 | weak-point repair | short oral drill from notes | pending |
+| 2026-06-13 | Lesson 14 | repeat sentences | repeat without looking, compare omissions | pending |
+| 2026-06-15 | Lesson 14 | picture structure | scene -> action -> detail -> opinion | pending |
+| 2026-06-19 | Lesson 14 | question-answer frames | answer -> reason -> example -> closing | pending |
+| 2026-06-26 | Lesson 14 | weak-point repair | short oral drill from notes | pending |
+| 2026-06-12 | Lesson 13 | repeat sentences | repeat without looking, compare omissions | pending |
+| 2026-06-14 | Lesson 13 | picture structure | scene -> action -> detail -> opinion | pending |
+| 2026-06-18 | Lesson 13 | question-answer frames | answer -> reason -> example -> closing | pending |
+| 2026-06-25 | Lesson 13 | weak-point repair | short oral drill from notes | pending |
+| 2026-06-11 | Lesson 12 | repeat sentences | repeat without looking, compare omissions | pending |
+| 2026-06-13 | Lesson 12 | picture structure | scene -> action -> detail -> opinion | pending |
+| 2026-06-17 | Lesson 12 | question-answer frames | answer -> reason -> example -> closing | pending |
+| 2026-06-24 | Lesson 12 | weak-point repair | short oral drill from notes | pending |
+| 2026-06-09 | Lesson 11 | repeat sentences | repeat without looking, compare omissions | pending |
+| 2026-06-11 | Lesson 11 | picture structure | scene -> action -> detail -> opinion | pending |
+| 2026-06-15 | Lesson 11 | question-answer frames | answer -> reason -> example -> closing | pending |
+| 2026-06-22 | Lesson 11 | weak-point repair | short oral drill from notes | pending |
+| 2026-06-08 | Lesson 10 | repeat sentences | repeat without looking, compare omissions | pending |
+| 2026-06-10 | Lesson 10 | picture structure | scene -> action -> detail -> opinion | pending |
+| 2026-06-14 | Lesson 10 | question-answer frames | answer -> reason -> example -> closing | pending |
+| 2026-06-21 | Lesson 10 | weak-point repair | short oral drill from notes | pending |
+| 2026-06-07 | Lesson 09 | repeat sentences | repeat without looking, compare omissions | pending |
+| 2026-06-09 | Lesson 09 | picture structure | scene -> action -> detail -> opinion | pending |
+| 2026-06-13 | Lesson 09 | question-answer frames | answer -> reason -> example -> closing | pending |
+| 2026-06-20 | Lesson 09 | weak-point repair | short oral drill from notes | pending |
+| 2026-06-06 | Lesson 08 | repeat sentences | repeat without looking, compare omissions | pending |
+| 2026-06-08 | Lesson 08 | picture structure | scene -> action -> detail -> opinion | pending |
+| 2026-06-12 | Lesson 08 | question-answer frames | answer -> reason -> example -> closing | pending |
+| 2026-06-19 | Lesson 08 | weak-point repair | short oral drill from notes | pending |
+| 2026-06-05 | Lesson 07 | repeat sentences | repeat without looking, compare omissions | pending |
+| 2026-06-07 | Lesson 07 | picture structure | scene -> action -> detail -> opinion | pending |
+| 2026-06-11 | Lesson 07 | question-answer frames | answer -> reason -> example -> closing | pending |
+| 2026-06-18 | Lesson 07 | weak-point repair | short oral drill from notes | pending |
 | 2026-06-04 | Lesson 06 | repeat sentences | repeat without looking, compare omissions | pending |
 | 2026-06-06 | Lesson 06 | picture structure | scene -> action -> detail -> opinion | pending |
 | 2026-06-10 | Lesson 06 | question-answer frames | answer -> reason -> example -> closing | pending |
