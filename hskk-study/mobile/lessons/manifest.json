@@ -146,7 +146,17 @@
     "date": "2026-06-13",
     "path": "./lesson_15.html",
     "prev_path": "./lesson_14.html",
-    "next_path": null,
+    "next_path": "./lesson_16.html",
     "visual_path": "./assets/lesson_15_part2.svg"
+  },
+  {
+    "number": 16,
+    "slug": "lesson_16",
+    "title": "Lesson 16: 자기소개와 하루 습관",
+    "date": "2026-06-14",
+    "path": "./lesson_16.html",
+    "prev_path": "./lesson_15.html",
+    "next_path": null,
+    "visual_path": "./assets/lesson_16_part2.svg"
   }
 ]
