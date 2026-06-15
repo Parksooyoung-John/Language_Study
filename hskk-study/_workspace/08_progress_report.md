@@ -56,3 +56,5 @@ Status: started
 - 2026-06-13: Lesson 15 generated automatically and mobile page rebuilt.
 
 - 2026-06-14: Lesson 16 generated automatically and mobile page rebuilt.
+
+- 2026-06-15: Lesson 17 generated automatically and mobile page rebuilt.
