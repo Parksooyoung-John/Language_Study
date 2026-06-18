@@ -196,7 +196,17 @@
     "date": "2026-06-18",
     "path": "./lesson_20.html",
     "prev_path": "./lesson_19.html",
-    "next_path": null,
+    "next_path": "./lesson_21.html",
     "visual_path": "./assets/lesson_20_part2.svg"
+  },
+  {
+    "number": 21,
+    "slug": "lesson_21",
+    "title": "Lesson 21: 자기소개와 하루 습관",
+    "date": "2026-06-19",
+    "path": "./lesson_21.html",
+    "prev_path": "./lesson_20.html",
+    "next_path": null,
+    "visual_path": "./assets/lesson_21_part2.svg"
   }
 ]
