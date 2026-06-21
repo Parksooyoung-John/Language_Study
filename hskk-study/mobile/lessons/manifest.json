@@ -216,7 +216,17 @@
     "date": "2026-06-20",
     "path": "./lesson_22.html",
     "prev_path": "./lesson_21.html",
-    "next_path": null,
+    "next_path": "./lesson_23.html",
     "visual_path": "./assets/lesson_22_part2.svg"
+  },
+  {
+    "number": 23,
+    "slug": "lesson_23",
+    "title": "Lesson 23: 음식과 식당",
+    "date": "2026-06-21",
+    "path": "./lesson_23.html",
+    "prev_path": "./lesson_22.html",
+    "next_path": null,
+    "visual_path": "./assets/lesson_23_part2.svg"
   }
 ]
