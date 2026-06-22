@@ -25,6 +25,8 @@ ROOT = Path(__file__).resolve().parents[1]
 WORKSPACE = ROOT / "_workspace"
 LOG_DIR = ROOT / "logs"
 DEFAULT_MOBILE_URL = "https://parksooyoung-john.github.io/Language_Study/hskk-study/mobile/"
+MAX_TEXT_LENGTH = 200
+CIRCLED_NUMBERS = ("①", "②", "③", "④", "⑤", "⑥")
 
 
 def load_env() -> None:
@@ -39,12 +41,16 @@ def load_env() -> None:
         os.environ.setdefault(key.strip(), value.strip().strip('"').strip("'"))
 
 
+def latest_lesson_file() -> Path:
+    lesson_files = sorted((WORKSPACE / "04_lessons").glob("lesson_*.md"))
+    return lesson_files[-1] if lesson_files else WORKSPACE / "04_lessons" / "lesson_01.md"
+
+
 def latest_lesson_title() -> str:
     override = os.environ.get("HSKK_LESSON_TITLE")
     if override:
         return override
-    lesson_files = sorted((WORKSPACE / "04_lessons").glob("lesson_*.md"))
-    lesson = lesson_files[-1] if lesson_files else WORKSPACE / "04_lessons" / "lesson_01.md"
+    lesson = latest_lesson_file()
     if not lesson.exists():
         return "오늘의 HSKK 30분"
     for line in lesson.read_text(encoding="utf-8").splitlines():
@@ -53,29 +59,84 @@ def latest_lesson_title() -> str:
     return "오늘의 HSKK 30분"
 
 
-def lesson_summary() -> str:
-    lesson_files = sorted((WORKSPACE / "04_lessons").glob("lesson_*.md"))
-    lesson = lesson_files[-1] if lesson_files else WORKSPACE / "04_lessons" / "lesson_01.md"
-    if not lesson.exists():
-        return "오늘의 HSKK 30분\n학습 문장을 준비하지 못했습니다."
-
+def section_rows(lines: list[str], section_prefix: str) -> list[list[str]]:
     rows = []
-    in_part_one = False
-    for line in lesson.read_text(encoding="utf-8").splitlines():
-        if line.startswith("## Part 1:"):
-            in_part_one = True
+    in_section = False
+    for line in lines:
+        if line.startswith(section_prefix):
+            in_section = True
             continue
-        if in_part_one and line.startswith("## "):
+        if in_section and line.startswith("## "):
             break
-        if not in_part_one or not line.startswith("|"):
+        if not in_section or not line.startswith("|"):
             continue
         parts = [part.strip() for part in line.strip("|").split("|")]
-        if len(parts) >= 4 and parts[0].isdigit():
-            rows.append(f"{parts[0]}. {parts[1]}\n{parts[3]}")
+        if len(parts) >= 4 and parts[0] not in {"Item", "Step", "---", "---:"}:
+            rows.append(parts)
+    return rows
 
+
+def pack_section(header: str, blocks: list[str], max_blocks: int | None = None) -> list[str]:
+    messages = []
+    current = header
+    current_count = 0
+    for block in blocks:
+        candidate = f"{current}\n\n{block}"
+        if len(candidate) <= MAX_TEXT_LENGTH and (max_blocks is None or current_count < max_blocks):
+            current = candidate
+            current_count += 1
+            continue
+        messages.append(current)
+        current = f"{header} (계속)\n\n{block}"
+        current_count = 1
+    if current != header:
+        messages.append(current)
+    return messages
+
+
+def lesson_messages() -> list[str]:
+    lesson = latest_lesson_file()
+    if not lesson.exists():
+        return ["📘 오늘의 HSKK 30분\n학습 내용을 준비하지 못했습니다."]
+
+    lines = lesson.read_text(encoding="utf-8").splitlines()
     title = latest_lesson_title()
-    content = "\n".join(rows[:3]) if rows else "학습 문장을 확인하세요."
-    return f"오늘의 HSKK 30분\n{title}\n{content}"
+    goal = "오늘의 주제로 짧고 정확하게 말해 보세요."
+    in_goal = False
+    for line in lines:
+        if line == "## Goal":
+            in_goal = True
+            continue
+        if in_goal and line.startswith("## "):
+            break
+        if in_goal and line:
+            goal = line
+            break
+    overview = f"📘 오늘의 HSKK 30분\n{title}\n\n🎯 오늘의 목표\n{goal}\n\n🔊 한자 → 병음 → 뜻 순서로 소리 내어 읽어 보세요."
+
+    part_one = section_rows(lines, "## Part 1:")
+    part_two = section_rows(lines, "## Part 2:")
+    part_three = section_rows(lines, "## Part 3:")
+
+    repeat_blocks = [
+        f"{CIRCLED_NUMBERS[index]} {row[1]}\n{row[2]}\n{row[3]}"
+        for index, row in enumerate(part_one[: len(CIRCLED_NUMBERS)])
+    ]
+    picture_blocks = [
+        f"{CIRCLED_NUMBERS[index]} {row[1]}\n{row[2]}\n{row[3]}"
+        for index, row in enumerate(part_two[: len(CIRCLED_NUMBERS)])
+    ]
+    answer_blocks = [
+        f"{CIRCLED_NUMBERS[index]} {row[1]}\n{row[2]}\n{row[3]}\n→ {row[4]}"
+        for index, row in enumerate(part_three[: len(CIRCLED_NUMBERS)])
+        if len(row) >= 5
+    ]
+
+    messages = [overview[:MAX_TEXT_LENGTH]]
+    messages.extend(pack_section("🗣 1. 듣고 반복", repeat_blocks))
+    messages.extend(pack_section("🖼 2. 그림 묘사", picture_blocks, max_blocks=2))
+    messages.extend(pack_section("💬 3. 질문 답변", answer_blocks))
+    return messages
 
 
 def refresh_access_token(rest_api_key: str, refresh_token: str, client_secret: str | None = None) -> str:
@@ -112,20 +173,23 @@ def build_template(message_text: str, mobile_url: str) -> dict:
     }
 
 
-def send_memo(access_token: str, message_text: str, mobile_url: str) -> dict:
-    template = build_template(message_text, mobile_url)
-    data = parse.urlencode({"template_object": json.dumps(template, ensure_ascii=False)}).encode("utf-8")
-    req = request.Request(
-        "https://kapi.kakao.com/v2/api/talk/memo/default/send",
-        data=data,
-        headers={
-            "Authorization": f"Bearer {access_token}",
-            "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
-        },
-        method="POST",
-    )
-    with request.urlopen(req, timeout=20) as response:
-        return json.loads(response.read().decode("utf-8"))
+def send_memos(access_token: str, messages: list[str], mobile_url: str) -> list[dict]:
+    results = []
+    for message_text in messages:
+        template = build_template(message_text, mobile_url)
+        data = parse.urlencode({"template_object": json.dumps(template, ensure_ascii=False)}).encode("utf-8")
+        req = request.Request(
+            "https://kapi.kakao.com/v2/api/talk/memo/default/send",
+            data=data,
+            headers={
+                "Authorization": f"Bearer {access_token}",
+                "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
+            },
+            method="POST",
+        )
+        with request.urlopen(req, timeout=20) as response:
+            results.append(json.loads(response.read().decode("utf-8")))
+    return results
 
 
 def log(message: str) -> None:
@@ -142,11 +206,11 @@ def main() -> int:
 
     load_env()
     lesson_title = latest_lesson_title()
-    message_text = lesson_summary()
+    messages = lesson_messages()
     mobile_url = os.environ.get("HSKK_MOBILE_URL", DEFAULT_MOBILE_URL)
 
     if args.dry_run:
-        print(json.dumps(build_template(message_text, mobile_url), ensure_ascii=False, indent=2))
+        print(json.dumps([build_template(message, mobile_url) for message in messages], ensure_ascii=False, indent=2))
         return 0
 
     rest_api_key = os.environ.get("KAKAO_REST_API_KEY")
@@ -157,7 +221,7 @@ def main() -> int:
 
     try:
         access_token = refresh_access_token(rest_api_key, refresh_token, client_secret)
-        result = send_memo(access_token, message_text, mobile_url)
+        result = send_memos(access_token, messages, mobile_url)
     except HTTPError as exc:
         detail = exc.read().decode("utf-8", errors="replace")
         raise SystemExit(f"Kakao send failed: HTTP {exc.code}. {detail}") from exc

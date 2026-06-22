@@ -6,7 +6,7 @@
 2. `scripts/generate_daily_lesson.py` creates the next lesson once per date.
 3. Mobile-friendly content is rebuilt at `mobile/index.html`.
 4. `scripts/run_daily_auto_study.ps1` commits, pushes, and sends the KakaoTalk message.
-5. The message contains the latest lesson's Part 1 practice sentences and Korean meanings.
+5. The messages contain the lesson goal, Part 1 repetition, Part 2 picture description, and Part 3 questions with Hanzi, Pinyin, and Korean meanings.
 
 ## Required Kakao Setup
 
