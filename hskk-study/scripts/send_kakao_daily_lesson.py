@@ -91,27 +91,20 @@ def refresh_access_token(rest_api_key: str, refresh_token: str, client_secret: s
     return access_token
 
 
-def send_memo(access_token: str, lesson_title: str, mobile_url: str, summary: str) -> dict:
-    template = {
-        "object_type": "feed",
-        "content": {
-            "title": "오늘의 HSKK 30분",
-            "description": f"{lesson_title}\n{summary}",
-            "link": {
-                "web_url": mobile_url,
-                "mobile_web_url": mobile_url,
-            },
+def build_template(lesson_title: str, mobile_url: str, summary: str) -> dict:
+    return {
+        "object_type": "text",
+        "text": f"오늘의 HSKK 30분\n{lesson_title}\n{summary}",
+        "link": {
+            "web_url": mobile_url,
+            "mobile_web_url": mobile_url,
         },
-        "buttons": [
-            {
-                "title": "모바일 학습 열기",
-                "link": {
-                    "web_url": mobile_url,
-                    "mobile_web_url": mobile_url,
-                },
-            }
-        ],
+        "button_title": "모바일 학습 열기",
     }
+
+
+def send_memo(access_token: str, lesson_title: str, mobile_url: str, summary: str) -> dict:
+    template = build_template(lesson_title, mobile_url, summary)
     data = parse.urlencode({"template_object": json.dumps(template, ensure_ascii=False)}).encode("utf-8")
     req = request.Request(
         "https://kapi.kakao.com/v2/api/talk/memo/default/send",
@@ -144,7 +137,7 @@ def main() -> int:
     mobile_url = os.environ.get("HSKK_MOBILE_URL", DEFAULT_MOBILE_URL)
 
     if args.dry_run:
-        print(json.dumps({"title": lesson_title, "summary": summary, "mobile_url": mobile_url}, ensure_ascii=False, indent=2))
+        print(json.dumps(build_template(lesson_title, mobile_url, summary), ensure_ascii=False, indent=2))
         return 0
 
     rest_api_key = os.environ.get("KAKAO_REST_API_KEY")

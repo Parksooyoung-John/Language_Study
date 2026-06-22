@@ -16,8 +16,11 @@ Create a Kakao Developers app and prepare:
 - Refresh token with Talk Message permission
 - Client Secret when the Kakao app has Client Secret enabled
 - Allowed redirect URI for the one-time OAuth token flow
+- `https://parksooyoung-john.github.io` registered under the Kakao app's web domains
 
 Store local secrets in `hskk-study/.env`. Do not commit `.env`.
+
+The origin of `HSKK_MOBILE_URL` must exactly match a web domain registered in Kakao Developers. KakaoTalk can omit the learning button when the link is not available to the app.
 
 ## Local Test
 
