@@ -80,13 +80,7 @@ KAKAO_CLIENT_SECRET=your_optional_kakao_client_secret
 HSKK_MOBILE_URL=https://parksooyoung-john.github.io/Language_Study/hskk-study/mobile/
 ```
 
-`KAKAO_CLIENT_SECRET`은 Kakao Developers 앱에서 Client Secret 기능을 켠 경우에만 필요합니다.
-
-Kakao Developers 앱의 웹 도메인에는 아래 origin을 등록해야 합니다. `HSKK_MOBILE_URL`의 origin과 일치하지 않으면 카카오톡 메시지에서 학습 버튼이 표시되지 않을 수 있습니다.
-
-```text
-https://parksooyoung-john.github.io
-```
+`KAKAO_CLIENT_SECRET`은 Kakao Developers 앱에서 Client Secret 기능을 켠 경우에만 필요합니다. 카카오톡 알림에는 최신 레슨의 Part 1 중국어 문장 3개와 한국어 뜻이 텍스트로 전송됩니다.
 
 완전 자동 dry run:
 

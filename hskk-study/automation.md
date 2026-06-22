@@ -6,7 +6,7 @@
 2. `scripts/generate_daily_lesson.py` creates the next lesson once per date.
 3. Mobile-friendly content is rebuilt at `mobile/index.html`.
 4. `scripts/run_daily_auto_study.ps1` commits, pushes, and sends the KakaoTalk message.
-5. The message links to the mobile lesson page.
+5. The message contains the latest lesson's Part 1 practice sentences and Korean meanings.
 
 ## Required Kakao Setup
 
@@ -16,11 +16,8 @@ Create a Kakao Developers app and prepare:
 - Refresh token with Talk Message permission
 - Client Secret when the Kakao app has Client Secret enabled
 - Allowed redirect URI for the one-time OAuth token flow
-- `https://parksooyoung-john.github.io` registered under the Kakao app's web domains
 
 Store local secrets in `hskk-study/.env`. Do not commit `.env`.
-
-The origin of `HSKK_MOBILE_URL` must exactly match a web domain registered in Kakao Developers. KakaoTalk can omit the learning button when the link is not available to the app.
 
 ## Local Test
 

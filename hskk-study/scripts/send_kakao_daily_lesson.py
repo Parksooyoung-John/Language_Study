@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Send the daily HSKK lesson link to KakaoTalk 'My Chatroom'.
+"""Send the daily HSKK lesson summary to KakaoTalk 'My Chatroom'.
 
 Required environment variables, or matching keys in hskk-study/.env:
 - KAKAO_REST_API_KEY
@@ -53,19 +53,29 @@ def latest_lesson_title() -> str:
     return "오늘의 HSKK 30분"
 
 
-def review_summary() -> str:
-    review = WORKSPACE / "07_review_plan.md"
-    if not review.exists():
-        return "복습표를 확인하세요."
+def lesson_summary() -> str:
+    lesson_files = sorted((WORKSPACE / "04_lessons").glob("lesson_*.md"))
+    lesson = lesson_files[-1] if lesson_files else WORKSPACE / "04_lessons" / "lesson_01.md"
+    if not lesson.exists():
+        return "오늘의 HSKK 30분\n학습 문장을 준비하지 못했습니다."
+
     rows = []
-    for line in review.read_text(encoding="utf-8").splitlines():
-        if line.startswith("| 2026-") and "pending" in line:
-            parts = [part.strip() for part in line.strip("|").split("|")]
-            if len(parts) >= 4:
-                rows.append(f"{parts[0]}: {parts[2]}")
-        if len(rows) == 2:
+    in_part_one = False
+    for line in lesson.read_text(encoding="utf-8").splitlines():
+        if line.startswith("## Part 1:"):
+            in_part_one = True
+            continue
+        if in_part_one and line.startswith("## "):
             break
-    return " / ".join(rows) if rows else "오늘 복습 항목을 확인하세요."
+        if not in_part_one or not line.startswith("|"):
+            continue
+        parts = [part.strip() for part in line.strip("|").split("|")]
+        if len(parts) >= 4 and parts[0].isdigit():
+            rows.append(f"{parts[0]}. {parts[1]}\n{parts[3]}")
+
+    title = latest_lesson_title()
+    content = "\n".join(rows[:3]) if rows else "학습 문장을 확인하세요."
+    return f"오늘의 HSKK 30분\n{title}\n{content}"
 
 
 def refresh_access_token(rest_api_key: str, refresh_token: str, client_secret: str | None = None) -> str:
@@ -91,20 +101,19 @@ def refresh_access_token(rest_api_key: str, refresh_token: str, client_secret: s
     return access_token
 
 
-def build_template(lesson_title: str, mobile_url: str, summary: str) -> dict:
+def build_template(message_text: str, mobile_url: str) -> dict:
     return {
         "object_type": "text",
-        "text": f"오늘의 HSKK 30분\n{lesson_title}\n{summary}",
+        "text": message_text,
         "link": {
             "web_url": mobile_url,
             "mobile_web_url": mobile_url,
         },
-        "button_title": "모바일 학습 열기",
     }
 
 
-def send_memo(access_token: str, lesson_title: str, mobile_url: str, summary: str) -> dict:
-    template = build_template(lesson_title, mobile_url, summary)
+def send_memo(access_token: str, message_text: str, mobile_url: str) -> dict:
+    template = build_template(message_text, mobile_url)
     data = parse.urlencode({"template_object": json.dumps(template, ensure_ascii=False)}).encode("utf-8")
     req = request.Request(
         "https://kapi.kakao.com/v2/api/talk/memo/default/send",
@@ -133,11 +142,11 @@ def main() -> int:
 
     load_env()
     lesson_title = latest_lesson_title()
-    summary = review_summary()
+    message_text = lesson_summary()
     mobile_url = os.environ.get("HSKK_MOBILE_URL", DEFAULT_MOBILE_URL)
 
     if args.dry_run:
-        print(json.dumps(build_template(lesson_title, mobile_url, summary), ensure_ascii=False, indent=2))
+        print(json.dumps(build_template(message_text, mobile_url), ensure_ascii=False, indent=2))
         return 0
 
     rest_api_key = os.environ.get("KAKAO_REST_API_KEY")
@@ -148,7 +157,7 @@ def main() -> int:
 
     try:
         access_token = refresh_access_token(rest_api_key, refresh_token, client_secret)
-        result = send_memo(access_token, lesson_title, mobile_url, summary)
+        result = send_memo(access_token, message_text, mobile_url)
     except HTTPError as exc:
         detail = exc.read().decode("utf-8", errors="replace")
         raise SystemExit(f"Kakao send failed: HTTP {exc.code}. {detail}") from exc
