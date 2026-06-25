@@ -256,7 +256,17 @@
     "date": "2026-06-24",
     "path": "./lesson_26.html",
     "prev_path": "./lesson_25.html",
-    "next_path": null,
+    "next_path": "./lesson_27.html",
     "visual_path": "./assets/lesson_26_part2.svg"
+  },
+  {
+    "number": 27,
+    "slug": "lesson_27",
+    "title": "Lesson 27: 교통과 이동",
+    "date": "2026-06-25",
+    "path": "./lesson_27.html",
+    "prev_path": "./lesson_26.html",
+    "next_path": null,
+    "visual_path": "./assets/lesson_27_part2.svg"
   }
 ]
