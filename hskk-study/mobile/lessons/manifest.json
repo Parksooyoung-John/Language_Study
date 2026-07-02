@@ -316,7 +316,17 @@
     "date": "2026-07-01",
     "path": "./lesson_32.html",
     "prev_path": "./lesson_31.html",
-    "next_path": null,
+    "next_path": "./lesson_33.html",
     "visual_path": "./assets/lesson_32_part2.svg"
+  },
+  {
+    "number": 33,
+    "slug": "lesson_33",
+    "title": "Lesson 33: 음식과 식당",
+    "date": "2026-07-02",
+    "path": "./lesson_33.html",
+    "prev_path": "./lesson_32.html",
+    "next_path": null,
+    "visual_path": "./assets/lesson_33_part2.svg"
   }
 ]
