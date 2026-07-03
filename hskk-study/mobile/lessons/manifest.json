@@ -326,7 +326,17 @@
     "date": "2026-07-02",
     "path": "./lesson_33.html",
     "prev_path": "./lesson_32.html",
-    "next_path": null,
+    "next_path": "./lesson_34.html",
     "visual_path": "./assets/lesson_33_part2.svg"
+  },
+  {
+    "number": 34,
+    "slug": "lesson_34",
+    "title": "Lesson 34: 날씨와 계획",
+    "date": "2026-07-03",
+    "path": "./lesson_34.html",
+    "prev_path": "./lesson_33.html",
+    "next_path": null,
+    "visual_path": "./assets/lesson_34_part2.svg"
   }
 ]
