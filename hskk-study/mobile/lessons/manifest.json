@@ -336,7 +336,17 @@
     "date": "2026-07-03",
     "path": "./lesson_34.html",
     "prev_path": "./lesson_33.html",
-    "next_path": null,
+    "next_path": "./lesson_35.html",
     "visual_path": "./assets/lesson_34_part2.svg"
+  },
+  {
+    "number": 35,
+    "slug": "lesson_35",
+    "title": "Lesson 35: 공부 습관",
+    "date": "2026-07-05",
+    "path": "./lesson_35.html",
+    "prev_path": "./lesson_34.html",
+    "next_path": null,
+    "visual_path": "./assets/lesson_35_part2.svg"
   }
 ]
