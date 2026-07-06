@@ -346,7 +346,17 @@
     "date": "2026-07-05",
     "path": "./lesson_35.html",
     "prev_path": "./lesson_34.html",
-    "next_path": null,
+    "next_path": "./lesson_36.html",
     "visual_path": "./assets/lesson_35_part2.svg"
+  },
+  {
+    "number": 36,
+    "slug": "lesson_36",
+    "title": "Lesson 36: 자기소개와 하루 습관",
+    "date": "2026-07-06",
+    "path": "./lesson_36.html",
+    "prev_path": "./lesson_35.html",
+    "next_path": null,
+    "visual_path": "./assets/lesson_36_part2.svg"
   }
 ]
