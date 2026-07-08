@@ -356,7 +356,17 @@
     "date": "2026-07-06",
     "path": "./lesson_36.html",
     "prev_path": "./lesson_35.html",
-    "next_path": null,
+    "next_path": "./lesson_37.html",
     "visual_path": "./assets/lesson_36_part2.svg"
+  },
+  {
+    "number": 37,
+    "slug": "lesson_37",
+    "title": "Lesson 37: 교통과 이동",
+    "date": "2026-07-08",
+    "path": "./lesson_37.html",
+    "prev_path": "./lesson_36.html",
+    "next_path": null,
+    "visual_path": "./assets/lesson_37_part2.svg"
   }
 ]
