@@ -14,6 +14,10 @@ Schedule each new speaking item for review after:
 
 | Due date | Source | Item | Review method | Status |
 | --- | --- | --- | --- | --- |
+| 2026-07-11 | Lesson 38 | repeat sentences | repeat without looking, compare omissions | pending |
+| 2026-07-13 | Lesson 38 | picture structure | scene -> action -> detail -> opinion | pending |
+| 2026-07-17 | Lesson 38 | question-answer frames | answer -> reason -> example -> closing | pending |
+| 2026-07-24 | Lesson 38 | weak-point repair | short oral drill from notes | pending |
 | 2026-07-09 | Lesson 37 | repeat sentences | repeat without looking, compare omissions | pending |
 | 2026-07-11 | Lesson 37 | picture structure | scene -> action -> detail -> opinion | pending |
 | 2026-07-15 | Lesson 37 | question-answer frames | answer -> reason -> example -> closing | pending |
