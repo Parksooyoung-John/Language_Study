@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://parksooyoung-john.github.io/Language_Study/hskk-study/harness/hskk_trainer_session.schema.json",
+  "title": "HSKK Trainer Session",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "session_id",
+    "mode",
+    "completed_at",
+    "transcript",
+    "feedback"
+  ],
+  "properties": {
+    "schema_version": { "const": "hskk-trainer-session-v1" },
+    "session_id": { "type": "string", "minLength": 1 },
+    "mode": {
+      "type": "string",
+      "enum": ["daily_lesson", "expected_question_test", "mock_exam"]
+    },
+    "level": {
+      "type": "string",
+      "enum": ["beginner", "intermediate", "advanced"]
+    },
+    "started_at": { "type": "string" },
+    "completed_at": { "type": "string" },
+    "lesson": { "type": ["object", "null"] },
+    "prompt": { "type": ["object", "null"] },
+    "transcript": { "type": "string" },
+    "estimated_score": { "type": ["number", "null"], "minimum": 0, "maximum": 100 },
+    "feedback": {
+      "type": "object",
+      "required": ["rubric", "strengths", "weaknesses", "corrected_answer", "review_recommendations"],
+      "properties": {
+        "rubric": {
+          "type": "object",
+          "properties": {
+            "task_completion": { "type": "number" },
+            "fluency": { "type": "number" },
+            "grammar": { "type": "number" },
+            "vocabulary": { "type": "number" },
+            "pronunciation": { "type": "number" }
+          }
+        },
+        "strengths": { "type": "array", "items": { "type": "string" } },
+        "weaknesses": { "type": "array", "items": { "type": "string" } },
+        "corrected_answer": { "type": "string" },
+        "review_recommendations": { "type": "array", "items": { "type": "string" } },
+        "overall_comments": { "type": "string" }
+      }
+    },
+    "harness_targets": { "type": "array", "items": { "type": "string" } }
+  }
+}
