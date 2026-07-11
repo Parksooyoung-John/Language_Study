@@ -23,3 +23,8 @@ This API replaces the Cloudflare Worker path for OpenAI STT/evaluation when Work
 5. In the GitHub Pages trainer page, set API Base URL to the Vercel production URL.
 
 The default Vercel region is pinned to `iad1` in `vercel.json`.
+
+Default models:
+
+- `TRANSCRIBE_MODEL=gpt-4o-mini-transcribe`
+- `EVAL_MODEL=gpt-5.6-luna`

@@ -7,5 +7,5 @@ mode = "smart"
 
 [vars]
 TRANSCRIBE_MODEL = "gpt-4o-mini-transcribe"
-EVAL_MODEL = "gpt-5.4-nano"
+EVAL_MODEL = "gpt-5.6-luna"
 MAX_AUDIO_BYTES = "20000000"

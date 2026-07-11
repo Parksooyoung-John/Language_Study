@@ -79,7 +79,6 @@ async function transcribe(request, env) {
   const outbound = new FormData();
   outbound.append("file", audio, audio.name || "recording.webm");
   outbound.append("model", env.TRANSCRIBE_MODEL || "gpt-4o-mini-transcribe");
-  outbound.append("language", "zh");
 
   const response = await fetch("https://api.openai.com/v1/audio/transcriptions", {
     method: "POST",
@@ -121,7 +120,7 @@ async function evaluate(request, env) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      model: env.EVAL_MODEL || "gpt-5.4-nano",
+      model: env.EVAL_MODEL || "gpt-5.6-luna",
       input: prompt,
       text: {
         format: {
