@@ -170,6 +170,25 @@ textarea {
   background: var(--card);
 }
 
+.status-box[data-kind="error"] {
+  border-color: #f3b4ad;
+  background: #fff7f6;
+  color: var(--danger);
+}
+
+.status-box details {
+  margin-top: 8px;
+  color: var(--muted);
+}
+
+.status-box pre {
+  max-height: 180px;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-size: .78rem;
+}
+
 .badge {
   padding: 5px 9px;
   border-radius: 999px;

@@ -86,8 +86,39 @@ function settings() {
 
 function setStatus(message, kind = "info") {
   const box = $("#status-box");
-  box.textContent = message;
+  box.innerHTML = message;
   box.dataset.kind = kind;
+}
+
+function formatErrorMessage(error) {
+  const details = error.details || {};
+  const userMessage = details.user_message || details.message || error.message;
+  const code = details.code ? ` (${details.code})` : "";
+  const rawDetails = details.details || details;
+  return `
+    <strong>${escapeHtml(userMessage)}${escapeHtml(code)}</strong>
+    <details>
+      <summary>개발자 상세 오류</summary>
+      <pre>${escapeHtml(JSON.stringify(rawDetails, null, 2))}</pre>
+    </details>
+  `;
+}
+
+async function readApiResponse(response) {
+  const raw = await response.text();
+  let payload = null;
+  try {
+    payload = raw ? JSON.parse(raw) : null;
+  } catch {
+    payload = null;
+  }
+  if (!response.ok) {
+    const error = new Error(payload?.user_message || payload?.message || raw || `HTTP ${response.status}`);
+    error.details = payload;
+    error.raw = raw;
+    throw error;
+  }
+  return payload;
 }
 
 async function loadLesson() {
@@ -209,8 +240,7 @@ async function runEvaluation() {
         method: "POST",
         body: form,
       });
-      if (!transcribeResponse.ok) throw new Error(await transcribeResponse.text());
-      const transcribeJson = await transcribeResponse.json();
+      const transcribeJson = await readApiResponse(transcribeResponse);
       transcript = transcribeJson.text || transcribeJson.transcript || "";
       $("#transcript").value = transcript;
     }
@@ -229,8 +259,7 @@ async function runEvaluation() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
-    if (!evaluateResponse.ok) throw new Error(await evaluateResponse.text());
-    const feedback = await evaluateResponse.json();
+    const feedback = await readApiResponse(evaluateResponse);
     const session = buildSession(payload, feedback);
     state.currentSession = session;
     saveSession(session);
@@ -239,7 +268,8 @@ async function runEvaluation() {
     $("#export-current").disabled = false;
     setStatus("평가가 완료되었습니다.");
   } catch (error) {
-    setStatus(`평가 실패: ${error.message}`, "error");
+    console.error(error);
+    setStatus(formatErrorMessage(error), "error");
   }
 }
 

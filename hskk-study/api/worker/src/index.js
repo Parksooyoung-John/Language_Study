@@ -88,7 +88,7 @@ async function transcribe(request, env) {
   });
   const payload = await response.json();
   if (!response.ok) {
-    return json({ error: "transcription_failed", details: payload }, response.status);
+    return json(openAIError("transcription_failed", payload), response.status);
   }
   return json({ text: payload.text || "", raw: payload });
 }
@@ -135,7 +135,7 @@ async function evaluate(request, env) {
   });
   const payload = await response.json();
   if (!response.ok) {
-    return json({ error: "evaluation_failed", details: payload }, response.status);
+    return json(openAIError("evaluation_failed", payload), response.status);
   }
 
   const text = extractResponseText(payload);
@@ -180,6 +180,22 @@ function requireOpenAIKey(env) {
   if (!env.OPENAI_API_KEY) {
     throw new Error("OPENAI_API_KEY is not configured");
   }
+}
+
+function openAIError(error, details) {
+  const code = details?.error?.code || details?.code || "";
+  const message = details?.error?.message || details?.message || "OpenAI API request failed.";
+  const isRegionError = code === "unsupported_country_region_territory";
+  return {
+    error,
+    code,
+    message,
+    user_message: isRegionError
+      ? "OpenAI STT/evaluation request was blocked by a region restriction. Move the API backend to a supported region or adjust Worker placement."
+      : "OpenAI API request failed. Try again later or check the API backend settings.",
+    retriable: !isRegionError,
+    details,
+  };
 }
 
 function json(payload, status = 200) {
