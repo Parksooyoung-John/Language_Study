@@ -9,6 +9,7 @@ const state = {
   mediaRecorder: null,
   chunks: [],
   audioBlob: null,
+  audioFileName: "hskk-recording.webm",
   currentSession: null,
 };
 
@@ -178,19 +179,26 @@ async function startRecording() {
   }
   try {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    const recordingFormat = getRecordingFormat();
     state.chunks = [];
-    state.mediaRecorder = new MediaRecorder(stream);
+    state.mediaRecorder = recordingFormat.mimeType
+      ? new MediaRecorder(stream, { mimeType: recordingFormat.mimeType })
+      : new MediaRecorder(stream);
+    state.audioFileName = `hskk-recording.${recordingFormat.extension}`;
     state.mediaRecorder.ondataavailable = (event) => {
       if (event.data.size > 0) state.chunks.push(event.data);
     };
     state.mediaRecorder.onstop = () => {
-      state.audioBlob = new Blob(state.chunks, { type: state.mediaRecorder.mimeType || "audio/webm" });
+      const mimeType = normalizeAudioMime(state.mediaRecorder.mimeType || recordingFormat.mimeType || "audio/webm");
+      state.audioBlob = new Blob(state.chunks, { type: mimeType });
+      state.audioFileName = `hskk-recording.${extensionForMime(mimeType)}`;
       const url = URL.createObjectURL(state.audioBlob);
       $("#audio-preview").src = url;
       $("#audio-preview").hidden = false;
       $("#retry-recording").disabled = false;
       stream.getTracks().forEach((track) => track.stop());
       $("#recording-state").textContent = "녹음 완료";
+      setStatus(`녹음이 완료되었습니다. 파일 형식: ${state.audioFileName}, 크기: ${Math.round(state.audioBlob.size / 1024)}KB`);
     };
     state.mediaRecorder.start();
     $("#start-recording").disabled = true;
@@ -214,6 +222,7 @@ function stopRecording() {
 
 function retryRecording() {
   state.audioBlob = null;
+  state.audioFileName = "hskk-recording.webm";
   state.chunks = [];
   $("#audio-preview").hidden = true;
   $("#audio-preview").removeAttribute("src");
@@ -237,8 +246,12 @@ async function runEvaluation() {
     setStatus("STT를 실행하는 중입니다. API 비용이 발생할 수 있습니다.");
     let transcript = $("#transcript").value.trim();
     if (state.audioBlob) {
+      if (state.audioBlob.size < 1024) {
+        setStatus("녹음 파일이 너무 짧거나 비어 있습니다. 3초 이상 다시 녹음하세요.", "error");
+        return;
+      }
       const form = new FormData();
-      form.append("audio", state.audioBlob, "hskk-recording.webm");
+      form.append("audio", state.audioBlob, state.audioFileName);
       const transcribeResponse = await fetch(`${config.apiBase.replace(/\/$/, "")}/api/transcribe`, {
         method: "POST",
         body: form,
@@ -363,6 +376,32 @@ function scorePill(label, value) {
 function listItems(items) {
   const values = Array.isArray(items) && items.length ? items : ["내용 없음"];
   return values.map((item) => `<li>${escapeHtml(String(item))}</li>`).join("");
+}
+
+function getRecordingFormat() {
+  const candidates = [
+    { mimeType: "audio/webm;codecs=opus", extension: "webm" },
+    { mimeType: "audio/webm", extension: "webm" },
+    { mimeType: "audio/mp4", extension: "mp4" },
+  ];
+  for (const candidate of candidates) {
+    if (MediaRecorder.isTypeSupported(candidate.mimeType)) {
+      return candidate;
+    }
+  }
+  return { mimeType: "", extension: "webm" };
+}
+
+function normalizeAudioMime(mimeType) {
+  return String(mimeType || "audio/webm").split(";")[0].trim() || "audio/webm";
+}
+
+function extensionForMime(mimeType) {
+  const clean = normalizeAudioMime(mimeType);
+  if (clean === "audio/mp4") return "mp4";
+  if (clean === "audio/mpeg") return "mp3";
+  if (clean === "audio/wav") return "wav";
+  return "webm";
 }
 
 function escapeHtml(value) {

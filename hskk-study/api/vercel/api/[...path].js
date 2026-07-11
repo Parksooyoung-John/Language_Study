@@ -95,9 +95,18 @@ async function transcribe(req, res) {
 
   const buffer = await fs.readFile(audio.filepath);
   await fs.unlink(audio.filepath).catch(() => {});
-  const blob = new Blob([buffer], { type: audio.mimetype || "audio/webm" });
+  if (buffer.length < 1024) {
+    sendJson(res, {
+      error: "audio_too_short",
+      message: "Audio file is too short or empty. Record at least 3 seconds and try again.",
+    }, 400);
+    return;
+  }
+  const mimetype = normalizeAudioMime(audio.mimetype);
+  const filename = normalizeAudioFilename(audio.originalFilename, mimetype);
+  const blob = new Blob([buffer], { type: mimetype });
   const outbound = new FormData();
-  outbound.append("file", blob, audio.originalFilename || "recording.webm");
+  outbound.append("file", blob, filename);
   outbound.append("model", process.env.TRANSCRIBE_MODEL || "gpt-4o-mini-transcribe");
 
   const response = await fetch("https://api.openai.com/v1/audio/transcriptions", {
@@ -260,6 +269,27 @@ function openAIError(error, details) {
 
 function first(value) {
   return Array.isArray(value) ? value[0] : value;
+}
+
+function normalizeAudioMime(mimetype) {
+  const clean = String(mimetype || "audio/webm").split(";")[0].trim();
+  if (clean === "audio/mp4" || clean === "audio/mpeg" || clean === "audio/wav" || clean === "audio/webm") {
+    return clean;
+  }
+  return "audio/webm";
+}
+
+function normalizeAudioFilename(filename, mimetype) {
+  const extension = extensionForMime(mimetype);
+  const base = String(filename || "recording").replace(/\.[^.]+$/, "");
+  return `${base}.${extension}`;
+}
+
+function extensionForMime(mimetype) {
+  if (mimetype === "audio/mp4") return "mp4";
+  if (mimetype === "audio/mpeg") return "mp3";
+  if (mimetype === "audio/wav") return "wav";
+  return "webm";
 }
 
 function applyCors(res) {
