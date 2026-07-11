@@ -1,3 +1,8 @@
+const fs = require("node:fs/promises");
+const formidableModule = require("formidable");
+
+const createForm = formidableModule.formidable || formidableModule.default || formidableModule;
+
 const CORS_HEADERS = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
@@ -38,66 +43,83 @@ const FEEDBACK_SCHEMA = {
   },
 };
 
-export default {
-  async fetch(request, env) {
-    if (request.method === "OPTIONS") {
-      return new Response(null, { headers: CORS_HEADERS });
-    }
+module.exports = async function handler(req, res) {
+  applyCors(res);
 
-    const url = new URL(request.url);
-    try {
-      if (url.pathname === "/api/health") {
-        return json({ ok: true, service: "hskk-ai-speaking-trainer" });
-      }
-      if (url.pathname === "/api/transcribe" && request.method === "POST") {
-        return await transcribe(request, env);
-      }
-      if (url.pathname === "/api/evaluate" && request.method === "POST") {
-        return await evaluate(request, env);
-      }
-      if (url.pathname === "/api/session" && request.method === "POST") {
-        return await normalizeSession(request);
-      }
-      return json({ error: "not_found" }, 404);
-    } catch (error) {
-      return json({ error: "server_error", message: error.message }, 500);
+  if (req.method === "OPTIONS") {
+    res.statusCode = 204;
+    res.end();
+    return;
+  }
+
+  const pathname = new URL(req.url, "https://hskk.local").pathname;
+
+  try {
+    if (pathname === "/api/health" && req.method === "GET") {
+      sendJson(res, { ok: true, service: "hskk-ai-speaking-trainer", runtime: "vercel", region: "iad1" });
+      return;
     }
+    if (pathname === "/api/transcribe" && req.method === "POST") {
+      await transcribe(req, res);
+      return;
+    }
+    if (pathname === "/api/evaluate" && req.method === "POST") {
+      await evaluate(req, res);
+      return;
+    }
+    if (pathname === "/api/session" && req.method === "POST") {
+      await normalizeSession(req, res);
+      return;
+    }
+    sendJson(res, { error: "not_found" }, 404);
+  } catch (error) {
+    sendJson(res, { error: "server_error", message: error.message }, 500);
+  }
+};
+
+module.exports.config = {
+  api: {
+    bodyParser: false,
   },
 };
 
-async function transcribe(request, env) {
-  requireOpenAIKey(env);
-  const form = await request.formData();
-  const audio = form.get("audio");
-  if (!audio || typeof audio === "string") {
-    return json({ error: "missing_audio" }, 400);
-  }
-  if (audio.size > Number(env.MAX_AUDIO_BYTES || 20_000_000)) {
-    return json({ error: "audio_too_large" }, 413);
+async function transcribe(req, res) {
+  requireOpenAIKey();
+  const maxFileSize = Number(process.env.MAX_AUDIO_BYTES || 20_000_000);
+  const { files } = await parseMultipart(req, maxFileSize);
+  const audio = first(files.audio);
+  if (!audio) {
+    sendJson(res, { error: "missing_audio" }, 400);
+    return;
   }
 
+  const buffer = await fs.readFile(audio.filepath);
+  await fs.unlink(audio.filepath).catch(() => {});
+  const blob = new Blob([buffer], { type: audio.mimetype || "audio/webm" });
   const outbound = new FormData();
-  outbound.append("file", audio, audio.name || "recording.webm");
-  outbound.append("model", env.TRANSCRIBE_MODEL || "gpt-4o-mini-transcribe");
+  outbound.append("file", blob, audio.originalFilename || "recording.webm");
+  outbound.append("model", process.env.TRANSCRIBE_MODEL || "gpt-4o-mini-transcribe");
   outbound.append("language", "zh");
 
   const response = await fetch("https://api.openai.com/v1/audio/transcriptions", {
     method: "POST",
-    headers: { Authorization: `Bearer ${env.OPENAI_API_KEY}` },
+    headers: { Authorization: `Bearer ${process.env.OPENAI_API_KEY}` },
     body: outbound,
   });
-  const payload = await response.json();
+  const payload = await readJsonResponse(response);
   if (!response.ok) {
-    return json(openAIError("transcription_failed", payload), response.status);
+    sendJson(res, openAIError("transcription_failed", payload), response.status);
+    return;
   }
-  return json({ text: payload.text || "", raw: payload });
+  sendJson(res, { text: payload.text || "", raw: payload });
 }
 
-async function evaluate(request, env) {
-  requireOpenAIKey(env);
-  const body = await request.json();
+async function evaluate(req, res) {
+  requireOpenAIKey();
+  const body = await readRequestJson(req);
   if (!body.transcript || typeof body.transcript !== "string") {
-    return json({ error: "missing_transcript" }, 400);
+    sendJson(res, { error: "missing_transcript" }, 400);
+    return;
   }
 
   const prompt = [
@@ -117,11 +139,11 @@ async function evaluate(request, env) {
   const response = await fetch("https://api.openai.com/v1/responses", {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${env.OPENAI_API_KEY}`,
+      Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      model: env.EVAL_MODEL || "gpt-5.4-nano",
+      model: process.env.EVAL_MODEL || "gpt-5.4-nano",
       input: prompt,
       text: {
         format: {
@@ -133,23 +155,24 @@ async function evaluate(request, env) {
       },
     }),
   });
-  const payload = await response.json();
+  const payload = await readJsonResponse(response);
   if (!response.ok) {
-    return json(openAIError("evaluation_failed", payload), response.status);
+    sendJson(res, openAIError("evaluation_failed", payload), response.status);
+    return;
   }
 
   const text = extractResponseText(payload);
   try {
-    return json(JSON.parse(text));
+    sendJson(res, JSON.parse(text));
   } catch {
-    return json({ error: "invalid_model_json", raw: payload }, 502);
+    sendJson(res, { error: "invalid_model_json", raw: payload }, 502);
   }
 }
 
-async function normalizeSession(request) {
-  const body = await request.json();
+async function normalizeSession(req, res) {
+  const body = await readRequestJson(req);
   const now = new Date().toISOString();
-  return json({
+  sendJson(res, {
     schema_version: "hskk-trainer-session-v1",
     session_id: body.session_id || `session_${Date.now()}`,
     mode: body.mode || "daily_lesson",
@@ -164,6 +187,44 @@ async function normalizeSession(request) {
   });
 }
 
+function parseMultipart(req, maxFileSize) {
+  return new Promise((resolve, reject) => {
+    const form = createForm({ multiples: false, maxFileSize });
+    form.parse(req, (error, fields, files) => {
+      if (error) {
+        reject(error);
+        return;
+      }
+      resolve({ fields, files });
+    });
+  });
+}
+
+function readRequestJson(req) {
+  return new Promise((resolve, reject) => {
+    const chunks = [];
+    req.on("data", (chunk) => chunks.push(chunk));
+    req.on("end", () => {
+      try {
+        const raw = Buffer.concat(chunks).toString("utf8");
+        resolve(raw ? JSON.parse(raw) : {});
+      } catch (error) {
+        reject(error);
+      }
+    });
+    req.on("error", reject);
+  });
+}
+
+async function readJsonResponse(response) {
+  const raw = await response.text();
+  try {
+    return raw ? JSON.parse(raw) : {};
+  } catch {
+    return { message: raw || `HTTP ${response.status}` };
+  }
+}
+
 function extractResponseText(payload) {
   if (payload.output_text) return payload.output_text;
   const output = payload.output || [];
@@ -176,8 +237,8 @@ function extractResponseText(payload) {
   return "";
 }
 
-function requireOpenAIKey(env) {
-  if (!env.OPENAI_API_KEY) {
+function requireOpenAIKey() {
+  if (!process.env.OPENAI_API_KEY) {
     throw new Error("OPENAI_API_KEY is not configured");
   }
 }
@@ -198,12 +259,18 @@ function openAIError(error, details) {
   };
 }
 
-function json(payload, status = 200) {
-  return new Response(JSON.stringify(payload, null, 2), {
-    status,
-    headers: {
-      ...CORS_HEADERS,
-      "Content-Type": "application/json; charset=utf-8",
-    },
-  });
+function first(value) {
+  return Array.isArray(value) ? value[0] : value;
+}
+
+function applyCors(res) {
+  for (const [key, value] of Object.entries(CORS_HEADERS)) {
+    res.setHeader(key, value);
+  }
+}
+
+function sendJson(res, payload, status = 200) {
+  res.statusCode = status;
+  res.setHeader("Content-Type", "application/json; charset=utf-8");
+  res.end(JSON.stringify(payload, null, 2));
 }

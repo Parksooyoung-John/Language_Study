@@ -92,13 +92,16 @@ function setStatus(message, kind = "info") {
 
 function formatErrorMessage(error) {
   const details = error.details || {};
-  const userMessage = details.user_message || details.message || error.message;
+  const isRegionError = details.code === "unsupported_country_region_territory";
+  const userMessage = isRegionError
+    ? "OpenAI STT 호출이 지역 제한으로 거부되었습니다. API 서버를 Vercel 백엔드 URL로 변경해야 합니다."
+    : details.user_message || details.message || error.message;
   const code = details.code ? ` (${details.code})` : "";
   const rawDetails = details.details || details;
   return `
     <strong>${escapeHtml(userMessage)}${escapeHtml(code)}</strong>
     <details>
-      <summary>개발자 상세 오류</summary>
+      <summary>개발자용 상세 오류</summary>
       <pre>${escapeHtml(JSON.stringify(rawDetails, null, 2))}</pre>
     </details>
   `;
@@ -222,7 +225,7 @@ function retryRecording() {
 async function runEvaluation() {
   const config = settings();
   if (!config.apiBase) {
-    setStatus("먼저 Cloudflare Worker API Base URL을 저장하세요.", "error");
+    setStatus("먼저 Vercel API Base URL을 저장하세요.", "error");
     return;
   }
   if (!state.audioBlob && !$("#transcript").value.trim()) {
