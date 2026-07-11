@@ -1,4 +1,6 @@
 hskk-study/.env
+*.env
+env.env
 hskk-study/logs/
 __pycache__/
 *.pyc

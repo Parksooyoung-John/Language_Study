@@ -19,6 +19,24 @@ wrangler secret put OPENAI_API_KEY
 
 Do not put the OpenAI API key in GitHub Pages, browser JavaScript, or local exported JSON.
 
+## GitHub Actions deploy
+
+If these GitHub repository secrets are registered, the worker can be deployed without running Wrangler locally:
+
+```text
+CLOUDFLARE_API_TOKEN
+CLOUDFLARE_ACCOUNT_ID
+OPENAI_API_KEY
+```
+
+Run the workflow manually from GitHub Actions:
+
+```text
+Deploy HSKK AI Speaking Trainer Worker
+```
+
+The workflow deploys the Worker and sets `OPENAI_API_KEY` as a Cloudflare Worker secret. The secret is used only by the Worker runtime and is never exposed to GitHub Pages browser code.
+
 ## Deploy
 
 From this folder:
