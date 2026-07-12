@@ -1,0 +1,79 @@
+{
+  "number": 34,
+  "slug": "lesson_34",
+  "title": "Lesson 34: 날씨와 계획",
+  "date": "2026-07-03",
+  "goal": "오늘은 `날씨와 계획` 주제로 HSKK 중급 말하기를 짧은 문장으로 연습합니다. 한자, 병음, 한국어 뜻을 함께 확인하면서 바로 말해 보세요.",
+  "scene": "창밖에는 비가 오고 있고, 한 여자가 창가에서 우산을 들고 밖을 보고 있습니다.",
+  "visual_path": "./assets/lesson_34_part2.svg",
+  "return_path": "./lesson_34.html",
+  "repeat": [
+    {
+      "tag": "1",
+      "hanzi": "今天天气很好。",
+      "pinyin": "Jīntiān tiānqì hěn hǎo.",
+      "meaning": "오늘 날씨가 좋습니다.",
+      "focus": "날씨"
+    },
+    {
+      "tag": "2",
+      "hanzi": "如果下雨，我就在家学习。",
+      "pinyin": "Rúguǒ xiàyǔ, wǒ jiù zài jiā xuéxí.",
+      "meaning": "비가 오면 저는 집에서 공부합니다.",
+      "focus": "조건"
+    },
+    {
+      "tag": "3",
+      "hanzi": "周末我想去公园。",
+      "pinyin": "Zhōumò wǒ xiǎng qù gōngyuán.",
+      "meaning": "주말에 저는 공원에 가고 싶습니다.",
+      "focus": "계획"
+    }
+  ],
+  "picture": [
+    {
+      "tag": "장소",
+      "hanzi": "外面正在下雨。",
+      "pinyin": "Wàimiàn zhèngzài xiàyǔ.",
+      "meaning": "밖에는 비가 오고 있습니다.",
+      "focus": "날씨"
+    },
+    {
+      "tag": "인물/행동",
+      "hanzi": "一个女生拿着雨伞。",
+      "pinyin": "Yí ge nǚshēng názhe yǔsǎn.",
+      "meaning": "한 여자가 우산을 들고 있습니다.",
+      "focus": "상태"
+    },
+    {
+      "tag": "세부사항",
+      "hanzi": "她在看外面。",
+      "pinyin": "Tā zài kàn wàimiàn.",
+      "meaning": "그녀는 밖을 보고 있습니다.",
+      "focus": "동작"
+    },
+    {
+      "tag": "의견/추측",
+      "hanzi": "她可能要出门。",
+      "pinyin": "Tā kěnéng yào chūmén.",
+      "meaning": "그녀는 아마 외출하려는 것 같습니다.",
+      "focus": "추측"
+    }
+  ],
+  "questions": [
+    {
+      "tag": "1",
+      "hanzi": "你喜欢什么天气？",
+      "pinyin": "Nǐ xǐhuan shénme tiānqì?",
+      "meaning": "어떤 날씨를 좋아하나요?",
+      "focus": "我喜欢..."
+    },
+    {
+      "tag": "2",
+      "hanzi": "下雨的时候你喜欢做什么？",
+      "pinyin": "Xiàyǔ de shíhou nǐ xǐhuan zuò shénme?",
+      "meaning": "비 올 때 무엇을 하는 것을 좋아하나요?",
+      "focus": "下雨的时候，我喜欢..."
+    }
+  ]
+}

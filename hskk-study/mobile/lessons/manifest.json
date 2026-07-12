@@ -7,7 +7,8 @@
     "path": "./lesson_01.html",
     "prev_path": null,
     "next_path": "./lesson_02.html",
-    "visual_path": "./assets/lesson_01_part2.svg"
+    "visual_path": "./assets/lesson_01_part2.svg",
+    "json_path": "./lesson_01.json"
   },
   {
     "number": 2,
@@ -17,7 +18,8 @@
     "path": "./lesson_02.html",
     "prev_path": "./lesson_01.html",
     "next_path": "./lesson_03.html",
-    "visual_path": "./assets/lesson_02_part2.svg"
+    "visual_path": "./assets/lesson_02_part2.svg",
+    "json_path": "./lesson_02.json"
   },
   {
     "number": 3,
@@ -27,7 +29,8 @@
     "path": "./lesson_03.html",
     "prev_path": "./lesson_02.html",
     "next_path": "./lesson_04.html",
-    "visual_path": "./assets/lesson_03_part2.svg"
+    "visual_path": "./assets/lesson_03_part2.svg",
+    "json_path": "./lesson_03.json"
   },
   {
     "number": 4,
@@ -37,7 +40,8 @@
     "path": "./lesson_04.html",
     "prev_path": "./lesson_03.html",
     "next_path": "./lesson_05.html",
-    "visual_path": "./assets/lesson_04_part2.svg"
+    "visual_path": "./assets/lesson_04_part2.svg",
+    "json_path": "./lesson_04.json"
   },
   {
     "number": 5,
@@ -47,7 +51,8 @@
     "path": "./lesson_05.html",
     "prev_path": "./lesson_04.html",
     "next_path": "./lesson_06.html",
-    "visual_path": "./assets/lesson_05_part2.svg"
+    "visual_path": "./assets/lesson_05_part2.svg",
+    "json_path": "./lesson_05.json"
   },
   {
     "number": 6,
@@ -57,7 +62,8 @@
     "path": "./lesson_06.html",
     "prev_path": "./lesson_05.html",
     "next_path": "./lesson_07.html",
-    "visual_path": "./assets/lesson_06_part2.svg"
+    "visual_path": "./assets/lesson_06_part2.svg",
+    "json_path": "./lesson_06.json"
   },
   {
     "number": 7,
@@ -67,7 +73,8 @@
     "path": "./lesson_07.html",
     "prev_path": "./lesson_06.html",
     "next_path": "./lesson_08.html",
-    "visual_path": "./assets/lesson_07_part2.svg"
+    "visual_path": "./assets/lesson_07_part2.svg",
+    "json_path": "./lesson_07.json"
   },
   {
     "number": 8,
@@ -77,7 +84,8 @@
     "path": "./lesson_08.html",
     "prev_path": "./lesson_07.html",
     "next_path": "./lesson_09.html",
-    "visual_path": "./assets/lesson_08_part2.svg"
+    "visual_path": "./assets/lesson_08_part2.svg",
+    "json_path": "./lesson_08.json"
   },
   {
     "number": 9,
@@ -87,7 +95,8 @@
     "path": "./lesson_09.html",
     "prev_path": "./lesson_08.html",
     "next_path": "./lesson_10.html",
-    "visual_path": "./assets/lesson_09_part2.svg"
+    "visual_path": "./assets/lesson_09_part2.svg",
+    "json_path": "./lesson_09.json"
   },
   {
     "number": 10,
@@ -97,7 +106,8 @@
     "path": "./lesson_10.html",
     "prev_path": "./lesson_09.html",
     "next_path": "./lesson_11.html",
-    "visual_path": "./assets/lesson_10_part2.svg"
+    "visual_path": "./assets/lesson_10_part2.svg",
+    "json_path": "./lesson_10.json"
   },
   {
     "number": 11,
@@ -107,7 +117,8 @@
     "path": "./lesson_11.html",
     "prev_path": "./lesson_10.html",
     "next_path": "./lesson_12.html",
-    "visual_path": "./assets/lesson_11_part2.svg"
+    "visual_path": "./assets/lesson_11_part2.svg",
+    "json_path": "./lesson_11.json"
   },
   {
     "number": 12,
@@ -117,7 +128,8 @@
     "path": "./lesson_12.html",
     "prev_path": "./lesson_11.html",
     "next_path": "./lesson_13.html",
-    "visual_path": "./assets/lesson_12_part2.svg"
+    "visual_path": "./assets/lesson_12_part2.svg",
+    "json_path": "./lesson_12.json"
   },
   {
     "number": 13,
@@ -127,7 +139,8 @@
     "path": "./lesson_13.html",
     "prev_path": "./lesson_12.html",
     "next_path": "./lesson_14.html",
-    "visual_path": "./assets/lesson_13_part2.svg"
+    "visual_path": "./assets/lesson_13_part2.svg",
+    "json_path": "./lesson_13.json"
   },
   {
     "number": 14,
@@ -137,7 +150,8 @@
     "path": "./lesson_14.html",
     "prev_path": "./lesson_13.html",
     "next_path": "./lesson_15.html",
-    "visual_path": "./assets/lesson_14_part2.svg"
+    "visual_path": "./assets/lesson_14_part2.svg",
+    "json_path": "./lesson_14.json"
   },
   {
     "number": 15,
@@ -147,7 +161,8 @@
     "path": "./lesson_15.html",
     "prev_path": "./lesson_14.html",
     "next_path": "./lesson_16.html",
-    "visual_path": "./assets/lesson_15_part2.svg"
+    "visual_path": "./assets/lesson_15_part2.svg",
+    "json_path": "./lesson_15.json"
   },
   {
     "number": 16,
@@ -157,7 +172,8 @@
     "path": "./lesson_16.html",
     "prev_path": "./lesson_15.html",
     "next_path": "./lesson_17.html",
-    "visual_path": "./assets/lesson_16_part2.svg"
+    "visual_path": "./assets/lesson_16_part2.svg",
+    "json_path": "./lesson_16.json"
   },
   {
     "number": 17,
@@ -167,7 +183,8 @@
     "path": "./lesson_17.html",
     "prev_path": "./lesson_16.html",
     "next_path": "./lesson_18.html",
-    "visual_path": "./assets/lesson_17_part2.svg"
+    "visual_path": "./assets/lesson_17_part2.svg",
+    "json_path": "./lesson_17.json"
   },
   {
     "number": 18,
@@ -177,7 +194,8 @@
     "path": "./lesson_18.html",
     "prev_path": "./lesson_17.html",
     "next_path": "./lesson_19.html",
-    "visual_path": "./assets/lesson_18_part2.svg"
+    "visual_path": "./assets/lesson_18_part2.svg",
+    "json_path": "./lesson_18.json"
   },
   {
     "number": 19,
@@ -187,7 +205,8 @@
     "path": "./lesson_19.html",
     "prev_path": "./lesson_18.html",
     "next_path": "./lesson_20.html",
-    "visual_path": "./assets/lesson_19_part2.svg"
+    "visual_path": "./assets/lesson_19_part2.svg",
+    "json_path": "./lesson_19.json"
   },
   {
     "number": 20,
@@ -197,7 +216,8 @@
     "path": "./lesson_20.html",
     "prev_path": "./lesson_19.html",
     "next_path": "./lesson_21.html",
-    "visual_path": "./assets/lesson_20_part2.svg"
+    "visual_path": "./assets/lesson_20_part2.svg",
+    "json_path": "./lesson_20.json"
   },
   {
     "number": 21,
@@ -207,7 +227,8 @@
     "path": "./lesson_21.html",
     "prev_path": "./lesson_20.html",
     "next_path": "./lesson_22.html",
-    "visual_path": "./assets/lesson_21_part2.svg"
+    "visual_path": "./assets/lesson_21_part2.svg",
+    "json_path": "./lesson_21.json"
   },
   {
     "number": 22,
@@ -217,7 +238,8 @@
     "path": "./lesson_22.html",
     "prev_path": "./lesson_21.html",
     "next_path": "./lesson_23.html",
-    "visual_path": "./assets/lesson_22_part2.svg"
+    "visual_path": "./assets/lesson_22_part2.svg",
+    "json_path": "./lesson_22.json"
   },
   {
     "number": 23,
@@ -227,7 +249,8 @@
     "path": "./lesson_23.html",
     "prev_path": "./lesson_22.html",
     "next_path": "./lesson_24.html",
-    "visual_path": "./assets/lesson_23_part2.svg"
+    "visual_path": "./assets/lesson_23_part2.svg",
+    "json_path": "./lesson_23.json"
   },
   {
     "number": 24,
@@ -237,7 +260,8 @@
     "path": "./lesson_24.html",
     "prev_path": "./lesson_23.html",
     "next_path": "./lesson_25.html",
-    "visual_path": "./assets/lesson_24_part2.svg"
+    "visual_path": "./assets/lesson_24_part2.svg",
+    "json_path": "./lesson_24.json"
   },
   {
     "number": 25,
@@ -247,7 +271,8 @@
     "path": "./lesson_25.html",
     "prev_path": "./lesson_24.html",
     "next_path": "./lesson_26.html",
-    "visual_path": "./assets/lesson_25_part2.svg"
+    "visual_path": "./assets/lesson_25_part2.svg",
+    "json_path": "./lesson_25.json"
   },
   {
     "number": 26,
@@ -257,7 +282,8 @@
     "path": "./lesson_26.html",
     "prev_path": "./lesson_25.html",
     "next_path": "./lesson_27.html",
-    "visual_path": "./assets/lesson_26_part2.svg"
+    "visual_path": "./assets/lesson_26_part2.svg",
+    "json_path": "./lesson_26.json"
   },
   {
     "number": 27,
@@ -267,7 +293,8 @@
     "path": "./lesson_27.html",
     "prev_path": "./lesson_26.html",
     "next_path": "./lesson_28.html",
-    "visual_path": "./assets/lesson_27_part2.svg"
+    "visual_path": "./assets/lesson_27_part2.svg",
+    "json_path": "./lesson_27.json"
   },
   {
     "number": 28,
@@ -277,7 +304,8 @@
     "path": "./lesson_28.html",
     "prev_path": "./lesson_27.html",
     "next_path": "./lesson_29.html",
-    "visual_path": "./assets/lesson_28_part2.svg"
+    "visual_path": "./assets/lesson_28_part2.svg",
+    "json_path": "./lesson_28.json"
   },
   {
     "number": 29,
@@ -287,7 +315,8 @@
     "path": "./lesson_29.html",
     "prev_path": "./lesson_28.html",
     "next_path": "./lesson_30.html",
-    "visual_path": "./assets/lesson_29_part2.svg"
+    "visual_path": "./assets/lesson_29_part2.svg",
+    "json_path": "./lesson_29.json"
   },
   {
     "number": 30,
@@ -297,7 +326,8 @@
     "path": "./lesson_30.html",
     "prev_path": "./lesson_29.html",
     "next_path": "./lesson_31.html",
-    "visual_path": "./assets/lesson_30_part2.svg"
+    "visual_path": "./assets/lesson_30_part2.svg",
+    "json_path": "./lesson_30.json"
   },
   {
     "number": 31,
@@ -307,7 +337,8 @@
     "path": "./lesson_31.html",
     "prev_path": "./lesson_30.html",
     "next_path": "./lesson_32.html",
-    "visual_path": "./assets/lesson_31_part2.svg"
+    "visual_path": "./assets/lesson_31_part2.svg",
+    "json_path": "./lesson_31.json"
   },
   {
     "number": 32,
@@ -317,7 +348,8 @@
     "path": "./lesson_32.html",
     "prev_path": "./lesson_31.html",
     "next_path": "./lesson_33.html",
-    "visual_path": "./assets/lesson_32_part2.svg"
+    "visual_path": "./assets/lesson_32_part2.svg",
+    "json_path": "./lesson_32.json"
   },
   {
     "number": 33,
@@ -327,7 +359,8 @@
     "path": "./lesson_33.html",
     "prev_path": "./lesson_32.html",
     "next_path": "./lesson_34.html",
-    "visual_path": "./assets/lesson_33_part2.svg"
+    "visual_path": "./assets/lesson_33_part2.svg",
+    "json_path": "./lesson_33.json"
   },
   {
     "number": 34,
@@ -337,7 +370,8 @@
     "path": "./lesson_34.html",
     "prev_path": "./lesson_33.html",
     "next_path": "./lesson_35.html",
-    "visual_path": "./assets/lesson_34_part2.svg"
+    "visual_path": "./assets/lesson_34_part2.svg",
+    "json_path": "./lesson_34.json"
   },
   {
     "number": 35,
@@ -347,7 +381,8 @@
     "path": "./lesson_35.html",
     "prev_path": "./lesson_34.html",
     "next_path": "./lesson_36.html",
-    "visual_path": "./assets/lesson_35_part2.svg"
+    "visual_path": "./assets/lesson_35_part2.svg",
+    "json_path": "./lesson_35.json"
   },
   {
     "number": 36,
@@ -357,7 +392,8 @@
     "path": "./lesson_36.html",
     "prev_path": "./lesson_35.html",
     "next_path": "./lesson_37.html",
-    "visual_path": "./assets/lesson_36_part2.svg"
+    "visual_path": "./assets/lesson_36_part2.svg",
+    "json_path": "./lesson_36.json"
   },
   {
     "number": 37,
@@ -367,7 +403,8 @@
     "path": "./lesson_37.html",
     "prev_path": "./lesson_36.html",
     "next_path": "./lesson_38.html",
-    "visual_path": "./assets/lesson_37_part2.svg"
+    "visual_path": "./assets/lesson_37_part2.svg",
+    "json_path": "./lesson_37.json"
   },
   {
     "number": 38,
@@ -377,7 +414,8 @@
     "path": "./lesson_38.html",
     "prev_path": "./lesson_37.html",
     "next_path": "./lesson_39.html",
-    "visual_path": "./assets/lesson_38_part2.svg"
+    "visual_path": "./assets/lesson_38_part2.svg",
+    "json_path": "./lesson_38.json"
   },
   {
     "number": 39,
@@ -387,7 +425,8 @@
     "path": "./lesson_39.html",
     "prev_path": "./lesson_38.html",
     "next_path": "./lesson_40.html",
-    "visual_path": "./assets/lesson_39_part2.svg"
+    "visual_path": "./assets/lesson_39_part2.svg",
+    "json_path": "./lesson_39.json"
   },
   {
     "number": 40,
@@ -397,6 +436,7 @@
     "path": "./lesson_40.html",
     "prev_path": "./lesson_39.html",
     "next_path": null,
-    "visual_path": "./assets/lesson_40_part2.svg"
+    "visual_path": "./assets/lesson_40_part2.svg",
+    "json_path": "./lesson_40.json"
   }
 ]

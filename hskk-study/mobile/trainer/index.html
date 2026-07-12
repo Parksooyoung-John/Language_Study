@@ -10,16 +10,25 @@
   <header class="topbar">
     <div>
       <span class="eyebrow">HSKK AI Trainer</span>
-      <h1>오늘의 말하기를 녹음하고 바로 피드백 받기</h1>
+      <h1>보고 말하고, 바로 코칭 받기</h1>
+      <p class="top-sub">레슨 내용을 보면서 녹음하고 AI 피드백으로 다시 말할 포인트를 확인합니다.</p>
     </div>
-    <a class="ghost-link" href="../index.html">레슨 입구</a>
+    <div class="top-actions">
+      <a class="ghost-link" id="return-link" href="../index.html">레슨으로 돌아가기</a>
+      <button type="button" id="toggle-settings" class="icon-button" aria-expanded="false">설정</button>
+    </div>
   </header>
 
   <main>
     <section class="panel hero-panel">
       <div>
-        <h2>학습 모드</h2>
-        <p class="muted">일일 레슨 또는 HSKK 예상문제 Test를 선택해 녹음, STT, AI 평가, JSON export까지 진행합니다.</p>
+        <h2>학습 루프</h2>
+        <div class="step-row" aria-label="학습 단계">
+          <span>확인</span>
+          <span>녹음</span>
+          <span>재생</span>
+          <span>평가</span>
+        </div>
       </div>
       <div class="segmented" role="tablist" aria-label="학습 모드">
         <button type="button" class="active" data-mode="daily">오늘 레슨</button>
@@ -27,27 +36,32 @@
       </div>
     </section>
 
-    <section class="panel" id="settings-panel">
+    <section class="panel settings-panel hidden" id="settings-panel">
       <div class="section-heading">
         <h2>API 설정</h2>
-        <button type="button" id="save-settings">저장</button>
+        <span id="api-state" class="badge neutral">확인 전</span>
       </div>
       <label class="field">
         <span>Vercel API Base URL</span>
-        <input id="api-base" type="url" placeholder="https://your-vercel-project.vercel.app">
+        <input id="api-base" type="url" placeholder="https://hskk-ai-speaking-trainer.vercel.app">
       </label>
+      <div class="row-actions">
+        <button type="button" id="test-settings" class="secondary">연결 테스트</button>
+        <button type="button" id="restore-settings" class="secondary">기본값 복원</button>
+        <button type="button" id="save-settings">저장</button>
+      </div>
       <p class="hint">브라우저에는 OpenAI API Key를 넣지 않습니다. 키는 Vercel Environment Variable에만 설정합니다.</p>
     </section>
 
-    <section class="panel" id="lesson-panel">
+    <section class="panel prompt-panel" id="lesson-panel">
       <div class="section-heading">
-        <h2>오늘 레슨</h2>
+        <h2>오늘 말할 내용</h2>
         <a id="lesson-link" class="text-link" href="../index.html">레슨 보기</a>
       </div>
-      <div id="lesson-summary" class="summary-card">레슨 정보를 불러오는 중입니다.</div>
+      <div id="lesson-summary" class="prompt-card">레슨 정보를 불러오는 중입니다.</div>
     </section>
 
-    <section class="panel hidden" id="expected-panel">
+    <section class="panel prompt-panel hidden" id="expected-panel">
       <div class="section-heading">
         <h2>HSKK 예상문제 Test</h2>
         <select id="test-level" aria-label="HSKK level">
@@ -56,45 +70,58 @@
           <option value="advanced">Advanced</option>
         </select>
       </div>
-      <div id="test-item" class="question-card"></div>
+      <div id="test-item" class="prompt-card"></div>
       <div class="row-actions">
         <button type="button" id="prev-question" class="secondary">이전</button>
         <button type="button" id="next-question" class="secondary">다음</button>
       </div>
     </section>
 
-    <section class="panel">
+    <section class="panel recorder-panel">
       <div class="section-heading">
         <h2>녹음</h2>
         <span id="recording-state" class="badge">대기</span>
       </div>
-      <div class="recorder">
-        <button type="button" id="start-recording">녹음 시작</button>
-        <button type="button" id="stop-recording" class="secondary" disabled>정지</button>
-        <button type="button" id="retry-recording" class="secondary" disabled>다시 녹음</button>
+      <div class="recording-stage">
+        <button type="button" id="start-recording" class="record-button">말하기 시작</button>
+        <div class="recording-copy">
+          <strong id="recording-title">문제를 보고 자연스럽게 말해 보세요.</strong>
+          <span id="recording-meta">3초 이상 녹음하면 평가할 수 있습니다.</span>
+        </div>
       </div>
-      <audio id="audio-preview" controls hidden></audio>
-      <p class="hint">재생과 재녹음은 로컬에서만 처리합니다. “STT + 평가”를 누를 때만 API 비용이 발생합니다.</p>
+      <div class="row-actions recorder-actions">
+        <button type="button" id="stop-recording" class="danger" disabled>정지</button>
+        <button type="button" id="retry-recording" class="secondary" disabled>다시 녹음</button>
+        <button type="button" id="run-evaluation" disabled>평가하기</button>
+      </div>
+      <div class="playback-card hidden" id="playback-card">
+        <div>
+          <strong>내 녹음 들어보기</strong>
+          <p class="hint">재생 후 마음에 들지 않으면 다시 녹음하세요.</p>
+        </div>
+        <audio id="audio-preview" controls></audio>
+      </div>
+      <div id="status-box" class="status-box">준비되었습니다.</div>
     </section>
 
-    <section class="panel">
-      <div class="section-heading">
-        <h2>Transcript</h2>
-        <button type="button" id="run-evaluation">STT + 평가</button>
-      </div>
+    <details class="panel transcript-panel">
+      <summary>Transcript 확인 및 수정</summary>
       <label class="field">
         <span>중국어 transcript</span>
         <textarea id="transcript" rows="5" placeholder="녹음 평가 후 자동 입력됩니다. 필요하면 직접 수정할 수 있습니다."></textarea>
       </label>
-      <div id="status-box" class="status-box">준비되었습니다.</div>
-    </section>
+    </details>
 
     <section class="panel" id="feedback-panel">
       <div class="section-heading">
-        <h2>AI 피드백</h2>
+        <h2>AI 코칭 리포트</h2>
         <button type="button" id="export-current" class="secondary" disabled>현재 결과 JSON</button>
       </div>
       <div id="feedback-output" class="feedback-empty">아직 평가 결과가 없습니다.</div>
+      <div class="row-actions post-feedback-actions hidden" id="post-feedback-actions">
+        <button type="button" id="retry-after-feedback" class="secondary">다시 말하기</button>
+        <a class="ghost-link" id="return-link-bottom" href="../index.html">레슨 계속 보기</a>
+      </div>
     </section>
 
     <section class="panel">

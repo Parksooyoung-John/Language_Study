@@ -1,0 +1,79 @@
+{
+  "number": 28,
+  "slug": "lesson_28",
+  "title": "Lesson 28: 음식과 식당",
+  "date": "2026-06-26",
+  "goal": "오늘은 `음식과 식당` 주제로 HSKK 중급 말하기를 짧은 문장으로 연습합니다. 한자, 병음, 한국어 뜻을 함께 확인하면서 바로 말해 보세요.",
+  "scene": "작은 식당에서 두 사람이 메뉴를 보고 있고, 테이블 위에는 만두와 차가 있습니다.",
+  "visual_path": "./assets/lesson_28_part2.svg",
+  "return_path": "./lesson_28.html",
+  "repeat": [
+    {
+      "tag": "1",
+      "hanzi": "我喜欢吃中国菜。",
+      "pinyin": "Wǒ xǐhuan chī Zhōngguó cài.",
+      "meaning": "저는 중국 음식을 좋아합니다.",
+      "focus": "취향"
+    },
+    {
+      "tag": "2",
+      "hanzi": "这个菜有一点儿辣。",
+      "pinyin": "Zhège cài yǒu yìdiǎnr là.",
+      "meaning": "이 음식은 조금 맵습니다.",
+      "focus": "맛 표현"
+    },
+    {
+      "tag": "3",
+      "hanzi": "我们一起去吃饭吧。",
+      "pinyin": "Wǒmen yìqǐ qù chīfàn ba.",
+      "meaning": "우리 같이 밥 먹으러 갑시다.",
+      "focus": "제안"
+    }
+  ],
+  "picture": [
+    {
+      "tag": "장소",
+      "hanzi": "这是在饭馆。",
+      "pinyin": "Zhè shì zài fànguǎn.",
+      "meaning": "여기는 식당입니다.",
+      "focus": "장소"
+    },
+    {
+      "tag": "인물/행동",
+      "hanzi": "两个人正在看菜单。",
+      "pinyin": "Liǎng ge rén zhèngzài kàn càidān.",
+      "meaning": "두 사람이 메뉴를 보고 있습니다.",
+      "focus": "수량"
+    },
+    {
+      "tag": "세부사항",
+      "hanzi": "桌子上有饺子和茶。",
+      "pinyin": "Zhuōzi shàng yǒu jiǎozi hé chá.",
+      "meaning": "테이블 위에 만두와 차가 있습니다.",
+      "focus": "음식 디테일"
+    },
+    {
+      "tag": "의견/추측",
+      "hanzi": "我觉得他们很开心。",
+      "pinyin": "Wǒ juéde tāmen hěn kāixīn.",
+      "meaning": "저는 그들이 매우 즐거워 보인다고 생각합니다.",
+      "focus": "분위기"
+    }
+  ],
+  "questions": [
+    {
+      "tag": "1",
+      "hanzi": "你喜欢吃什么？",
+      "pinyin": "Nǐ xǐhuan chī shénme?",
+      "meaning": "무엇을 먹는 것을 좋아하나요?",
+      "focus": "我喜欢吃..."
+    },
+    {
+      "tag": "2",
+      "hanzi": "你常常在家吃饭还是在外面吃饭？",
+      "pinyin": "Nǐ chángcháng zài jiā chīfàn háishi zài wàimiàn chīfàn?",
+      "meaning": "집에서 자주 먹나요, 밖에서 먹나요?",
+      "focus": "我常常在...吃饭，因为..."
+    }
+  ]
+}

@@ -233,6 +233,10 @@ def lesson_svg_file(number: int) -> Path:
     return MOBILE_ASSET_DIR / f"{lesson_slug(number)}_part2.svg"
 
 
+def lesson_json_file(number: int) -> Path:
+    return MOBILE_LESSON_DIR / f"{lesson_slug(number)}.json"
+
+
 def latest_lesson_file() -> Path | None:
     files = sorted(LESSON_DIR.glob("lesson_*.md"), key=lesson_number)
     return files[-1] if files else None
@@ -423,6 +427,7 @@ def manifest_record(page: LessonPage, has_next: bool) -> dict[str, object]:
         "prev_path": prev_link,
         "next_path": next_link,
         "visual_path": f"./assets/{slug}_part2.svg",
+        "json_path": f"./{slug}.json",
     }
 
 
@@ -789,6 +794,39 @@ def render_manifest(lessons: tuple[LessonPage, ...]) -> list[dict[str, object]]:
     return records
 
 
+def lesson_rows_json(rows: tuple[tuple[str, str, str, str, str], ...], kind: str) -> list[dict[str, str]]:
+    items: list[dict[str, str]] = []
+    for row in rows:
+        if kind == "question":
+            tag, hanzi, pinyin, meaning, focus = row[0], row[1], row[2], row[3], row[4]
+        else:
+            tag, hanzi, pinyin, meaning, focus = row
+        items.append({
+            "tag": tag,
+            "hanzi": hanzi,
+            "pinyin": pinyin,
+            "meaning": meaning,
+            "focus": focus,
+        })
+    return items
+
+
+def render_lesson_json(page: LessonPage, manifest_entry: dict[str, object]) -> dict[str, object]:
+    return {
+        "number": page.number,
+        "slug": lesson_slug(page.number),
+        "title": page.title,
+        "date": page.date,
+        "goal": page.goal,
+        "scene": page.scene,
+        "visual_path": manifest_entry["visual_path"],
+        "return_path": manifest_entry["path"],
+        "repeat": lesson_rows_json(page.repeat, "repeat"),
+        "picture": lesson_rows_json(page.picture, "picture"),
+        "questions": lesson_rows_json(page.questions, "question"),
+    }
+
+
 def render_index_html(manifest: list[dict[str, object]]) -> str:
     payload = json.dumps(manifest, ensure_ascii=False)
     return f"""<!doctype html>
@@ -889,6 +927,7 @@ def render_lesson_html(page: LessonPage, manifest_entry: dict[str, object]) -> s
         nav_html.append('<span class="button-link button-secondary" aria-disabled="true">첫 레슨입니다</span>')
     nav_html.append('<a class="button-link button-secondary" href="../index.html">입구로 돌아가기</a>')
     completion_label = "완료하고 다음 레슨 보기" if next_path else "완료 저장"
+    trainer_href = f"../trainer/?mode=daily&lesson={lesson_slug(number)}&return=../lessons/{lesson_slug(number)}.html"
     return f"""<!doctype html>
 <html lang="ko">
 <head>
@@ -954,6 +993,7 @@ def render_lesson_html(page: LessonPage, manifest_entry: dict[str, object]) -> s
         <button type="button" id="complete-button" onclick="completeLesson()">{completion_label}</button>
         <div class="status-box" id="lesson-status">{html.escape(page.notes)}</div>
       </div>
+      <a class="button-link" href="{html.escape(trainer_href)}">녹음하고 AI 평가 받기</a>
       <div class="nav-row">
         {"".join(nav_html)}
       </div>
@@ -1028,6 +1068,10 @@ def build_mobile_pages() -> dict[str, object]:
         seed = seed_for(page.number)
         lesson_svg_file(page.number).write_text(render_lesson_svg(page.number, seed), encoding="utf-8")
         lesson_page_file(page.number).write_text(render_lesson_html(page, manifest[page.number - 1]), encoding="utf-8")
+        lesson_json_file(page.number).write_text(
+            json.dumps(render_lesson_json(page, manifest[page.number - 1]), ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
 
     MANIFEST_PATH.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     MOBILE_INDEX.parent.mkdir(parents=True, exist_ok=True)
@@ -1036,6 +1080,7 @@ def build_mobile_pages() -> dict[str, object]:
     return {
         "manifest": str(MANIFEST_PATH.relative_to(ROOT)),
         "lesson_pages": [str(lesson_page_file(page.number).relative_to(ROOT)) for page in lessons],
+        "lesson_json": [str(lesson_json_file(page.number).relative_to(ROOT)) for page in lessons],
         "assets": [str(lesson_svg_file(page.number).relative_to(ROOT)) for page in lessons],
     }
 

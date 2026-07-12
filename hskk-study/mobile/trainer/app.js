@@ -1,9 +1,16 @@
 const SETTINGS_KEY = "hskk_trainer_settings";
 const HISTORY_KEY = "hskk_trainer_sessions";
+const DEFAULT_API_BASE = "https://hskk-ai-speaking-trainer.vercel.app";
+
+const params = new URLSearchParams(window.location.search);
+const requestedMode = params.get("mode");
+const requestedLesson = params.get("lesson");
+const returnPath = params.get("return") || "../index.html";
 
 const state = {
-  mode: "daily",
+  mode: requestedMode === "expected" ? "expected" : "daily",
   lesson: null,
+  lessonDetail: null,
   level: "intermediate",
   questionIndex: 0,
   mediaRecorder: null,
@@ -82,13 +89,29 @@ function writeJson(key, value) {
 }
 
 function settings() {
-  return readJson(SETTINGS_KEY, { apiBase: "" });
+  const stored = readJson(SETTINGS_KEY, {});
+  return { apiBase: stored.apiBase || DEFAULT_API_BASE };
+}
+
+function normalizedApiBase() {
+  return settings().apiBase.replace(/\/$/, "");
 }
 
 function setStatus(message, kind = "info") {
   const box = $("#status-box");
   box.innerHTML = message;
   box.dataset.kind = kind;
+}
+
+function showSettings(show) {
+  $("#settings-panel").classList.toggle("hidden", !show);
+  $("#toggle-settings").setAttribute("aria-expanded", String(show));
+}
+
+function setApiState(text, kind = "neutral") {
+  const badge = $("#api-state");
+  badge.textContent = text;
+  badge.className = `badge ${kind}`;
 }
 
 function formatErrorMessage(error) {
@@ -125,20 +148,93 @@ async function readApiResponse(response) {
   return payload;
 }
 
+async function testApiConnection({ silent = false } = {}) {
+  const base = normalizedApiBase();
+  if (!base) {
+    setApiState("미설정", "error");
+    showSettings(true);
+    return false;
+  }
+  try {
+    const response = await fetch(`${base}/api/health`, { cache: "no-store" });
+    const payload = await readApiResponse(response);
+    if (!payload.ok) throw new Error("Health check failed");
+    setApiState("연결됨", "ok");
+    if (!silent) setStatus("API 연결이 정상입니다.");
+    showSettings(false);
+    return true;
+  } catch (error) {
+    setApiState("오류", "error");
+    showSettings(true);
+    if (!silent) setStatus(`API 연결을 확인하세요: ${escapeHtml(error.message)}`, "error");
+    return false;
+  }
+}
+
 async function loadLesson() {
   try {
-    const response = await fetch("../lessons/manifest.json", { cache: "no-store" });
-    const manifest = await response.json();
+    const manifestResponse = await fetch("../lessons/manifest.json", { cache: "no-store" });
+    const manifest = await manifestResponse.json();
     const latest = manifest[manifest.length - 1];
-    state.lesson = latest;
-    $("#lesson-summary").innerHTML = `
-      <strong>${escapeHtml(latest.title)}</strong>
-      <p class="muted">Date: ${escapeHtml(latest.date || "n/a")} · Lesson ${latest.number}</p>
-    `;
-    $("#lesson-link").href = `../lessons/${latest.slug}.html`;
+    const selected = requestedLesson
+      ? manifest.find((item) => item.slug === requestedLesson)
+      : latest;
+    state.lesson = selected || latest;
+
+    const jsonPath = state.lesson?.json_path || `./${state.lesson.slug}.json`;
+    const detailResponse = await fetch(`../lessons/${jsonPath.replace(/^\.\//, "")}`, { cache: "no-store" });
+    state.lessonDetail = await detailResponse.json();
+    $("#lesson-link").href = returnPath;
+    renderLessonPrompt();
   } catch {
-    $("#lesson-summary").textContent = "레슨 manifest를 불러오지 못했습니다.";
+    $("#lesson-summary").textContent = "레슨 정보를 불러오지 못했습니다.";
   }
+}
+
+function renderLessonPrompt() {
+  const detail = state.lessonDetail;
+  if (!detail) return;
+  const repeat = lessonItems(detail.repeat, "문장");
+  const picture = lessonItems(detail.picture, "그림");
+  const questionsHtml = lessonItems(detail.questions, "질문");
+  const visual = detail.visual_path
+    ? `<img class="lesson-visual" src="../lessons/${escapeHtml(detail.visual_path.replace(/^\.\//, ""))}" alt="오늘 레슨 그림 묘사 장면">`
+    : "";
+
+  $("#lesson-summary").innerHTML = `
+    <div class="prompt-header">
+      <span class="badge">Lesson ${escapeHtml(String(detail.number))}</span>
+      <strong>${escapeHtml(detail.title)}</strong>
+      <p class="muted">${escapeHtml(detail.goal || "")}</p>
+    </div>
+    ${visual}
+    <div class="lesson-sections">
+      <section>
+        <h3>따라 말하기</h3>
+        ${repeat}
+      </section>
+      <section>
+        <h3>그림 묘사</h3>
+        <p class="scene-text">${escapeHtml(detail.scene || "")}</p>
+        ${picture}
+      </section>
+      <section>
+        <h3>질문 답변</h3>
+        ${questionsHtml}
+      </section>
+    </div>
+  `;
+}
+
+function lessonItems(items, label) {
+  return (items || []).map((item, index) => `
+    <article class="lesson-line">
+      <span>${escapeHtml(item.tag || `${label} ${index + 1}`)}</span>
+      <strong>${escapeHtml(item.hanzi || "")}</strong>
+      <em>${escapeHtml(item.pinyin || "")}</em>
+      <small>${escapeHtml(item.meaning || item.focus || "")}</small>
+    </article>
+  `).join("");
 }
 
 function renderQuestion() {
@@ -162,14 +258,30 @@ function currentPrompt() {
     return list[state.questionIndex] || list[0];
   }
   return {
-    item_id: `lesson_${state.lesson?.number || "latest"}`,
+    item_id: `lesson_${state.lessonDetail?.number || state.lesson?.number || "latest"}`,
     part: "daily_lesson",
-    label: "Daily Lesson",
-    prompt_hanzi: state.lesson?.title || "Today's HSKK lesson",
+    label: state.lessonDetail?.title || "Daily Lesson",
+    prompt_hanzi: state.lessonDetail?.title || "Today's HSKK lesson",
     prompt_pinyin: "",
-    prompt_ko: "오늘 레슨 기반 자유 응답",
+    prompt_ko: state.lessonDetail?.goal || "오늘 레슨 기반 자유 응답",
+    lesson_detail: state.lessonDetail,
     time_limit_sec: 60,
   };
+}
+
+function activateMode(mode) {
+  state.mode = mode;
+  document.querySelectorAll("[data-mode]").forEach((item) => item.classList.toggle("active", item.dataset.mode === mode));
+  $("#lesson-panel").classList.toggle("hidden", mode !== "daily");
+  $("#expected-panel").classList.toggle("hidden", mode !== "expected");
+}
+
+function canEvaluate() {
+  return (state.audioBlob && state.audioBlob.size >= 1024) || Boolean($("#transcript").value.trim());
+}
+
+function updateEvaluationButton() {
+  $("#run-evaluation").disabled = !canEvaluate();
 }
 
 async function startRecording() {
@@ -181,6 +293,7 @@ async function startRecording() {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
     const recordingFormat = getRecordingFormat();
     state.chunks = [];
+    state.audioBlob = null;
     state.mediaRecorder = recordingFormat.mimeType
       ? new MediaRecorder(stream, { mimeType: recordingFormat.mimeType })
       : new MediaRecorder(stream);
@@ -194,20 +307,26 @@ async function startRecording() {
       state.audioFileName = `hskk-recording.${extensionForMime(mimeType)}`;
       const url = URL.createObjectURL(state.audioBlob);
       $("#audio-preview").src = url;
-      $("#audio-preview").hidden = false;
+      $("#playback-card").classList.remove("hidden");
       $("#retry-recording").disabled = false;
+      updateEvaluationButton();
       stream.getTracks().forEach((track) => track.stop());
       $("#recording-state").textContent = "녹음 완료";
-      setStatus(`녹음이 완료되었습니다. 파일 형식: ${state.audioFileName}, 크기: ${Math.round(state.audioBlob.size / 1024)}KB`);
+      $("#recording-title").textContent = "내 녹음을 들어보고 평가하세요.";
+      $("#recording-meta").textContent = `${state.audioFileName} · ${Math.round(state.audioBlob.size / 1024)}KB`;
+      setStatus(state.audioBlob.size < 1024 ? "녹음 파일이 너무 짧습니다. 3초 이상 다시 녹음하세요." : "재생 후 평가할 수 있습니다.", state.audioBlob.size < 1024 ? "error" : "info");
     };
     state.mediaRecorder.start();
     $("#start-recording").disabled = true;
     $("#stop-recording").disabled = false;
     $("#retry-recording").disabled = true;
+    $("#run-evaluation").disabled = true;
     $("#recording-state").textContent = "녹음 중";
+    $("#recording-title").textContent = "말하는 중입니다.";
+    $("#recording-meta").textContent = "끝나면 정지를 누르세요.";
     setStatus("녹음 중입니다.");
   } catch (error) {
-    setStatus(`마이크 권한을 확인하세요: ${error.message}`, "error");
+    setStatus(`마이크 권한을 확인하세요: ${escapeHtml(error.message)}`, "error");
   }
 }
 
@@ -216,7 +335,6 @@ function stopRecording() {
     state.mediaRecorder.stop();
     $("#start-recording").disabled = false;
     $("#stop-recording").disabled = true;
-    setStatus("녹음이 완료되었습니다. 필요하면 재생 후 평가하세요.");
   }
 }
 
@@ -224,16 +342,19 @@ function retryRecording() {
   state.audioBlob = null;
   state.audioFileName = "hskk-recording.webm";
   state.chunks = [];
-  $("#audio-preview").hidden = true;
   $("#audio-preview").removeAttribute("src");
+  $("#playback-card").classList.add("hidden");
   $("#retry-recording").disabled = true;
+  updateEvaluationButton();
   $("#recording-state").textContent = "대기";
+  $("#recording-title").textContent = "문제를 보고 자연스럽게 말해 보세요.";
+  $("#recording-meta").textContent = "3초 이상 녹음하면 평가할 수 있습니다.";
   setStatus("다시 녹음할 준비가 되었습니다.");
 }
 
 async function runEvaluation() {
-  const config = settings();
-  if (!config.apiBase) {
+  if (!settings().apiBase) {
+    showSettings(true);
     setStatus("먼저 Vercel API Base URL을 저장하세요.", "error");
     return;
   }
@@ -243,16 +364,18 @@ async function runEvaluation() {
   }
 
   try {
+    $("#run-evaluation").disabled = true;
     setStatus("STT를 실행하는 중입니다. API 비용이 발생할 수 있습니다.");
     let transcript = $("#transcript").value.trim();
     if (state.audioBlob) {
       if (state.audioBlob.size < 1024) {
         setStatus("녹음 파일이 너무 짧거나 비어 있습니다. 3초 이상 다시 녹음하세요.", "error");
+        updateEvaluationButton();
         return;
       }
       const form = new FormData();
       form.append("audio", state.audioBlob, state.audioFileName);
-      const transcribeResponse = await fetch(`${config.apiBase.replace(/\/$/, "")}/api/transcribe`, {
+      const transcribeResponse = await fetch(`${normalizedApiBase()}/api/transcribe`, {
         method: "POST",
         body: form,
       });
@@ -265,12 +388,12 @@ async function runEvaluation() {
     const payload = {
       mode: state.mode === "expected" ? "expected_question_test" : "daily_lesson",
       level: state.mode === "expected" ? state.level : "intermediate",
-      lesson: state.lesson,
+      lesson: state.lessonDetail || state.lesson,
       prompt: currentPrompt(),
       transcript,
       client_timestamp: new Date().toISOString(),
     };
-    const evaluateResponse = await fetch(`${config.apiBase.replace(/\/$/, "")}/api/evaluate`, {
+    const evaluateResponse = await fetch(`${normalizedApiBase()}/api/evaluate`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
@@ -282,10 +405,14 @@ async function runEvaluation() {
     renderFeedback(session);
     renderHistory();
     $("#export-current").disabled = false;
+    $("#post-feedback-actions").classList.remove("hidden");
     setStatus("평가가 완료되었습니다.");
   } catch (error) {
     console.error(error);
+    showSettings(true);
     setStatus(formatErrorMessage(error), "error");
+  } finally {
+    updateEvaluationButton();
   }
 }
 
@@ -319,12 +446,13 @@ function saveSession(session) {
 function renderFeedback(session) {
   const feedback = session.feedback || {};
   const rubric = feedback.rubric || {};
-  const strengths = listItems(feedback.strengths);
-  const weaknesses = listItems(feedback.weaknesses);
-  const recommendations = listItems(feedback.review_recommendations || feedback.recommendations);
-  $("#feedback-output").className = "feedback-card";
+  $("#feedback-output").className = "feedback-card coaching-report";
   $("#feedback-output").innerHTML = `
-    <strong>예상 점수: ${escapeHtml(String(session.estimated_score ?? "n/a"))}</strong>
+    <div class="score-hero">
+      <span>예상 점수</span>
+      <strong>${escapeHtml(String(session.estimated_score ?? "n/a"))}</strong>
+      <small>공식 HSKK 점수가 아닌 연습용 코칭 지표입니다.</small>
+    </div>
     <div class="feedback-grid">
       ${scorePill("Task", rubric.task_completion)}
       ${scorePill("Fluency", rubric.fluency)}
@@ -332,16 +460,19 @@ function renderFeedback(session) {
       ${scorePill("Vocabulary", rubric.vocabulary)}
       ${scorePill("Pronunciation", rubric.pronunciation)}
     </div>
-    <h3>교정 답변</h3>
-    <p>${escapeHtml(feedback.corrected_answer || "교정 답변이 없습니다.")}</p>
-    <h3>강점</h3>
-    <ul>${strengths}</ul>
-    <h3>약점</h3>
-    <ul>${weaknesses}</ul>
-    <h3>복습 추천</h3>
-    <ul>${recommendations}</ul>
-    <p class="hint">이 점수는 공식 HSKK 점수가 아니라 연습용 예상 평가입니다.</p>
+    ${reportBlock("잘한 점", feedback.strengths)}
+    ${reportBlock("다음에 고칠 점", feedback.weaknesses)}
+    ${reportBlock("다음 연습 추천", feedback.review_recommendations || feedback.recommendations)}
+    <section class="correction-card">
+      <h3>교정 답변</h3>
+      <p>${escapeHtml(feedback.corrected_answer || "교정 답변이 없습니다.")}</p>
+    </section>
+    <p class="hint">${escapeHtml(feedback.overall_comments || "")}</p>
   `;
+}
+
+function reportBlock(title, items) {
+  return `<section class="report-block"><h3>${escapeHtml(title)}</h3><ul>${listItems(items)}</ul></section>`;
 }
 
 function renderHistory() {
@@ -415,20 +546,31 @@ function escapeHtml(value) {
 
 function bindEvents() {
   const config = settings();
-  $("#api-base").value = config.apiBase || "";
+  $("#api-base").value = config.apiBase || DEFAULT_API_BASE;
+  $("#return-link").href = returnPath;
+  $("#return-link-bottom").href = returnPath;
 
   document.querySelectorAll("[data-mode]").forEach((button) => {
-    button.addEventListener("click", () => {
-      state.mode = button.dataset.mode;
-      document.querySelectorAll("[data-mode]").forEach((item) => item.classList.toggle("active", item === button));
-      $("#lesson-panel").classList.toggle("hidden", state.mode !== "daily");
-      $("#expected-panel").classList.toggle("hidden", state.mode !== "expected");
-    });
+    button.addEventListener("click", () => activateMode(button.dataset.mode));
   });
 
+  $("#toggle-settings").addEventListener("click", () => {
+    showSettings($("#settings-panel").classList.contains("hidden"));
+  });
   $("#save-settings").addEventListener("click", () => {
-    writeJson(SETTINGS_KEY, { apiBase: $("#api-base").value.trim() });
+    writeJson(SETTINGS_KEY, { apiBase: $("#api-base").value.trim() || DEFAULT_API_BASE });
     setStatus("API 설정을 저장했습니다.");
+    testApiConnection({ silent: true });
+  });
+  $("#restore-settings").addEventListener("click", () => {
+    $("#api-base").value = DEFAULT_API_BASE;
+    writeJson(SETTINGS_KEY, { apiBase: DEFAULT_API_BASE });
+    setStatus("기본 API URL로 복원했습니다.");
+    testApiConnection({ silent: true });
+  });
+  $("#test-settings").addEventListener("click", () => {
+    writeJson(SETTINGS_KEY, { apiBase: $("#api-base").value.trim() || DEFAULT_API_BASE });
+    testApiConnection();
   });
 
   $("#test-level").addEventListener("change", (event) => {
@@ -453,7 +595,9 @@ function bindEvents() {
   $("#start-recording").addEventListener("click", startRecording);
   $("#stop-recording").addEventListener("click", stopRecording);
   $("#retry-recording").addEventListener("click", retryRecording);
+  $("#retry-after-feedback").addEventListener("click", retryRecording);
   $("#run-evaluation").addEventListener("click", runEvaluation);
+  $("#transcript").addEventListener("input", updateEvaluationButton);
   $("#export-current").addEventListener("click", () => {
     if (state.currentSession) downloadJson(`${state.currentSession.session_id}.json`, state.currentSession);
   });
@@ -480,6 +624,8 @@ function bindEvents() {
 }
 
 bindEvents();
+activateMode(state.mode);
 loadLesson();
 renderQuestion();
 renderHistory();
+testApiConnection({ silent: true });

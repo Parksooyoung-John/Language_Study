@@ -1,0 +1,35 @@
+{
+  "number": 1,
+  "slug": "lesson_01",
+  "title": "Lesson 01: HSKK Intermediate Baseline Diagnosis With Pinyin",
+  "date": "",
+  "goal": "오늘은 HSKK 중급 첫 진단 세션입니다. 초/중급 수준으로 짧게 말하고, 모든 중국어는 한자와 병음을 같이 보며 연습합니다.",
+  "scene": "",
+  "visual_path": "./assets/lesson_01_part2.svg",
+  "return_path": "./lesson_01.html",
+  "repeat": [
+    {
+      "tag": "1",
+      "hanzi": "我每天早上七点起床。",
+      "pinyin": "Wǒ měitiān zǎoshang qī diǎn qǐchuáng.",
+      "meaning": "나는 매일 아침 7시에 일어납니다.",
+      "focus": "시간 표현, 3성+2성 리듬"
+    },
+    {
+      "tag": "2",
+      "hanzi": "然后我坐地铁去公司。",
+      "pinyin": "Ránhòu wǒ zuò dìtiě qù gōngsī.",
+      "meaning": "그 다음 지하철을 타고 회사에 갑니다.",
+      "focus": "순서 연결어, `qù` 발음"
+    },
+    {
+      "tag": "3",
+      "hanzi": "周末天气好的话，我想去公园散步。",
+      "pinyin": "Zhōumò tiānqì hǎo dehuà, wǒ xiǎng qù gōngyuán sànbù.",
+      "meaning": "주말에 날씨가 좋으면 공원에 산책하러 가고 싶습니다.",
+      "focus": "조건 표현, 긴 문장 끊어 말하기"
+    }
+  ],
+  "picture": [],
+  "questions": []
+}

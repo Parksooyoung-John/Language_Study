@@ -1,0 +1,79 @@
+{
+  "number": 10,
+  "slug": "lesson_10",
+  "title": "Lesson 10: 공부 습관",
+  "date": "2026-06-07",
+  "goal": "오늘은 `공부 습관` 주제로 HSKK 중급 말하기를 짧은 문장으로 연습합니다. 한자, 병음, 한국어 뜻을 함께 확인하면서 바로 말해 보세요.",
+  "scene": "한 사람이 노트에 중국어 문장을 쓰고, 옆에 있는 이어폰으로 발음을 듣고 있습니다.",
+  "visual_path": "./assets/lesson_10_part2.svg",
+  "return_path": "./lesson_10.html",
+  "repeat": [
+    {
+      "tag": "1",
+      "hanzi": "我觉得每天复习很重要。",
+      "pinyin": "Wǒ juéde měitiān fùxí hěn zhòngyào.",
+      "meaning": "저는 매일 복습이 중요하다고 생각합니다.",
+      "focus": "생각"
+    },
+    {
+      "tag": "2",
+      "hanzi": "我先听，然后跟着说。",
+      "pinyin": "Wǒ xiān tīng, ránhòu gēnzhe shuō.",
+      "meaning": "저는 먼저 듣고, 그다음 따라 말합니다.",
+      "focus": "순서"
+    },
+    {
+      "tag": "3",
+      "hanzi": "我想提高我的发音。",
+      "pinyin": "Wǒ xiǎng tígāo wǒ de fāyīn.",
+      "meaning": "저는 제 발음을 향상시키고 싶습니다.",
+      "focus": "목표"
+    }
+  ],
+  "picture": [
+    {
+      "tag": "장소",
+      "hanzi": "这是一个学习的场景。",
+      "pinyin": "Zhè shì yí ge xuéxí de chǎngjǐng.",
+      "meaning": "이곳은 공부하는 장면입니다.",
+      "focus": "장면 소개"
+    },
+    {
+      "tag": "인물/행동",
+      "hanzi": "他正在写汉字。",
+      "pinyin": "Tā zhèngzài xiě Hànzì.",
+      "meaning": "그는 한자를 쓰고 있습니다.",
+      "focus": "동작"
+    },
+    {
+      "tag": "세부사항",
+      "hanzi": "他用耳机听发音。",
+      "pinyin": "Tā yòng ěrjī tīng fāyīn.",
+      "meaning": "그는 이어폰으로 발음을 듣고 있습니다.",
+      "focus": "도구"
+    },
+    {
+      "tag": "의견/추측",
+      "hanzi": "这个方法很有用。",
+      "pinyin": "Zhège fāngfǎ hěn yǒu yòng.",
+      "meaning": "이 방법은 유용합니다.",
+      "focus": "평가"
+    }
+  ],
+  "questions": [
+    {
+      "tag": "1",
+      "hanzi": "你怎么复习汉语？",
+      "pinyin": "Nǐ zěnme fùxí Hànyǔ?",
+      "meaning": "중국어를 어떻게 복습하나요?",
+      "focus": "我先...然后..."
+    },
+    {
+      "tag": "2",
+      "hanzi": "你想提高哪方面？",
+      "pinyin": "Nǐ xiǎng tígāo nǎ fāngmiàn?",
+      "meaning": "어떤 부분을 향상시키고 싶나요?",
+      "focus": "我想提高..."
+    }
+  ]
+}

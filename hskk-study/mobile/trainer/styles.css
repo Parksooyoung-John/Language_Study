@@ -7,6 +7,9 @@
   --accent: #0f766e;
   --accent-soft: #ddf3ef;
   --danger: #b42318;
+  --danger-soft: #fee4e2;
+  --amber-soft: #fff4df;
+  --amber-line: #efc06f;
   --shadow: 0 16px 36px rgba(23, 32, 38, .08);
 }
 
@@ -26,12 +29,13 @@ button, input, select, textarea {
 
 button, .ghost-link {
   border: 0;
-  border-radius: 12px;
+  border-radius: 10px;
   padding: 11px 14px;
   background: var(--accent);
   color: #fff;
   font-weight: 800;
   text-decoration: none;
+  text-align: center;
 }
 
 button:disabled {
@@ -44,7 +48,7 @@ button:disabled {
 }
 
 .danger {
-  background: #fee4e2;
+  background: var(--danger-soft);
   color: var(--danger);
 }
 
@@ -56,10 +60,21 @@ button:disabled {
   gap: 14px;
   justify-content: space-between;
   align-items: flex-start;
-  padding: 22px 18px 16px;
-  background: rgba(255, 255, 255, .94);
+  padding: 18px 16px 14px;
+  background: rgba(255, 255, 255, .95);
   border-bottom: 1px solid var(--line);
   backdrop-filter: blur(14px);
+}
+
+.top-actions {
+  display: grid;
+  gap: 8px;
+  min-width: 104px;
+}
+
+.icon-button {
+  background: #eef3f4;
+  color: #26343b;
 }
 
 .eyebrow {
@@ -80,23 +95,35 @@ h1 {
   word-break: keep-all;
 }
 
+.top-sub {
+  margin: 7px 0 0;
+  color: var(--muted);
+  font-size: .9rem;
+  word-break: keep-all;
+}
+
 h2 {
   margin: 0;
   font-size: 1.08rem;
 }
 
+h3 {
+  margin: 0 0 9px;
+  font-size: .98rem;
+}
+
 main {
   width: min(900px, 100%);
   margin: 0 auto;
-  padding: 16px 14px 44px;
+  padding: 14px 12px 44px;
 }
 
 .panel {
   margin-top: 14px;
   padding: 16px;
   border: 1px solid var(--line);
-  border-radius: 16px;
-  background: rgba(255, 255, 255, .95);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, .96);
   box-shadow: var(--shadow);
 }
 
@@ -113,13 +140,31 @@ main {
   margin-bottom: 12px;
 }
 
+.step-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.step-row span {
+  min-height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: .82rem;
+  font-weight: 900;
+}
+
 .segmented {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px;
   padding: 6px;
   border: 1px solid var(--line);
-  border-radius: 14px;
+  border-radius: 8px;
   background: #eef3f4;
 }
 
@@ -144,7 +189,7 @@ main {
 input, select, textarea {
   width: 100%;
   border: 1px solid var(--line);
-  border-radius: 12px;
+  border-radius: 8px;
   padding: 11px 12px;
   background: #fff;
   color: var(--ink);
@@ -159,15 +204,118 @@ textarea {
 }
 
 .hint {
-  margin: 10px 0 0;
+  margin: 8px 0 0;
   font-size: .88rem;
 }
 
-.summary-card, .question-card, .status-box, .feedback-empty, .feedback-card, .history-item {
+.prompt-card, .status-box, .feedback-empty, .feedback-card, .history-item, .playback-card, .lesson-line {
   border: 1px solid var(--line);
-  border-radius: 14px;
+  border-radius: 8px;
   padding: 13px;
   background: var(--card);
+}
+
+.prompt-header {
+  display: grid;
+  gap: 7px;
+  margin-bottom: 12px;
+}
+
+.lesson-visual {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #f4fbfa;
+}
+
+.lesson-sections {
+  display: grid;
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.lesson-line {
+  display: grid;
+  gap: 4px;
+  margin-top: 8px;
+}
+
+.lesson-line span {
+  color: var(--accent);
+  font-size: .78rem;
+  font-weight: 900;
+}
+
+.lesson-line strong, .hanzi {
+  font-size: 1.25rem;
+  font-weight: 900;
+  word-break: keep-all;
+}
+
+.lesson-line em, .pinyin {
+  color: var(--accent);
+  font-style: normal;
+  font-weight: 800;
+}
+
+.lesson-line small {
+  color: var(--muted);
+}
+
+.scene-text {
+  margin: 0 0 8px;
+  padding: 12px;
+  border: 1px solid var(--amber-line);
+  border-radius: 8px;
+  background: var(--amber-soft);
+  color: #5d3b0d;
+}
+
+.recording-stage {
+  display: grid;
+  grid-template-columns: 112px 1fr;
+  gap: 14px;
+  align-items: center;
+}
+
+.record-button {
+  width: 112px;
+  height: 112px;
+  border-radius: 999px;
+  padding: 0;
+  box-shadow: 0 14px 28px rgba(15, 118, 110, .22);
+}
+
+.recording-copy {
+  display: grid;
+  gap: 4px;
+}
+
+.recording-copy span {
+  color: var(--muted);
+  font-size: .9rem;
+}
+
+.recorder-actions {
+  margin-top: 13px;
+}
+
+.recorder-actions button {
+  flex: 1 1 110px;
+}
+
+.playback-card {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.playback-card audio {
+  width: 100%;
+}
+
+.status-box {
+  margin-top: 12px;
 }
 
 .status-box[data-kind="error"] {
@@ -198,10 +346,29 @@ textarea {
   font-weight: 900;
 }
 
-.recorder, .row-actions {
+.badge.neutral {
+  background: #eef3f4;
+  color: var(--muted);
+}
+
+.badge.ok {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.badge.error {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+.row-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+}
+
+.row-actions button, .row-actions .ghost-link {
+  flex: 1 1 120px;
 }
 
 .compact button {
@@ -230,31 +397,56 @@ textarea {
   font-weight: 800;
 }
 
-.hanzi {
-  font-size: 1.45rem;
+.transcript-panel summary {
+  cursor: pointer;
   font-weight: 900;
-}
-
-.pinyin {
-  color: var(--accent);
-  font-weight: 800;
 }
 
 .feedback-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
-  margin: 10px 0;
+  margin: 12px 0;
+}
+
+.score-hero {
+  display: grid;
+  gap: 2px;
+  padding: 14px;
+  border-radius: 8px;
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.score-hero strong {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.score-hero small {
+  color: #2c5f59;
 }
 
 .score-pill {
   padding: 10px;
-  border-radius: 12px;
+  border-radius: 8px;
   background: #f1f6f6;
 }
 
 .score-pill strong {
   display: block;
+}
+
+.report-block, .correction-card {
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fbfdfd;
+}
+
+.post-feedback-actions {
+  margin-top: 12px;
 }
 
 .history-list {
@@ -274,5 +466,29 @@ textarea {
 
   h1 {
     font-size: 1.65rem;
+  }
+
+  .playback-card {
+    grid-template-columns: 220px 1fr;
+    align-items: center;
+  }
+}
+
+@media (max-width: 520px) {
+  .topbar {
+    display: grid;
+  }
+
+  .top-actions {
+    grid-template-columns: 1fr 84px;
+  }
+
+  .recording-stage {
+    grid-template-columns: 96px 1fr;
+  }
+
+  .record-button {
+    width: 96px;
+    height: 96px;
   }
 }
