@@ -29,7 +29,7 @@ const questions = {
       part: "repeat",
       label: "Part 1 · Repeat",
       prompt_hanzi: "我每天学习汉语。",
-      prompt_pinyin: "Wo mei tian xuexi Hanyu.",
+      prompt_pinyin: "Wǒ měi tiān xuéxí Hànyǔ.",
       prompt_ko: "나는 매일 중국어를 공부합니다.",
       time_limit_sec: 30,
     },
@@ -38,7 +38,7 @@ const questions = {
       part: "answer_questions",
       label: "Part 3 · Answer",
       prompt_hanzi: "你喜欢学习汉语吗？",
-      prompt_pinyin: "Ni xihuan xuexi Hanyu ma?",
+      prompt_pinyin: "Nǐ xǐhuān xuéxí Hànyǔ ma?",
       prompt_ko: "중국어 공부를 좋아하나요?",
       time_limit_sec: 45,
     },
@@ -49,7 +49,7 @@ const questions = {
       part: "picture_description",
       label: "Part 2 · Picture",
       prompt_hanzi: "请描述一个人在手机上学习汉语的场景。",
-      prompt_pinyin: "Qing miaoshu yi ge ren zai shouji shang xuexi Hanyu de changjing.",
+      prompt_pinyin: "Qǐng miáoshù yí gè rén zài shǒujī shàng xuéxí Hànyǔ de chǎngjǐng.",
       prompt_ko: "휴대폰으로 중국어를 공부하는 장면을 묘사하세요.",
       time_limit_sec: 60,
     },
@@ -58,7 +58,7 @@ const questions = {
       part: "answer_questions",
       label: "Part 3 · Answer",
       prompt_hanzi: "你每天什么时候学习汉语？为什么？",
-      prompt_pinyin: "Ni mei tian shenme shihou xuexi Hanyu? Weishenme?",
+      prompt_pinyin: "Nǐ měi tiān shénme shíhou xuéxí Hànyǔ? Wèishénme?",
       prompt_ko: "매일 언제 중국어를 공부하나요? 왜 그런가요?",
       time_limit_sec: 60,
     },
@@ -69,7 +69,7 @@ const questions = {
       part: "answer_questions",
       label: "Part 3 · Answer",
       prompt_hanzi: "你觉得用AI学习外语有什么优点和缺点？",
-      prompt_pinyin: "Ni juede yong AI xuexi waiyu you shenme youdian he quedian?",
+      prompt_pinyin: "Nǐ juéde yòng AI xuéxí wàiyǔ yǒu shénme yōudiǎn hé quēdiǎn?",
       prompt_ko: "AI로 외국어를 공부하는 장단점은 무엇이라고 생각하나요?",
       time_limit_sec: 90,
     },
@@ -188,6 +188,7 @@ async function loadLesson() {
     state.lessonDetail = await detailResponse.json();
     $("#lesson-link").href = returnPath;
     renderLessonPrompt();
+    renderQuestion();
   } catch {
     $("#lesson-summary").textContent = "레슨 정보를 불러오지 못했습니다.";
   }
@@ -239,13 +240,72 @@ function lessonItems(items, label) {
   `).join("");
 }
 
+function currentQuestionList() {
+  const lessonQuestions = lessonExpectedQuestions();
+  return lessonQuestions.length ? lessonQuestions : (questions[state.level] || questions.intermediate);
+}
+
+function lessonExpectedQuestions() {
+  const detail = state.lessonDetail;
+  if (!requestedLesson || !detail) return [];
+
+  const lessonLabel = `Lesson ${detail.number || ""}`.trim();
+  const lessonKey = detail.slug || requestedLesson;
+  const items = [];
+
+  (detail.questions || []).forEach((item, index) => {
+    items.push({
+      item_id: `${lessonKey}_question_${index + 1}`,
+      part: "answer_questions",
+      label: `${lessonLabel} · 질문 ${index + 1}`,
+      level_label: lessonLabel,
+      prompt_hanzi: item.hanzi || detail.title || "",
+      prompt_pinyin: item.pinyin || "",
+      prompt_ko: item.meaning || item.focus || detail.goal || "레슨 주제에 맞게 답변하세요.",
+      time_limit_sec: 60,
+      lesson_detail: detail,
+    });
+  });
+
+  (detail.picture || []).forEach((item, index) => {
+    items.push({
+      item_id: `${lessonKey}_picture_${index + 1}`,
+      part: "picture_description",
+      label: `${lessonLabel} · 그림묘사 ${index + 1}`,
+      level_label: lessonLabel,
+      prompt_hanzi: item.hanzi || detail.scene || detail.title || "",
+      prompt_pinyin: item.pinyin || "",
+      prompt_ko: item.meaning || item.focus || detail.scene || "레슨 그림을 보고 설명하세요.",
+      time_limit_sec: 60,
+      lesson_detail: detail,
+    });
+  });
+
+  (detail.repeat || []).forEach((item, index) => {
+    items.push({
+      item_id: `${lessonKey}_repeat_${index + 1}`,
+      part: "repeat",
+      label: `${lessonLabel} · 따라 말하기 ${index + 1}`,
+      level_label: lessonLabel,
+      prompt_hanzi: item.hanzi || "",
+      prompt_pinyin: item.pinyin || "",
+      prompt_ko: item.meaning || item.focus || "문장을 듣고 따라 말하듯 반복하세요.",
+      time_limit_sec: 45,
+      lesson_detail: detail,
+    });
+  });
+
+  return items;
+}
+
 function renderQuestion() {
-  const list = questions[state.level] || questions.intermediate;
+  const list = currentQuestionList();
   const item = list[state.questionIndex] || list[0];
+  if (!item) return;
   $("#test-item").innerHTML = `
     <div class="question-meta">
       <span>${escapeHtml(item.label)}</span>
-      <span>${escapeHtml(state.level)}</span>
+      <span>${escapeHtml(item.level_label || state.level)}</span>
       <span>${item.time_limit_sec}s</span>
     </div>
     <div class="hanzi">${escapeHtml(item.prompt_hanzi)}</div>
@@ -256,7 +316,7 @@ function renderQuestion() {
 
 function currentPrompt() {
   if (state.mode === "expected") {
-    const list = questions[state.level] || questions.intermediate;
+    const list = currentQuestionList();
     return list[state.questionIndex] || list[0];
   }
   return {
@@ -276,6 +336,7 @@ function activateMode(mode) {
   document.querySelectorAll("[data-mode]").forEach((item) => item.classList.toggle("active", item.dataset.mode === mode));
   $("#lesson-panel").classList.toggle("hidden", mode !== "daily");
   $("#expected-panel").classList.toggle("hidden", mode !== "expected");
+  renderQuestion();
 }
 
 function canEvaluate() {
@@ -652,14 +713,14 @@ function bindEvents() {
   });
 
   $("#prev-question").addEventListener("click", () => {
-    const list = questions[state.level] || questions.intermediate;
+    const list = currentQuestionList();
     state.questionIndex = Math.max(0, state.questionIndex - 1);
     if (!list[state.questionIndex]) state.questionIndex = 0;
     renderQuestion();
   });
 
   $("#next-question").addEventListener("click", () => {
-    const list = questions[state.level] || questions.intermediate;
+    const list = currentQuestionList();
     state.questionIndex = Math.min(list.length - 1, state.questionIndex + 1);
     renderQuestion();
   });
