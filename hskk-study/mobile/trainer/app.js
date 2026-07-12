@@ -241,20 +241,22 @@ function lessonItems(items, label) {
 }
 
 function currentQuestionList() {
-  const lessonQuestions = lessonExpectedQuestions();
+  const lessonQuestions = lessonExpectedQuestions(state.level);
   return lessonQuestions.length ? lessonQuestions : (questions[state.level] || questions.intermediate);
 }
 
-function lessonExpectedQuestions() {
+function lessonExpectedQuestions(level = state.level) {
   const detail = state.lessonDetail;
   if (!requestedLesson || !detail) return [];
 
   const lessonLabel = `Lesson ${detail.number || ""}`.trim();
   const lessonKey = detail.slug || requestedLesson;
-  const items = [];
+  const questionItems = [];
+  const pictureItems = [];
+  const repeatItems = [];
 
   (detail.questions || []).forEach((item, index) => {
-    items.push({
+    questionItems.push({
       item_id: `${lessonKey}_question_${index + 1}`,
       part: "answer_questions",
       label: `${lessonLabel} · 질문 ${index + 1}`,
@@ -268,7 +270,7 @@ function lessonExpectedQuestions() {
   });
 
   (detail.picture || []).forEach((item, index) => {
-    items.push({
+    pictureItems.push({
       item_id: `${lessonKey}_picture_${index + 1}`,
       part: "picture_description",
       label: `${lessonLabel} · 그림묘사 ${index + 1}`,
@@ -282,7 +284,7 @@ function lessonExpectedQuestions() {
   });
 
   (detail.repeat || []).forEach((item, index) => {
-    items.push({
+    repeatItems.push({
       item_id: `${lessonKey}_repeat_${index + 1}`,
       part: "repeat",
       label: `${lessonLabel} · 따라 말하기 ${index + 1}`,
@@ -295,7 +297,9 @@ function lessonExpectedQuestions() {
     });
   });
 
-  return items;
+  if (level === "beginner") return repeatItems.concat(questionItems, pictureItems);
+  if (level === "advanced") return pictureItems.concat(questionItems, repeatItems);
+  return questionItems.concat(pictureItems, repeatItems);
 }
 
 function renderQuestion() {
