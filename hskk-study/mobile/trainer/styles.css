@@ -208,7 +208,7 @@ textarea {
   font-size: .88rem;
 }
 
-.prompt-card, .status-box, .feedback-empty, .feedback-card, .history-item, .playback-card, .lesson-line {
+.prompt-card, .status-box, .feedback-empty, .feedback-card, .history-item, .playback-card, .compare-card, .lesson-line {
   border: 1px solid var(--line);
   border-radius: 8px;
   padding: 13px;
@@ -311,6 +311,22 @@ textarea {
 }
 
 .playback-card audio {
+  width: 100%;
+}
+
+.comparison-grid {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.compare-card {
+  display: grid;
+  gap: 10px;
+  background: #fbfdfd;
+}
+
+.compare-card audio {
   width: 100%;
 }
 
@@ -471,6 +487,10 @@ textarea {
   .playback-card {
     grid-template-columns: 220px 1fr;
     align-items: center;
+  }
+
+  .comparison-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 

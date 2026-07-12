@@ -17,6 +17,8 @@ const state = {
   chunks: [],
   audioBlob: null,
   audioFileName: "hskk-recording.webm",
+  nativeAudioUrl: null,
+  correctedAudioUrl: null,
   currentSession: null,
 };
 
@@ -344,12 +346,73 @@ function retryRecording() {
   state.chunks = [];
   $("#audio-preview").removeAttribute("src");
   $("#playback-card").classList.add("hidden");
+  clearComparisonAudio();
   $("#retry-recording").disabled = true;
   updateEvaluationButton();
   $("#recording-state").textContent = "대기";
   $("#recording-title").textContent = "문제를 보고 자연스럽게 말해 보세요.";
   $("#recording-meta").textContent = "3초 이상 녹음하면 평가할 수 있습니다.";
   setStatus("다시 녹음할 준비가 되었습니다.");
+}
+
+function clearComparisonAudio() {
+  revokeAudioUrl("nativeAudioUrl");
+  revokeAudioUrl("correctedAudioUrl");
+  $("#native-audio").removeAttribute("src");
+  $("#corrected-audio").removeAttribute("src");
+  $("#native-audio-card").classList.add("hidden");
+  $("#corrected-audio-card").classList.add("hidden");
+  $("#comparison-panel").classList.add("hidden");
+}
+
+function revokeAudioUrl(key) {
+  if (state[key]) {
+    URL.revokeObjectURL(state[key]);
+    state[key] = null;
+  }
+}
+
+async function generateSpeechAudio(text, kind) {
+  const cleanText = String(text || "").trim();
+  if (!cleanText) return null;
+
+  const response = await fetch(`${normalizedApiBase()}/api/speech`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      text: cleanText,
+      voice: "coral",
+      instructions: kind === "corrected"
+        ? "Speak this corrected Mandarin Chinese answer clearly and naturally for HSKK speaking practice."
+        : "Speak this Mandarin Chinese transcript clearly and naturally for HSKK speaking practice.",
+    }),
+  });
+  if (!response.ok) await readApiResponse(response);
+  const blob = await response.blob();
+  return URL.createObjectURL(blob);
+}
+
+function showSpeechAudio(kind, url) {
+  if (!url) return;
+  const isCorrected = kind === "corrected";
+  const key = isCorrected ? "correctedAudioUrl" : "nativeAudioUrl";
+  const audio = isCorrected ? $("#corrected-audio") : $("#native-audio");
+  const card = isCorrected ? $("#corrected-audio-card") : $("#native-audio-card");
+
+  revokeAudioUrl(key);
+  state[key] = url;
+  audio.src = url;
+  card.classList.remove("hidden");
+  $("#comparison-panel").classList.remove("hidden");
+}
+
+async function prepareSpeechAudio(text, kind) {
+  try {
+    const url = await generateSpeechAudio(text, kind);
+    showSpeechAudio(kind, url);
+  } catch (error) {
+    console.warn(`${kind} speech generation failed`, error);
+  }
 }
 
 async function runEvaluation() {
@@ -365,7 +428,8 @@ async function runEvaluation() {
 
   try {
     $("#run-evaluation").disabled = true;
-    setStatus("STT를 실행하는 중입니다. API 비용이 발생할 수 있습니다.");
+    clearComparisonAudio();
+    setStatus("STT를 실행하는 중입니다.");
     let transcript = $("#transcript").value.trim();
     if (state.audioBlob) {
       if (state.audioBlob.size < 1024) {
@@ -382,6 +446,10 @@ async function runEvaluation() {
       const transcribeJson = await readApiResponse(transcribeResponse);
       transcript = transcribeJson.text || transcribeJson.transcript || "";
       $("#transcript").value = transcript;
+    }
+    if (transcript) {
+      setStatus("원어민 발음을 준비하는 중입니다.");
+      await prepareSpeechAudio(transcript, "native");
     }
 
     setStatus("AI 평가를 실행하는 중입니다.");
@@ -406,6 +474,10 @@ async function runEvaluation() {
     renderHistory();
     $("#export-current").disabled = false;
     $("#post-feedback-actions").classList.remove("hidden");
+    if (feedback.corrected_answer) {
+      setStatus("교정 답변 발음을 준비하는 중입니다.");
+      await prepareSpeechAudio(feedback.corrected_answer, "corrected");
+    }
     setStatus("평가가 완료되었습니다.");
   } catch (error) {
     console.error(error);

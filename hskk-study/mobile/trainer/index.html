@@ -101,6 +101,22 @@
         </div>
         <audio id="audio-preview" controls></audio>
       </div>
+      <div class="comparison-grid hidden" id="comparison-panel">
+        <div class="compare-card hidden" id="native-audio-card">
+          <div>
+            <strong>원어민 발음 듣기</strong>
+            <p class="hint">STT 결과를 OpenAI TTS 기반 모범 발음으로 들려줍니다.</p>
+          </div>
+          <audio id="native-audio" controls></audio>
+        </div>
+        <div class="compare-card hidden" id="corrected-audio-card">
+          <div>
+            <strong>교정 답변 발음 듣기</strong>
+            <p class="hint">AI가 다듬은 답변을 OpenAI TTS 기반 모범 발음으로 들려줍니다.</p>
+          </div>
+          <audio id="corrected-audio" controls></audio>
+        </div>
+      </div>
       <div id="status-box" class="status-box">준비되었습니다.</div>
     </section>
 

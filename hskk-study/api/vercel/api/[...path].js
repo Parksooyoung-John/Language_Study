@@ -67,6 +67,10 @@ module.exports = async function handler(req, res) {
       await evaluate(req, res);
       return;
     }
+    if (pathname === "/api/speech" && req.method === "POST") {
+      await speech(req, res);
+      return;
+    }
     if (pathname === "/api/session" && req.method === "POST") {
       await normalizeSession(req, res);
       return;
@@ -175,6 +179,40 @@ async function evaluate(req, res) {
   } catch {
     sendJson(res, { error: "invalid_model_json", raw: payload }, 502);
   }
+}
+
+async function speech(req, res) {
+  requireOpenAIKey();
+  const body = await readRequestJson(req);
+  const text = typeof body.text === "string" ? body.text.trim() : "";
+  if (!text) {
+    sendJson(res, { error: "missing_text", message: "Text is required for speech generation." }, 400);
+    return;
+  }
+
+  const response = await fetch("https://api.openai.com/v1/audio/speech", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      model: process.env.TTS_MODEL || "gpt-4o-mini-tts",
+      voice: body.voice || process.env.TTS_VOICE || "coral",
+      input: text.slice(0, 3000),
+      instructions: body.instructions || "Speak Mandarin Chinese clearly and naturally for HSKK speaking practice. Keep a steady learning pace.",
+      response_format: "mp3",
+    }),
+  });
+
+  if (!response.ok) {
+    const payload = await readJsonResponse(response);
+    sendJson(res, openAIError("speech_failed", payload), response.status);
+    return;
+  }
+
+  const buffer = Buffer.from(await response.arrayBuffer());
+  sendAudio(res, buffer, "audio/mpeg");
 }
 
 async function normalizeSession(req, res) {
@@ -302,4 +340,12 @@ function sendJson(res, payload, status = 200) {
   res.statusCode = status;
   res.setHeader("Content-Type", "application/json; charset=utf-8");
   res.end(JSON.stringify(payload, null, 2));
+}
+
+function sendAudio(res, buffer, contentType) {
+  res.statusCode = 200;
+  res.setHeader("Content-Type", contentType);
+  res.setHeader("Cache-Control", "no-store");
+  res.setHeader("Content-Length", String(buffer.length));
+  res.end(buffer);
 }
