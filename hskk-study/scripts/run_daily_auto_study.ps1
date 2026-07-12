@@ -39,16 +39,16 @@ try {
         exit 0
     }
 
-    $trackedStudyPaths = @("hskk-study/mobile/index.html")
-    if ($generation.action -eq "create") {
-        $trackedStudyPaths += "hskk-study/_workspace"
-    }
+    $trackedStudyPaths = @(
+        "hskk-study/_workspace"
+        "hskk-study/mobile"
+    )
     $statusLines = git @gitBaseArgs status --porcelain -- $trackedStudyPaths 2>$null
     $changes = @($statusLines | Where-Object { $_ -match '^( M|M |A | A|D | D|R |C |U |\?\?)' })
     if ($changes.Count -gt 0) {
         $lessonTitle = Select-String -Path .\hskk-study\mobile\index.html -Pattern "<h1>" | Select-Object -First 1
         $commitMessage = "Auto-generate HSKK daily lesson $(Get-Date -Format yyyy-MM-dd)"
-        git @gitBaseArgs add hskk-study/_workspace hskk-study/mobile/index.html
+        git @gitBaseArgs add hskk-study/_workspace hskk-study/mobile
         git @gitBaseArgs commit -m $commitMessage
         if ($LASTEXITCODE -ne 0) {
             throw "git commit failed"
