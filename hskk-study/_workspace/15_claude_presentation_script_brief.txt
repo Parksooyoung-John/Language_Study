@@ -1,0 +1,717 @@
+HSKK AI Speaking Trainer 프로젝트 전체 요약
+Claude 발표스크립트 작성 요청용 소스
+작성일: 2026-07-13
+
+========================================
+1. Claude에게 요청할 작업
+========================================
+
+아래 내용을 바탕으로 AX 발표용 발표스크립트를 작성해 주세요.
+
+발표 목적:
+- HSKK 중국어 말하기 학습을 개인화 AI 루틴으로 만든 프로젝트를 설명한다.
+- 단순히 “AI가 레슨을 생성했다”가 아니라, 모바일 학습 페이지, 녹음 평가, AI 코칭, 원어민 발음 비교, 예상문제 Test, Harness 기반 Daily Loop까지 이어지는 구조를 보여준다.
+- 청중이 Harness와 Codex 구조를 잘 몰라도 이해할 수 있도록, 사용자 경험 중심으로 설명한 뒤 뒤쪽에서 멀티에이전트/Loop 구조를 풀어낸다.
+
+발표자료 기준:
+- Main 장표는 3장 이내.
+- 목차 슬라이드는 넣지 않는다.
+- 텍스트는 짧고 핵심 키워드 중심.
+- 이미지와 시연영상 중심의 시각적 스토리텔링 방식.
+- 공식 서비스 발표가 아니라 개인 AX 프로젝트/업무자동화 사례 발표처럼 자연스럽게 말한다.
+
+발표 톤:
+- 과장하지 않는다.
+- 기술 설명은 쉽게 풀어낸다.
+- “공식 HSKK 채점”처럼 보이지 않게 주의한다.
+- 핵심은 “AI가 답을 만들어 주는 것”이 아니라 “매일 반복되는 학습 운영과 피드백 루프를 자동화한 것”이다.
+
+========================================
+2. 프로젝트 한 줄 요약
+========================================
+
+스마트폰에서 오늘의 HSKK 레슨을 바로 열고, 말하고, 내 녹음을 듣고, AI 피드백과 모범 발음을 비교하며 다시 연습하는 개인화 중국어 말하기 학습 루틴.
+
+핵심 메시지:
+공부 결심보다 쉬운 중국어 말하기.
+매일 30분, 스마트폰에서 열고 말하고 바로 피드백 받는 HSKK AI 루틴.
+
+최근 PPT 제목 수정 방향:
+첫 페이지 상단 문구는 “내가 원할 때 나만의 컨텐츠로”로 바꿨다.
+이 문구가 프로젝트 목적을 잘 설명한다. 즉, 사용자는 정해진 앱 커리큘럼을 수동으로 따라가는 것이 아니라, 자신에게 필요한 HSKK 콘텐츠를 매일 생성해서 모바일에서 바로 학습한다.
+
+========================================
+3. 프로젝트가 시작된 이유
+========================================
+
+출발점은 거창한 서비스 개발이 아니라 개인적인 학습 불편이었다.
+
+중국어 말하기를 해야 한다는 생각은 있지만, 실제로 시작하려면 여러 마찰이 있었다.
+
+- 오늘 무엇을 공부할지 정해야 한다.
+- HSKK 형식에 맞는 문장과 질문을 찾아야 한다.
+- 병음과 뜻을 같이 정리해야 한다.
+- 녹음하고 다시 들어보는 흐름이 귀찮다.
+- 내 답변이 어느 부분에서 부족한지 바로 알기 어렵다.
+- 학습 기록과 복습 포인트를 계속 관리해야 한다.
+
+그래서 목표를 단순하게 잡았다.
+
+내가 원할 때 모바일에서 바로 열고, 오늘 해야 할 HSKK 말하기 연습만 시작하게 만들자.
+
+이후 프로젝트는 다음 방향으로 발전했다.
+
+1. Codex/Harness가 매일 HSKK 레슨을 생성한다.
+2. 생성된 레슨을 GitHub Pages 모바일 페이지로 배포한다.
+3. 사용자는 홈 화면 바로가기로 앱처럼 접속한다.
+4. 레슨을 본 뒤 바로 AI Speaking Trainer로 이동한다.
+5. Trainer에서 녹음, 내 녹음 재생, STT, AI 평가, 원어민 발음 비교, 교정 답변 발음 비교까지 수행한다.
+6. 결과는 History와 JSON export로 남길 수 있다.
+7. JSON export는 향후 Harness import와 복습 루프 자동화를 염두에 둔 구조다.
+
+========================================
+4. 현재 구현 상태
+========================================
+
+현재 구현된 기능:
+
+- GitHub Pages 기반 모바일 HSKK 학습 페이지
+- 스마트폰 홈 화면 바로가기 기반 앱처럼 쓰는 진입 방식
+- 매일 HSKK 레슨 자동 생성
+- 모바일 레슨 HTML 생성
+- 레슨별 companion JSON 생성
+- 레슨별 Part 2 SVG 이미지 생성
+- 모바일 manifest와 index 갱신
+- 레슨 페이지 하단의 “녹음하고 AI 평가 받기” 버튼
+- HSKK AI Speaking Trainer 페이지
+- Trainer에서 “오늘 레슨” 모드와 “예상문제 Test” 모드 제공
+- 브라우저 녹음
+- 내 녹음 재생
+- 다시 녹음
+- 3초 미만 녹음 평가 차단
+- Vercel API 기반 OpenAI STT
+- AI 평가와 코칭 리포트
+- 예상 점수
+- 강점
+- 약점
+- 교정 답변
+- 다음 연습 추천
+- STT transcript 기반 원어민 스타일 발음 듣기
+- AI 교정 답변 기반 발음 듣기
+- 세션 JSON export
+- 전체 History export
+- 브라우저 localStorage 기반 세션 History 저장
+- 레슨으로 돌아가기 버튼
+- API Settings 숨김/관리 패널 운영
+- Vercel API Base URL 기본값 설정
+- API health check
+- 지역 제한 오류 등 사용자 친화적 오류 메시지
+- 기본 예상문제의 병음 성조 표기
+- 레슨 CTA로 Trainer에 들어온 경우 해당 레슨 주제 기반 예상문제 자동 표시
+- HSKK 예상문제 Test 레벨 선택
+- GitHub Actions 기반 Vercel API 배포 워크플로
+- Cloudflare Worker fallback 구조 보존
+- Harness import를 염두에 둔 JSON 구조
+
+현재 생성된 학습 진행 상태:
+- 2026-07-13 기준 Lesson 41까지 자동 생성됨.
+- 최신 레슨: Lesson 41: 자기소개와 하루 습관
+- 최신 자동화 커밋: 2ff7347 Auto-generate HSKK daily lesson 2026-07-13
+- KakaoTalk 알림 구조는 있으나, 현재 refresh token 만료로 발송 실패 상태.
+
+========================================
+5. 사용자가 경험하는 실제 흐름
+========================================
+
+사용자 경험은 다음 순서다.
+
+1. 스마트폰 홈 화면의 바로가기 아이콘을 누른다.
+2. GitHub Pages 모바일 학습 페이지가 열린다.
+3. 오늘의 HSKK 레슨을 확인한다.
+4. 한자, 병음, 한국어 뜻, 그림 묘사, 질문 답변을 훑어본다.
+5. 필요하면 자기채점/메모 영역에 학습 포인트를 남긴다.
+6. 레슨 하단의 “녹음하고 AI 평가 받기”를 누른다.
+7. HSKK AI Trainer로 이동한다.
+8. Trainer에서 오늘 레슨 내용을 보면서 녹음한다.
+9. 녹음 완료 후 내 녹음을 직접 들어본다.
+10. 마음에 들지 않으면 다시 녹음한다.
+11. 평가하기를 누르면 STT가 실행된다.
+12. STT transcript가 생성된다.
+13. transcript를 기반으로 원어민 스타일 TTS 발음을 들을 수 있다.
+14. AI 평가가 실행된다.
+15. AI 코칭 리포트에서 예상 점수, 강점, 약점, 교정 답변, 다음 연습 추천을 확인한다.
+16. 교정 답변도 TTS로 들어보고 내 답변과 비교한다.
+17. 예상문제 Test에서는 현재 레슨 주제 기반 질문을 보고 다시 말할 수 있다.
+18. 결과를 JSON으로 export하거나 History에 저장한다.
+19. 레슨 계속 보기로 돌아가 학습 루프를 이어간다.
+
+========================================
+6. Main 장표 3장 구성 제안
+========================================
+
+Main Slide 1: Hook
+
+제목:
+공부 결심보다 쉬운 중국어 말하기
+
+부제:
+스마트폰에서 열고, 말하고, 바로 피드백 받는 HSKK AI 루틴
+
+시각 구성:
+- 실제 iPhone 홈 화면 또는 GitHub Pages 바로가기 화면을 크게 사용
+- HSKK Daily, 오늘의 HSKK 30분, AI Trainer, 녹음 버튼 같은 실제 화면 요소 강조
+- 기술 구조보다 사용자가 느끼는 경험을 먼저 보여준다
+
+핵심 키워드:
+- 바로 시작
+- 모바일 학습
+- 말하기 연습
+- AI 피드백
+- 원어민 발음 비교
+
+발표 방향:
+이 프로젝트는 “더 열심히 공부하자”보다 “공부 시작 전 마찰을 줄이자”에서 시작했다. 스마트폰 홈 화면에서 바로 열고, 오늘 레슨을 보고, 녹음해서 AI 피드백을 받는 흐름을 만들었다.
+
+Main Slide 2: From Tap To Coaching
+
+슬라이드 메시지:
+한 번의 탭이 오늘의 레슨, 녹음, STT, AI 코칭, 발음 비교로 이어진다.
+
+시각 구성:
+왼쪽에서 오른쪽으로 5단계 흐름.
+
+1. Tap: 홈 화면 바로가기
+2. Learn: GitHub Pages 오늘의 레슨
+3. Speak: 브라우저 녹음과 내 녹음 재생
+4. Coach: STT + AI 평가 리포트
+5. Compare: 원어민 발음과 교정 답변 발음 비교
+
+핵심 키워드:
+- Lesson
+- Record
+- STT
+- AI Feedback
+- Pronunciation Compare
+
+발표 방향:
+사용자는 GitHub Pages에서 오늘 레슨을 보고, 레슨 하단의 버튼으로 Trainer에 들어간다. 같은 레슨 내용을 보면서 녹음하고, 내 녹음을 들어본 다음 STT와 AI 평가를 실행한다. 결과에서는 예상 점수와 코칭 리포트, 교정 답변, 모범 발음을 확인한다.
+
+Main Slide 3: Harness가 하는 일
+
+슬라이드 메시지:
+단순 생성이 아니라, 매일 반복되는 학습 운영 체계.
+
+시각 구성:
+- 중앙: 나의 HSKK 학습 루틴 또는 모바일 Trainer 화면
+- 주변: Agent 또는 작업 단계
+- 원형 Loop 구조
+
+Harness Loop:
+1. Plan: HSKK 형식과 이전 학습 상태 확인
+2. Generate: 오늘의 레슨 생성
+3. Publish: GitHub Pages 모바일 페이지 갱신
+4. Practice: 모바일에서 학습, 녹음, AI 평가
+5. Export: 세션 JSON 저장 또는 export
+6. Review: 약점과 복습 큐에 반영
+
+핵심 키워드:
+- Multi-Agent
+- Daily Loop
+- Mobile-first
+- AI Coaching
+- JSON Export
+- Review Queue
+
+발표 방향:
+핵심은 AI가 한 번 답을 만들어 주는 것이 아니다. Harness는 매일 반복되는 학습 운영을 담당한다. 레슨을 만들고, 모바일 페이지를 갱신하고, 학습 결과를 다음 개선으로 연결할 수 있는 구조를 만든다.
+
+========================================
+7. Harness 구조 설명 옵션
+========================================
+
+Option 1: Learning Factory
+
+비유:
+학습 목표와 피드백이라는 재료가 들어오면, Agent들이 각 작업대에서 오늘의 학습 콘텐츠와 코칭 루틴을 만들어 모바일로 포장해 준다.
+
+구성:
+- 왼쪽: HSKK 목표, 시험 형식, 이전 레슨, 자기채점 메모, 녹음/평가 JSON
+- 중앙: Planner, Lesson Tutor, Trainer Coach, Review Coach, Publisher
+- 오른쪽: 모바일 레슨, AI Speaking Trainer, 예상문제 Test, JSON export, 복습 계획
+
+발표용 설명:
+Harness를 공장처럼 설명하면 비개발자도 이해하기 쉽다. 학습 목표와 이전 결과가 재료로 들어가고, 여러 Agent가 역할을 나눠 레슨, 테스트, 코칭, 배포 결과물을 만든다.
+
+Option 2: Agent Workers
+
+비유:
+작은 AI 작업반이 매일 아침 오늘의 말하기 연습 세트를 준비하고, 나는 스마트폰에서 바로 연습한다.
+
+Agent 역할:
+- 커리큘럼 일꾼: 학습 목표와 시험 구조 확인
+- 레슨 일꾼: 한자, 병음, 뜻, 질문 준비
+- 평가 일꾼: STT와 AI 코칭 연결
+- 발음 일꾼: 원어민 스타일 TTS와 교정 답변 발음 준비
+- 복습 일꾼: 약점과 다음 연습 추천 정리
+
+발표용 설명:
+Agent를 “일꾼”으로 표현하면 복잡한 멀티에이전트 개념을 쉽게 풀 수 있다. 사용자는 작업 과정 전체를 신경 쓰지 않고, 완성된 오늘의 연습 세트만 모바일에서 열면 된다.
+
+Option 3: Learning Lunchbox
+
+비유:
+여러 Agent가 학습 재료를 손질해서 오늘 바로 먹을 수 있는 30분 HSKK 학습 도시락으로 포장한다.
+
+구성:
+- 재료: 목표, 시험 형식, 이전 레슨, 녹음 결과, 약점
+- 요리 과정: 커리큘럼 레시피, 문장 카드, 예상문제, 발음 비교, 복습 추천
+- 완성품: Part 1 반복, Part 2 그림묘사, Part 3 질문 답변, 녹음/AI 평가, 원어민 발음 비교
+
+발표용 설명:
+학습 도시락 비유는 “매일 바로 실행 가능한 30분 학습 세트”라는 메시지를 전달하기 좋다.
+
+Option 4: Loop Engine
+
+비유:
+학습은 끝나는 이벤트가 아니라 다음 레슨의 입력으로 돌아가는 루프다.
+
+Loop:
+- Generate Lesson
+- Practice on Mobile
+- Record Voice
+- AI Feedback
+- Export JSON
+- Review Queue
+- Next Lesson
+
+발표용 설명:
+이 프로젝트의 장점은 한 번 생성하고 끝나는 것이 아니라 매일 반복 가능한 운영 루프를 만든다는 점이다.
+
+주의:
+현재 모바일 입력값이 완전 자동으로 Codex/Harness에 들어가지는 않는다. 발표에서는 “JSON export와 Harness import를 염두에 둔 구조”라고 표현해야 한다.
+
+========================================
+8. 시스템 구조
+========================================
+
+정적 프론트엔드:
+- GitHub Pages
+- 경로: hskk-study/mobile/
+- 모바일 홈 화면 바로가기 방식으로 사용
+
+레슨 산출물:
+- hskk-study/mobile/lessons/lesson_XX.html
+- hskk-study/mobile/lessons/lesson_XX.json
+- hskk-study/mobile/lessons/assets/lesson_XX_part2.svg
+- hskk-study/mobile/lessons/manifest.json
+
+Trainer:
+- hskk-study/mobile/trainer/index.html
+- hskk-study/mobile/trainer/app.js
+- hskk-study/mobile/trainer/styles.css
+
+운영 API:
+- Vercel Serverless Function
+- 기본 URL: https://hskk-ai-speaking-trainer.vercel.app
+- 경로: hskk-study/api/vercel/
+- 배포 region: iad1
+- OpenAI API Key는 Vercel Environment Variable에만 저장
+
+API endpoint:
+- GET /api/health
+- POST /api/transcribe
+- POST /api/evaluate
+- POST /api/speech
+- POST /api/session
+
+Cloudflare Worker:
+- 초기 백엔드로 구성했으나 OpenAI STT 호출에서 지역 제한 오류가 발생했다.
+- Smart Placement를 시도했지만 안정 해결이 되지 않아 Vercel API로 이전했다.
+- 현재는 fallback/비교용 구조로 남겨두었다.
+
+GitHub Actions:
+- Vercel API 배포 워크플로
+- Cloudflare Worker 배포 워크플로
+- daily automation은 레슨 생성, 모바일 페이지 갱신, git commit/push, Kakao 알림 발송 시도를 수행한다.
+
+========================================
+9. STT/AI 평가/TTS 구조
+========================================
+
+녹음:
+- 브라우저 MediaRecorder로 수행한다.
+- 녹음 자체는 로컬에서만 처리된다.
+- 내 녹음 재생도 로컬 오디오 플레이어로 처리된다.
+- 사용자가 평가하기를 누를 때만 서버 API 호출이 발생한다.
+
+STT:
+- 녹음 audio blob을 Vercel API /api/transcribe로 업로드한다.
+- Vercel API가 OpenAI STT 모델을 호출한다.
+- 기본 모델: gpt-4o-mini-transcribe
+- 결과 transcript를 브라우저에 반환한다.
+
+AI 평가:
+- transcript, prompt, lesson context, mode 정보를 /api/evaluate로 보낸다.
+- AI가 rubric 기반 JSON을 반환한다.
+- rubric:
+  - task_completion
+  - fluency
+  - grammar
+  - vocabulary
+  - pronunciation
+  - overall comments
+- 결과:
+  - estimated_score
+  - strengths
+  - weaknesses
+  - corrected_answer
+  - review_recommendations
+
+TTS:
+- /api/speech에서 OpenAI TTS를 호출한다.
+- 기본 모델: gpt-4o-mini-tts
+- 기본 voice: coral
+- transcript 기반 “원어민 발음 듣기”
+- corrected_answer 기반 “교정 답변 발음 듣기”
+
+중요 표현:
+원어민 발음은 실제 사람 원어민 녹음이 아니라 OpenAI TTS 기반 모범 발음이다.
+AI 점수는 공식 HSKK 점수가 아니라 연습용 코칭 지표다.
+
+========================================
+10. HSKK 예상문제 Test
+========================================
+
+목적:
+HSKK 스타일 질문을 시험처럼 연습하되, 공식 점수를 주장하지 않는다.
+
+지원 레벨:
+- Beginner
+- Intermediate
+- Advanced
+
+문제 유형:
+- Part 1: Repeat
+- Part 2: Picture description
+- Part 3: Answer questions
+
+현재 구현:
+- 기본 예상문제 데이터 제공
+- 병음에 성조 표기 추가
+- 레벨 선택 가능
+- 레벨 변경 시 질문 목록 즉시 갱신
+- 레슨 CTA를 통해 Trainer에 들어온 경우, 해당 lesson_XX.json 기반 예상문제 생성
+- 우선순위: questions -> picture description -> repeat
+- 문제 화면 구성:
+  - item_id
+  - part
+  - label
+  - prompt_hanzi
+  - prompt_pinyin
+  - prompt_ko
+  - time_limit_sec
+
+예시:
+- 한자: 你每天什么时候学习汉语？
+- 병음: Nǐ měitiān shénme shíhou xuéxí Hànyǔ?
+- 한국어: 매일 언제 중국어를 공부하나요?
+- 제한시간: 60s
+
+========================================
+11. 레슨 페이지와 Trainer 연결
+========================================
+
+레슨 페이지:
+- 생성 레슨 하단에 “녹음하고 AI 평가 받기” 버튼이 있다.
+- 링크 형식은 trainer에 mode, lesson, return query parameter를 전달한다.
+- 예: ../trainer/?mode=daily&lesson=lesson_41&return=../lessons/lesson_41.html
+
+Trainer:
+- return query parameter가 있으면 “레슨으로 돌아가기” 버튼으로 원래 레슨에 복귀한다.
+- 오늘 레슨 모드에서는 lesson JSON을 읽어 오늘 말할 내용을 보여준다.
+- 예상문제 Test 모드에서도 lesson JSON이 있으면 해당 레슨 기반 문제를 보여준다.
+
+사용자에게 중요한 가치:
+레슨을 따로 보고, 평가 페이지에서 다시 문제를 찾을 필요가 없다. 방금 본 레슨 주제가 그대로 Trainer에 연결된다.
+
+========================================
+12. 자기채점/피드백 메모의 현재 상태
+========================================
+
+레슨 페이지에는 자기채점/메모 영역이 있다.
+
+사용 목적:
+- 학습자가 스스로 부족한 점을 남긴다.
+- 예: “성조가 흔들림. 다음에는 이유를 한 문장 더 붙이기.”
+- 발표영상에서는 학습 루프의 시작점으로 보여준다.
+
+현재 한계:
+- 모바일에서 입력한 자기채점 메모가 자동으로 Codex/Harness에 들어가지는 않는다.
+- 현재는 사용자가 JSON export를 하거나, 메모를 Codex에 직접 전달하는 방식이 안정적이다.
+- 향후 자동 반영을 하려면 서버 저장소, GitHub import, 또는 Harness import 자동화가 필요하다.
+
+발표용 표현:
+현재는 반자동 루프다. 학습 결과를 JSON이나 Codex 입력으로 넘기면 다음 레슨과 복습 계획에 반영할 수 있고, 완전 자동 반영은 향후 확장 과제다.
+
+========================================
+13. 시연영상 구성
+========================================
+
+참고 영상:
+- C:\Users\swims\OneDrive\문서\NotebookLM\시연영상1.mp4
+- C:\Users\swims\OneDrive\문서\NotebookLM\시연영상2.mp4
+
+시연영상1 내용:
+- 아이폰 홈 화면에서 시작
+- 홈 화면 바로가기로 GitHub Pages HSKK Daily 학습 페이지 진입
+- Lesson 10: 공부 습관 화면 확인
+- 관찰 순서와 Part 2 카드 확인
+- 한자, 병음, 한국어 뜻 표시
+- 자기채점/메모 영역 확인
+- 완료하고 다음 레슨 보기
+- Lesson 11: 자기소개와 하루 습관 이동
+- 하단의 “녹음하고 AI 평가 받기” 버튼 확인
+
+시연영상2 내용:
+- “녹음하고 AI 평가 받기” 버튼 탭
+- HSKK AI Trainer 화면 진입
+- 상단 단계: 확인, 녹음, 재생, 평가
+- 예상문제 Test 선택
+- Lesson 11 기반 질문 표시
+- 문제를 보면서 녹음 시작
+- 녹음 중 상태 표시
+- 녹음 완료 후 내 녹음 들어보기
+- 평가하기 실행
+- 원어민 발음 듣기 카드 표시
+- 교정 답변 발음 듣기 카드 표시
+- AI 코칭 리포트의 다음 연습 추천과 교정 답변 확인
+- 다시 말하기, 레슨 계속 보기 버튼 확인
+
+권장 최종 영상 구성:
+- 0-6초: 홈 화면 바로가기에서 오늘의 HSKK 학습 시작
+- 6-18초: 오늘 레슨에서 한자, 병음, 뜻 확인
+- 18-30초: 자기채점/메모 영역과 자체 피드백 메모
+- 30-42초: 레슨 하단에서 AI 평가로 이동
+- 42-54초: 레슨 기반 예상문제 확인
+- 54-64초: 문제를 보면서 녹음
+- 64-72초: 내 녹음 재생
+- 72-82초: 원어민 발음과 교정 답변 발음 비교
+- 82-90초: AI 코칭 리포트 확인
+
+필수 자막:
+1. 홈 화면 바로가기에서 오늘의 HSKK 학습을 시작합니다
+2. 한자, 병음, 뜻을 보며 오늘 말할 내용을 먼저 확인합니다
+3. 학습 후에는 스스로 부족한 점을 메모해 다음 연습 포인트로 남깁니다
+4. 레슨을 본 직후, 같은 주제로 바로 녹음 평가로 이동합니다
+5. 예상문제 Test도 방금 본 레슨 주제로 자동 연결됩니다
+6. 문제를 보면서 답변을 녹음합니다
+7. 평가 전에 내 발음을 먼저 들어볼 수 있습니다
+8. STT 결과와 교정 답변을 모범 발음으로 다시 들어봅니다
+9. 연습용 AI 피드백으로 다시 말할 포인트를 확인합니다
+
+========================================
+14. 발표에서 조심해야 할 표현
+========================================
+
+말해도 되는 표현:
+- 공식 점수가 아닌 연습용 예상 점수입니다.
+- 원어민 발음은 OpenAI TTS 기반 모범 발음입니다.
+- 현재는 GitHub Pages와 Vercel API를 조합해 개인 학습용으로 운영합니다.
+- 세션 JSON export를 통해 Harness 연계를 확장할 수 있습니다.
+- 모바일 자기채점 메모는 현재 반자동 루프이며, 완전 자동 반영은 향후 과제입니다.
+
+피해야 할 표현:
+- 공식 HSKK 채점입니다.
+- 완전한 원어민 사람 음성입니다.
+- 자기채점이 자동으로 다음 레슨에 반영됩니다.
+- Kakao 알림이 현재 항상 정상 발송됩니다.
+- NotebookLM과 Codex가 이 프로젝트에서 직접 자동 연동됩니다.
+- 상용 HSKK 문제은행을 사용합니다.
+
+========================================
+15. 비용과 보안
+========================================
+
+비용:
+- 브라우저 녹음 자체는 비용이 발생하지 않는다.
+- 내 녹음 재생도 로컬 처리라 비용이 없다.
+- STT, AI 평가, TTS를 실행할 때 OpenAI API 호출 비용이 발생한다.
+- 그래서 평가하기 버튼을 누른 경우에만 API 호출하도록 설계했다.
+
+보안:
+- 브라우저에는 OpenAI API Key를 넣지 않는다.
+- OpenAI API Key는 Vercel Environment Variable에만 저장한다.
+- GitHub Pages는 정적 UI만 담당한다.
+- Vercel API가 OpenAI 호출을 담당한다.
+- exported JSON에는 API Key나 secret을 넣지 않는다.
+
+========================================
+16. 배포와 운영 이슈
+========================================
+
+초기 백엔드:
+- Cloudflare Worker를 사용했다.
+- OpenAI STT 호출 시 unsupported_country_region_territory 지역 제한 오류가 발생했다.
+- Smart Placement를 설정해봤지만 안정 해결되지 않았다.
+
+현재 백엔드:
+- Vercel Serverless Function으로 이전했다.
+- Vercel region은 iad1 기준.
+- 운영 API URL: https://hskk-ai-speaking-trainer.vercel.app
+
+KakaoTalk 알림:
+- Daily automation은 KakaoTalk reminder 발송을 시도한다.
+- 현재 2026-07-13 기준 refresh token이 만료되어 실패했다.
+- 오류: HTTP 400 invalid_grant, expired_or_invalid_refresh_token, KOE322
+- 토큰 갱신이 필요하며 credentials를 임의로 만들면 안 된다.
+
+========================================
+17. 현재 산출물과 관련 파일
+========================================
+
+주요 발표/자료 산출물:
+- hskk-study/_workspace/13_ax_presentation_notebooklm_source_v3.md
+- hskk-study/_workspace/14_harness_video_production_script.md
+- hskk-study/_workspace/15_claude_presentation_script_brief.txt
+- C:\Users\swims\OneDrive\문서\NotebookLM\Frictionless_AI_HSKK_(9)_title_revised.pptx
+
+PRD:
+- hskk-study/_workspace/12_hskk_ai_speaking_trainer_prd.md
+
+시연영상:
+- C:\Users\swims\OneDrive\문서\NotebookLM\시연영상1.mp4
+- C:\Users\swims\OneDrive\문서\NotebookLM\시연영상2.mp4
+
+직접 제작한 captioned demo 영상:
+- hskk-study/_workspace/demo/hskk_ai_trainer_demo_captioned.mp4
+
+프론트엔드:
+- hskk-study/mobile/index.html
+- hskk-study/mobile/lessons/manifest.json
+- hskk-study/mobile/trainer/index.html
+- hskk-study/mobile/trainer/app.js
+- hskk-study/mobile/trainer/styles.css
+
+API:
+- hskk-study/api/vercel/api/[...path].js
+- hskk-study/api/vercel/vercel.json
+- hskk-study/api/vercel/README.md
+- hskk-study/api/worker/src/index.js
+- hskk-study/api/worker/wrangler.toml
+
+자동 생성 레슨:
+- hskk-study/mobile/lessons/lesson_01.html ~ lesson_41.html
+- hskk-study/mobile/lessons/lesson_01.json ~ lesson_41.json
+- hskk-study/mobile/lessons/assets/lesson_01_part2.svg ~ lesson_41_part2.svg
+
+========================================
+18. 예상 질문과 답변
+========================================
+
+Q1. GitHub Pages를 모바일 홈 화면 바로가기로 쓰고 있는데, 범용 앱처럼 쓰려면 어떻게 해야 하나?
+
+답변:
+현재는 개인용 모바일 웹앱에 가깝다. 범용 앱처럼 확장하려면 PWA 구조를 추가하는 것이 다음 단계다. 필요한 요소는 web app manifest, 앱 아이콘, service worker, 오프라인 캐시, 사용자별 진행 상태 저장, 피드백 제출 저장소 또는 데이터베이스, 배포/권한/보안 정책이다.
+
+짧은 답변:
+지금은 개인용 모바일 웹앱이고, 범용 앱처럼 확장하려면 PWA와 사용자별 데이터 저장 구조를 추가하면 된다.
+
+Q2. 자기채점과 피드백을 입력하면 다음 학습에 자동 반영되나?
+
+답변:
+현재 완전 자동 반영은 아니다. 모바일 페이지와 Trainer는 학습, 녹음, 평가, JSON export까지 지원한다. 하지만 사용자가 입력한 자기채점 메모나 학습 피드백이 자동으로 Codex/Harness에 들어가는 구조는 아직 구현되어 있지 않다. 현재는 JSON export 또는 사용자가 Codex에 피드백을 전달하는 방식이 안정적이다.
+
+짧은 답변:
+현재는 반자동 루프다. 학습 결과를 JSON이나 Codex 입력으로 넘기면 다음 레슨과 복습 계획에 반영할 수 있고, 완전 자동 반영은 향후 서버 저장소나 GitHub import 자동화가 필요하다.
+
+Q3. NotebookLM이나 자료작성 Tool과 Codex가 바로 연계 가능한가?
+
+답변:
+현재 프로젝트 기준으로는 직접 자동 연동이 아니라 파일 기반 연계가 가장 안정적이다. Codex가 NotebookLM용 Markdown 소스를 작성하고, 사용자가 NotebookLM에 업로드하면 NotebookLM이 발표자료, 요약, Q&A를 생성한다. 필요하면 Codex가 결과 PPT를 검토하고 수정 소스를 다시 만들 수 있다.
+
+짧은 답변:
+지금은 Codex가 소스를 만들고 NotebookLM이 그 소스를 읽는 방식이 가장 안정적이다. 직접 연동은 별도 커넥터나 API가 필요하다.
+
+Q4. STT와 TTS를 쓰면 비용이 계속 발생하나?
+
+답변:
+녹음 자체와 내 녹음 재생은 로컬 처리라 비용이 없다. 녹음 파일을 STT로 변환하거나, transcript와 교정 답변을 TTS로 만들 때 API 호출이 발생한다. 그래서 사용자가 평가하기 버튼을 눌렀을 때만 호출하도록 설계했다.
+
+짧은 답변:
+녹음 자체는 로컬이고, STT/AI 평가/TTS를 실행할 때만 API가 호출된다.
+
+Q5. Cloudflare Worker를 쓰지 않고 Vercel API를 쓰는 이유는?
+
+답변:
+초기에는 Cloudflare Worker를 사용했지만, OpenAI STT 호출에서 지역 제한 오류가 발생했다. Smart Placement도 시도했으나 해결되지 않아, OpenAI API 호출 위치를 안정적으로 고정할 수 있는 Vercel Serverless Function으로 이전했다.
+
+짧은 답변:
+Cloudflare Worker에서 OpenAI STT 지역 제한 오류가 발생해, 운영 백엔드는 Vercel API로 전환했다. GitHub Pages는 화면을 담당하고, Vercel은 OpenAI API 호출을 담당한다.
+
+Q6. HSKK 예상문제 Test는 상용 문제은행을 쓰나?
+
+답변:
+아니다. 저작권이 있는 상용 문제은행을 쓰지 않는다. 기본 예상문제와 현재 레슨 JSON의 질문, 그림묘사, 반복 문장을 재조합해 HSKK 스타일 연습 문제로 제공한다.
+
+짧은 답변:
+상용 문제은행이 아니라, 자체 생성 레슨과 HSKK 형식 기반의 연습 문제다.
+
+Q7. 원어민 발음 비교는 정확히 무엇인가?
+
+답변:
+사용자의 녹음이 STT로 transcript가 되면, 그 transcript를 OpenAI TTS로 다시 생성해 모범 발음처럼 들려준다. 평가 후에는 AI가 다듬은 교정 답변도 TTS로 들을 수 있다.
+
+비교 대상:
+- 내 녹음
+- STT transcript 기반 모범 발음
+- AI 교정 답변 기반 모범 발음
+
+짧은 답변:
+내 녹음과 AI가 생성한 모범 발음을 나란히 들으면서 발음과 답변 구조를 비교할 수 있다.
+
+Q8. 발표에서 가장 중요한 차별점은 무엇인가?
+
+답변:
+단순한 AI 생성물이 아니라 Daily Loop라는 점이다. 매일 레슨을 만들고, 모바일에서 바로 열고, 녹음하고, 피드백을 받고, JSON으로 결과를 남겨 다음 학습 개선으로 연결할 수 있다.
+
+짧은 답변:
+AI가 한 번 답을 주는 구조가 아니라, 매일 반복되는 학습 운영과 피드백 루프를 만든 점이다.
+
+========================================
+19. 발표스크립트 기본 내러티브
+========================================
+
+Opening:
+언어학습에서 가장 어려운 것은 공부 자체보다 시작까지의 마찰이다. 오늘 무엇을 할지 찾고, 자료를 고르고, 기록을 남기고, 복습을 챙기는 과정을 반복하다 보면 말하기 연습은 뒤로 밀린다.
+
+Problem:
+HSKK 말하기를 준비하려면 매일 조금씩 말해야 하는데, 그 루틴을 혼자 유지하기가 어렵다. 특히 모바일에서 바로 열고, 바로 말하고, 바로 피드백 받는 구조가 필요했다.
+
+Solution:
+그래서 Codex와 Harness로 매일 HSKK 레슨을 만들고, GitHub Pages 모바일 페이지로 배포하고, AI Speaking Trainer에서 녹음과 평가까지 연결했다.
+
+Demo:
+사용자는 홈 화면 바로가기를 누르고 오늘 레슨을 본다. 레슨 하단에서 Trainer로 이동해 녹음하고, 내 녹음을 들어본 뒤 STT와 AI 평가를 실행한다. 결과 화면에서는 강점, 약점, 교정 답변을 보고, 원어민 스타일 발음과 교정 답변 발음을 비교한다.
+
+Harness:
+뒤에서는 Harness가 매일 반복되는 학습 운영을 담당한다. 레슨 생성, 모바일 페이지 갱신, 복습 큐, JSON export를 연결해 학습 결과가 다음 개선으로 돌아갈 수 있게 만든다.
+
+Closing:
+핵심은 AI가 답을 한 번 주는 것이 아니다. AI가 매일 학습 준비와 피드백 구조를 만들고, 사람은 실제 말하기 연습에 집중하도록 만드는 것이다.
+
+========================================
+20. Claude가 작성할 발표스크립트 요청 프롬프트
+========================================
+
+아래 조건으로 발표스크립트를 작성해 주세요.
+
+1. 발표 시간은 5분 내외로 작성해 주세요.
+2. Main 장표는 3장 기준으로 나눠 주세요.
+3. 각 장표별로 발표자가 말할 멘트를 자연스러운 구어체로 작성해 주세요.
+4. 기술 용어는 쉽게 설명하고, Harness는 “매일 반복되는 학습 운영 체계”로 풀어 주세요.
+5. 첫 장에서는 개인적인 문제의식과 공감대를 만들고, 두 번째 장에서는 실제 모바일 학습 흐름과 시연영상 연결을 설명하고, 세 번째 장에서는 Harness/Agent/Loop 구조를 설명해 주세요.
+6. 시연영상이 들어갈 지점에는 “여기서 시연영상을 보여줍니다” 같은 큐를 넣어 주세요.
+7. 공식 HSKK 채점이나 완전 자동 반영처럼 오해될 표현은 피하고, 연습용 AI 피드백, 반자동 루프, JSON export 기반 확장 가능성으로 표현해 주세요.
+8. 마지막에는 “AI가 학습을 대신하는 것이 아니라, 학습 준비와 피드백 구조를 맡고 사람은 말하기에 집중한다”는 메시지로 마무리해 주세요.
+9. 발표 후 예상 질문 7개와 짧은 답변도 함께 작성해 주세요.
+
