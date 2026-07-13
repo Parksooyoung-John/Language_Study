@@ -435,8 +435,19 @@
     "date": "2026-07-12",
     "path": "./lesson_40.html",
     "prev_path": "./lesson_39.html",
-    "next_path": null,
+    "next_path": "./lesson_41.html",
     "visual_path": "./assets/lesson_40_part2.svg",
     "json_path": "./lesson_40.json"
+  },
+  {
+    "number": 41,
+    "slug": "lesson_41",
+    "title": "Lesson 41: 자기소개와 하루 습관",
+    "date": "2026-07-13",
+    "path": "./lesson_41.html",
+    "prev_path": "./lesson_40.html",
+    "next_path": null,
+    "visual_path": "./assets/lesson_41_part2.svg",
+    "json_path": "./lesson_41.json"
   }
 ]
