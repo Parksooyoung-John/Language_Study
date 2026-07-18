@@ -457,8 +457,19 @@
     "date": "2026-07-14",
     "path": "./lesson_42.html",
     "prev_path": "./lesson_41.html",
-    "next_path": null,
+    "next_path": "./lesson_43.html",
     "visual_path": "./assets/lesson_42_part2.svg",
     "json_path": "./lesson_42.json"
+  },
+  {
+    "number": 43,
+    "slug": "lesson_43",
+    "title": "Lesson 43: 음식과 식당",
+    "date": "2026-07-18",
+    "path": "./lesson_43.html",
+    "prev_path": "./lesson_42.html",
+    "next_path": null,
+    "visual_path": "./assets/lesson_43_part2.svg",
+    "json_path": "./lesson_43.json"
   }
 ]
