@@ -468,8 +468,30 @@
     "date": "2026-07-18",
     "path": "./lesson_43.html",
     "prev_path": "./lesson_42.html",
-    "next_path": null,
+    "next_path": "./lesson_44.html",
     "visual_path": "./assets/lesson_43_part2.svg",
     "json_path": "./lesson_43.json"
+  },
+  {
+    "number": 44,
+    "slug": "lesson_44",
+    "title": "Lesson 44: 날씨와 계획",
+    "date": "2026-07-19",
+    "path": "./lesson_44.html",
+    "prev_path": "./lesson_43.html",
+    "next_path": "./lesson_45.html",
+    "visual_path": "./assets/lesson_44_part2.svg",
+    "json_path": "./lesson_44.json"
+  },
+  {
+    "number": 45,
+    "slug": "lesson_45",
+    "title": "Lesson 45: 공부 습관",
+    "date": "2026-07-20",
+    "path": "./lesson_45.html",
+    "prev_path": "./lesson_44.html",
+    "next_path": null,
+    "visual_path": "./assets/lesson_45_part2.svg",
+    "json_path": "./lesson_45.json"
   }
 ]
