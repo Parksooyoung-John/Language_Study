@@ -633,8 +633,19 @@
     "date": "2026-08-07",
     "path": "./lesson_58.html",
     "prev_path": "./lesson_57.html",
-    "next_path": null,
+    "next_path": "./lesson_59.html",
     "visual_path": "./assets/lesson_58_part2.svg",
     "json_path": "./lesson_58.json"
+  },
+  {
+    "number": 59,
+    "slug": "lesson_59",
+    "title": "Lesson 59: 날씨와 계획",
+    "date": "2026-08-08",
+    "path": "./lesson_59.html",
+    "prev_path": "./lesson_58.html",
+    "next_path": null,
+    "visual_path": "./assets/lesson_59_part2.svg",
+    "json_path": "./lesson_59.json"
   }
 ]
