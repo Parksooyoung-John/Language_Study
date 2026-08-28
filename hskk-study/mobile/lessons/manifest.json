@@ -776,8 +776,19 @@
     "date": "2026-08-27",
     "path": "./lesson_71.html",
     "prev_path": "./lesson_70.html",
-    "next_path": null,
+    "next_path": "./lesson_72.html",
     "visual_path": "./assets/lesson_71_part2.svg",
     "json_path": "./lesson_71.json"
+  },
+  {
+    "number": 72,
+    "slug": "lesson_72",
+    "title": "Lesson 72: 교통과 이동",
+    "date": "2026-08-29",
+    "path": "./lesson_72.html",
+    "prev_path": "./lesson_71.html",
+    "next_path": null,
+    "visual_path": "./assets/lesson_72_part2.svg",
+    "json_path": "./lesson_72.json"
   }
 ]
