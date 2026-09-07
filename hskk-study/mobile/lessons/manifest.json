@@ -820,8 +820,19 @@
     "date": "2026-09-02",
     "path": "./lesson_75.html",
     "prev_path": "./lesson_74.html",
-    "next_path": null,
+    "next_path": "./lesson_76.html",
     "visual_path": "./assets/lesson_75_part2.svg",
     "json_path": "./lesson_75.json"
+  },
+  {
+    "number": 76,
+    "slug": "lesson_76",
+    "title": "Lesson 76: 자기소개와 하루 습관",
+    "date": "2026-09-07",
+    "path": "./lesson_76.html",
+    "prev_path": "./lesson_75.html",
+    "next_path": null,
+    "visual_path": "./assets/lesson_76_part2.svg",
+    "json_path": "./lesson_76.json"
   }
 ]
