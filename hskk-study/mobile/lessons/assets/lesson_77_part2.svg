@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+<title>교통과 이동 그림 묘사 장면</title>
+<desc>버스 정류장에 사람들이 줄을 서 있고, 한 남자가 휴대폰으로 도착 시간을 확인하고 있습니다.</desc>
+<rect x="0" y="0" width="960" height="540" rx="36" fill="#fff8f0" />
+<rect x="40" y="48" width="880" height="444" rx="30" fill="#ffffff" stroke="#d7e0e5" stroke-width="3" />
+<rect x="86" y="116" width="180" height="22" rx="8" fill="#4b5563" />
+<rect x="112" y="138" width="22" height="188" rx="11" fill="#4b5563" />
+<rect x="150" y="346" width="620" height="34" rx="16" fill="#c6d1d8" />
+<rect x="610" y="172" width="180" height="94" rx="18" fill="#eef5f9" stroke="#bfd0da" stroke-width="3" />
+<circle cx="305" cy="240" r="38" fill="#ffd9b3" />
+<rect x="272" y="277" width="66" height="112" rx="22" fill="#3f8fb5" />
+<circle cx="468" cy="245" r="34" fill="#ffd9b3" />
+<rect x="440" y="278" width="56" height="104" rx="20" fill="#ec7c4e" />
+<circle cx="568" cy="250" r="34" fill="#ffd9b3" />
+<rect x="540" y="283" width="56" height="98" rx="20" fill="#6f9c60" />
+<rect x="284" y="304" width="28" height="50" rx="8" fill="#111827" />
+<text x="74" y="94" font-family="Noto Sans KR, sans-serif" font-size="26" font-weight="700" fill="#92521b">bus · stop</text>
+</svg>
