@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+<title>음식과 식당 그림 묘사 장면</title>
+<desc>작은 식당에서 두 사람이 메뉴를 보고 있고, 테이블 위에는 만두와 차가 있습니다.</desc>
+<rect x="0" y="0" width="960" height="540" rx="36" fill="#fff8f4" />
+<rect x="40" y="48" width="880" height="444" rx="30" fill="#ffffff" stroke="#d7e0e5" stroke-width="3" />
+<rect x="238" y="305" width="484" height="86" rx="26" fill="#d5b28c" />
+<circle cx="350" cy="220" r="40" fill="#ffd9b3" />
+<rect x="316" y="257" width="68" height="108" rx="24" fill="#d47055" />
+<circle cx="610" cy="220" r="40" fill="#ffd9b3" />
+<rect x="576" y="257" width="68" height="108" rx="24" fill="#3f8fb5" />
+<ellipse cx="478" cy="342" rx="82" ry="42" fill="#fff5e9" stroke="#d8c497" stroke-width="3" />
+<circle cx="452" cy="332" r="18" fill="#f3e1c9" />
+<circle cx="490" cy="348" r="18" fill="#f3e1c9" />
+<circle cx="524" cy="332" r="18" fill="#f3e1c9" />
+<rect x="420" y="254" width="58" height="84" rx="12" fill="#eff5f9" stroke="#bfd0da" stroke-width="3" transform="rotate(-6 420 254)" />
+<rect x="518" y="252" width="58" height="84" rx="12" fill="#eff5f9" stroke="#bfd0da" stroke-width="3" transform="rotate(6 518 252)" />
+<rect x="410" y="252" width="44" height="72" rx="10" fill="#ffffff" stroke="#bfd0da" stroke-width="3" />
+<ellipse cx="560" cy="356" rx="34" ry="20" fill="#f6efe7" stroke="#d9c8b1" stroke-width="3" />
+<text x="74" y="94" font-family="Noto Sans KR, sans-serif" font-size="26" font-weight="700" fill="#8b4c2f">restaurant</text>
+</svg>
