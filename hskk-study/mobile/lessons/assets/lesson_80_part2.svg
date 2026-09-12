@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+<title>공부 습관 그림 묘사 장면</title>
+<desc>한 사람이 노트에 중국어 문장을 쓰고, 옆에 있는 이어폰으로 발음을 듣고 있습니다.</desc>
+<rect x="0" y="0" width="960" height="540" rx="36" fill="#f4fff8" />
+<rect x="40" y="48" width="880" height="444" rx="30" fill="#ffffff" stroke="#d7e0e5" stroke-width="3" />
+<rect x="150" y="310" width="660" height="110" rx="24" fill="#d5b28c" />
+<rect x="210" y="226" width="230" height="150" rx="18" fill="#fdf4db" stroke="#d8c497" stroke-width="3" />
+<rect x="510" y="236" width="120" height="180" rx="18" fill="#1f2937" />
+<circle cx="355" cy="196" r="52" fill="#ffd9b3" />
+<rect x="320" y="245" width="80" height="102" rx="22" fill="#3f8fb5" />
+<path d="M626 282 C668 246, 700 252, 726 290" fill="none" stroke="#2a7a58" stroke-width="10" stroke-linecap="round" />
+<rect x="412" y="282" width="15" height="94" rx="7" fill="#ff8c42" transform="rotate(18 412 282)" />
+<text x="74" y="94" font-family="Noto Sans KR, sans-serif" font-size="26" font-weight="700" fill="#2a7a58">study · notes</text>
+</svg>

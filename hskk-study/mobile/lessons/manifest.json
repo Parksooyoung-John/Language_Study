@@ -864,8 +864,19 @@
     "date": "2026-09-11",
     "path": "./lesson_79.html",
     "prev_path": "./lesson_78.html",
-    "next_path": null,
+    "next_path": "./lesson_80.html",
     "visual_path": "./assets/lesson_79_part2.svg",
     "json_path": "./lesson_79.json"
+  },
+  {
+    "number": 80,
+    "slug": "lesson_80",
+    "title": "Lesson 80: 공부 습관",
+    "date": "2026-09-12",
+    "path": "./lesson_80.html",
+    "prev_path": "./lesson_79.html",
+    "next_path": null,
+    "visual_path": "./assets/lesson_80_part2.svg",
+    "json_path": "./lesson_80.json"
   }
 ]
