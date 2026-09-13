@@ -184,3 +184,5 @@ Status: started
 - 2026-09-11: Lesson 79 generated automatically and mobile page rebuilt.
 
 - 2026-09-12: Lesson 80 generated automatically and mobile page rebuilt.
+
+- 2026-09-13: Lesson 81 generated automatically and mobile page rebuilt.
