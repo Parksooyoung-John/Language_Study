@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+<title>날씨와 계획 그림 묘사 장면</title>
+<desc>창밖에는 비가 오고 있고, 한 여자가 창가에서 우산을 들고 밖을 보고 있습니다.</desc>
+<rect x="0" y="0" width="960" height="540" rx="36" fill="#f6f5ff" />
+<rect x="40" y="48" width="880" height="444" rx="30" fill="#ffffff" stroke="#d7e0e5" stroke-width="3" />
+<rect x="124" y="108" width="320" height="244" rx="18" fill="#eef5fb" stroke="#bfd0da" stroke-width="4" />
+<path d="M230 122 V340 M336 122 V340 M132 232 H436" stroke="#bfd0da" stroke-width="4" />
+<path d="M184 150 C210 184, 224 214, 224 246" fill="none" stroke="#89a4b8" stroke-width="5" stroke-linecap="round" />
+<path d="M292 150 C318 184, 332 214, 332 246" fill="none" stroke="#89a4b8" stroke-width="5" stroke-linecap="round" />
+<circle cx="616" cy="224" r="42" fill="#ffd9b3" />
+<rect x="580" y="264" width="72" height="116" rx="24" fill="#7c74c7" />
+<path d="M670 198 C742 120, 816 150, 834 226 L670 226 Z" fill="#6a9fb5" />
+<rect x="742" y="192" width="10" height="150" rx="5" fill="#4b5563" />
+<text x="74" y="94" font-family="Noto Sans KR, sans-serif" font-size="26" font-weight="700" fill="#5b4b9a">rain · window</text>
+</svg>

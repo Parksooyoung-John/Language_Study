@@ -886,8 +886,63 @@
     "date": "2026-09-13",
     "path": "./lesson_81.html",
     "prev_path": "./lesson_80.html",
-    "next_path": null,
+    "next_path": "./lesson_82.html",
     "visual_path": "./assets/lesson_81_part2.svg",
     "json_path": "./lesson_81.json"
+  },
+  {
+    "number": 82,
+    "slug": "lesson_82",
+    "title": "Lesson 82: 교통과 이동",
+    "date": "2026-09-14",
+    "path": "./lesson_82.html",
+    "prev_path": "./lesson_81.html",
+    "next_path": "./lesson_83.html",
+    "visual_path": "./assets/lesson_82_part2.svg",
+    "json_path": "./lesson_82.json"
+  },
+  {
+    "number": 83,
+    "slug": "lesson_83",
+    "title": "Lesson 83: 음식과 식당",
+    "date": "2026-09-15",
+    "path": "./lesson_83.html",
+    "prev_path": "./lesson_82.html",
+    "next_path": "./lesson_84.html",
+    "visual_path": "./assets/lesson_83_part2.svg",
+    "json_path": "./lesson_83.json"
+  },
+  {
+    "number": 84,
+    "slug": "lesson_84",
+    "title": "Lesson 84: 날씨와 계획",
+    "date": "2026-09-16",
+    "path": "./lesson_84.html",
+    "prev_path": "./lesson_83.html",
+    "next_path": "./lesson_85.html",
+    "visual_path": "./assets/lesson_84_part2.svg",
+    "json_path": "./lesson_84.json"
+  },
+  {
+    "number": 85,
+    "slug": "lesson_85",
+    "title": "Lesson 85: 공부 습관",
+    "date": "2026-09-17",
+    "path": "./lesson_85.html",
+    "prev_path": "./lesson_84.html",
+    "next_path": "./lesson_86.html",
+    "visual_path": "./assets/lesson_85_part2.svg",
+    "json_path": "./lesson_85.json"
+  },
+  {
+    "number": 86,
+    "slug": "lesson_86",
+    "title": "Lesson 86: 자기소개와 하루 습관",
+    "date": "2026-09-19",
+    "path": "./lesson_86.html",
+    "prev_path": "./lesson_85.html",
+    "next_path": null,
+    "visual_path": "./assets/lesson_86_part2.svg",
+    "json_path": "./lesson_86.json"
   }
 ]
