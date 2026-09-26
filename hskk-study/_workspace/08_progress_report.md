@@ -202,3 +202,5 @@ Status: started
 - 2026-09-23: Lesson 88 generated automatically and mobile page rebuilt.
 
 - 2026-09-25: Lesson 89 generated automatically and mobile page rebuilt.
+
+- 2026-09-26: Lesson 90 generated automatically and mobile page rebuilt.
